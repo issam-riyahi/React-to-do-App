@@ -9,6 +9,7 @@ const AddTask = (prop) => {
         title: "",
         section: "",
         doDate: "",
+        done: false,
     })
     useEffect(()=>{
 

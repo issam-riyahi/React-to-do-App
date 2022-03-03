@@ -42,6 +42,27 @@ const Task = (prop) => {
             })
         );
     },[]);
+    
+    function UpdateTask(id) {
+
+        fetch("http://localhost:3001/Tasks/"+id,{
+            method: 'PUT',
+            body: JSON.stringify({ id: id, title: prop.title , doDate: prop.doDate, section: prop.section , done: true}),
+            headers: {
+                'Content-Type': 'application/json',
+              },
+        })
+        .then(res => res.json())
+        .then(data => {
+            console.log('Success:', data);
+        })
+        .catch((error) => {
+            console.error('Error:', error);
+        });
+    }
+
+        
+    
 
     const bgStyle = {
         backgroundColor: `${section.color}`
@@ -51,8 +72,13 @@ const Task = (prop) => {
     return ( 
         <div className="task">
             <div className="task-content">
-                <div className="task-name-icon">
-                    <DoneIcon done={false} />
+                <div 
+                className="task-name-icon" 
+                // onClick={prop.doneTask} 
+                onClick={ prop.done === false ?  () => [UpdateTask(prop.id),prop.doneTask(prop.id)] : ()=> {}} 
+
+                >
+                    <DoneIcon done={prop.done}  />
                     <p className="task-title">{prop.title}</p>
                 </div>
                 <div className="task-section-date">
@@ -62,7 +88,7 @@ const Task = (prop) => {
                     >
                         {section.name}
                     </span>
-                    <p className="date" style={style}>{dateText}</p>
+                    <p className="date" style={ prop.done ? {} : style}>{dateText}</p>
                 </div>
             </div>
         </div>

@@ -5,7 +5,7 @@
       "title": "hello, world",
       "doDate": "3/3/2022",
       "section": 2,
-      "done": false
+      "done": true
     },
     {
       "id": 2,
@@ -36,34 +36,33 @@
       "done": false
     },
     {
-      "title": "add some features in App to do",
-      "section": "3",
-      "doDate": "2022-03-03",
       "id": 6,
-      "done": false
-    },
-    {
-      "title": "Test",
+      "title": "add some features in App to do",
+      "doDate": "2022-03-03",
       "section": "3",
-      "doDate": "2022-03-17",
+      "done": true
+    },
+    {
       "id": 7,
+      "title": "Test",
+      "doDate": "2022-03-17",
+      "section": "3",
       "done": false
     },
     {
-      "title": "Test 2",
-      "section": "2",
-      "doDate": "2022-03-05",
       "id": 8,
+      "title": "Test 2",
+      "doDate": "2022-03-05",
+      "section": "2",
       "done": false
     },
     {
-      "title": "Test 3 ",
-      "section": "2",
-      "doDate": "2022-03-04",
       "id": 9,
-      "done": false
+      "title": "Test 3 ",
+      "doDate": "2022-03-04",
+      "section": "2",
+      "done": true
     }
-    
   ],
   "sections": [
     {

@@ -81,6 +81,7 @@ body {
 .task-time {
   position: relative;
   padding: .5rem 1rem;
+  cursor: pointer;
 }
 .task-time:before {
   content: "";
@@ -125,6 +126,7 @@ body {
 }
 .tasks-list {
   margin-bottom: 16px;
+  overflow: hidden;
 }
 .tasks-list .task:not(:last-child){
   border-bottom: 1px solid rgb(224, 224, 224);
@@ -199,9 +201,11 @@ body {
   border: none;
   cursor: pointer;
 }
+.task-name-icon {
+  cursor: pointer;
+}
 .done-icon {
   margin-right: 15px ;
-  cursor: pointer;
 }
 
 .done-icon.done {

@@ -16,7 +16,7 @@ const App = () => {
     });
     let dateNow = new Date();
     
-    console.log(add)
+
     useEffect(()=> {
         fetch('http://localhost:3001/Tasks')
         .then(res => res.json())
@@ -26,11 +26,42 @@ const App = () => {
         })
     },[add]);
 
-    function handleAddTask(){
+    function addAttribute(e){
+        document.querySelectorAll('.tasks-list')[2].style.height = "0px";
+    }
+    useEffect(()=>{
+
+
+        if(document.querySelector('.tasks-list') !== null){
+
+                console.log(1);
+                document.querySelectorAll('.task-time').forEach(item => {
+                    item.addEventListener('click',addAttribute);
+                })
+        
+                // return function cleanup() 
+                // {
+                //     console.log(2);
+                //     document.querySelectorAll('.task-time').forEach(item => {
+                //         item.removeEventListener('click',addAttribute);
+                //     })
+                // };
+        }
+            
+        
+    });
+
+    function handleAddTask() {
         setAdd(oldvalue => ({...oldvalue , addTask: !oldvalue.addTask }))
     }
-    function handleAddSection(){
+    function handleAddSection() {
         setAdd(oldvalue => ({...oldvalue , addSection: !oldvalue.addSection }))
+    }
+
+    function doneTask(id) {
+        setAllTasks(oldvalue => (
+            oldvalue.map(task => task.id === id ? ({...task, done: true}) : task)
+        ))
     }
 
     let tasksObject;
@@ -40,14 +71,20 @@ const App = () => {
             let taskDate = new Date(currentitem.doDate);
 
             if(taskDate.getDate() === dateNow.getDate() ){
-                prevItem.todayTasks.push(<Task {...currentitem} key={currentitem.id} />);
+                // prevItem.todayTasks.push(<Task {...currentitem} key={currentitem.id} doneTask={()=> doneTask(currentitem.id) } />);
+                prevItem.todayTasks.push(<Task {...currentitem} key={currentitem.id} doneTask={doneTask} />);
             }
             else if(taskDate.getDate() === dateNow.getDate() + 1){
-                prevItem.tomorrowTasks.push(<Task {...currentitem} key={currentitem.id} />);
+                // prevItem.tomorrowTasks.push(<Task {...currentitem} key={currentitem.id} doneTask={()=> doneTask(currentitem.id) } />);
+                prevItem.tomorrowTasks.push(<Task {...currentitem} key={currentitem.id} doneTask={ doneTask } />);
             }
             else if(taskDate.getDate() > dateNow.getDate() + 1) {
-                prevItem.upcomingTasks.push(<Task {...currentitem} key={currentitem.id} />);
+                // prevItem.upcomingTasks.push(<Task {...currentitem} key={currentitem.id} doneTask={ ()=> doneTask(currentitem.id) } />);
+                prevItem.upcomingTasks.push(<Task {...currentitem} key={currentitem.id} doneTask={ doneTask} />);
             }
+        }
+        else{
+            prevItem.doneTask.push(<Task {...currentitem} key={currentitem.id}  />);
         }
         
 
@@ -56,6 +93,7 @@ const App = () => {
         todayTasks : [],
         tomorrowTasks : [],
         upcomingTasks: [],
+        doneTask: [],
     });
 
     // function sortingList(list){
@@ -131,6 +169,16 @@ const App = () => {
                     </div>
                     <div className="tasks-list">
                         {tasksObject.upcomingTasks}
+                        
+                    </div>
+                    
+                </div>
+                <div className="done-tasks">
+                    <div className="task-time">
+                        <h3>Done Tasks</h3>
+                    </div>
+                    <div className="tasks-list">
+                        {tasksObject.doneTask}
                         
                     </div>
                     
