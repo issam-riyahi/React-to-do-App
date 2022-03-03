@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import Header from "./components/Header";
 import Task from "./components/Task";
 import AddTask from "./components/AddTask";
+import AddSection from "./components/AddSection";
 
 
 const App = () => {
@@ -9,10 +10,13 @@ const App = () => {
    
     const [allTasks, setAllTasks] = useState([]);
     let [isPending, setIsPending] = useState(true);
-    let [addTask, setAddTask] = useState(false);
+    let [add, setAdd] = useState({
+        addTask: false,
+        addSection: false,
+    });
     let dateNow = new Date();
     
-    console.log(allTasks)
+    console.log(add)
     useEffect(()=> {
         fetch('http://localhost:3001/Tasks')
         .then(res => res.json())
@@ -20,24 +24,32 @@ const App = () => {
             setAllTasks(data)
             setIsPending(false);
         })
-    },[addTask]);
+    },[add]);
 
     function handleAddTask(){
-        setAddTask(oldvalue => !oldvalue)
+        setAdd(oldvalue => ({...oldvalue , addTask: !oldvalue.addTask }))
+    }
+    function handleAddSection(){
+        setAdd(oldvalue => ({...oldvalue , addSection: !oldvalue.addSection }))
     }
 
     let tasksObject;
     tasksObject = allTasks.reduce((prevItem,currentitem)=>{
-        let taskDate = new Date(currentitem.doDate);
-        if(taskDate.getDate() === dateNow.getDate() ){
-            prevItem.todayTasks.push(<Task {...currentitem} key={currentitem.id} />)
+        if(currentitem.done === false){
+
+            let taskDate = new Date(currentitem.doDate);
+
+            if(taskDate.getDate() === dateNow.getDate() ){
+                prevItem.todayTasks.push(<Task {...currentitem} key={currentitem.id} />);
+            }
+            else if(taskDate.getDate() === dateNow.getDate() + 1){
+                prevItem.tomorrowTasks.push(<Task {...currentitem} key={currentitem.id} />);
+            }
+            else if(taskDate.getDate() > dateNow.getDate() + 1) {
+                prevItem.upcomingTasks.push(<Task {...currentitem} key={currentitem.id} />);
+            }
         }
-        else if(taskDate.getDate() === dateNow.getDate() + 1){
-            prevItem.tomorrowTasks.push(<Task {...currentitem} key={currentitem.id} />)
-        }
-        else if(taskDate.getDate() > dateNow.getDate() + 1) {
-            prevItem.upcomingTasks.push(<Task {...currentitem} key={currentitem.id} />)
-        }
+        
 
         return prevItem;
     },{
@@ -78,13 +90,21 @@ const App = () => {
     return ( 
 
         <>
-        {addTask &&  <AddTask handleAddTask={handleAddTask} />}
+        { add.addTask &&  <AddTask handleAddTask={handleAddTask} />}
+        { add.addSection &&  <AddSection handleAddSection={handleAddSection} />}
         <Header />
     {  !isPending  ?  <div className="container-task">
             <div className="add">
-                <span className="add-task" onClick={handleAddTask}>
+                <span 
+                    className="add-task" 
+                    onClick={handleAddTask}
+                >
                     Add Task
                 </span>
+                <span 
+                    className="add-section"
+                    onClick={handleAddSection}
+                > Add Section</span>
             </div>
             <div className="tasks">
                 <div className="new-tasks">

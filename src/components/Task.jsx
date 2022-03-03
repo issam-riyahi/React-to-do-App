@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import DoneIcon from "../icons/DoneIcon";
 
 
 const Task = (prop) => {
@@ -51,7 +52,7 @@ const Task = (prop) => {
         <div className="task">
             <div className="task-content">
                 <div className="task-name-icon">
-                    <img src="./images/done.svg" alt="done" className="done-icon icon" />
+                    <DoneIcon done={false} />
                     <p className="task-title">{prop.title}</p>
                 </div>
                 <div className="task-section-date">
