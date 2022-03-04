@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import DoneIcon from "../icons/DoneIcon";
-
+import UpdateFetch from "../GolobalMethods/UpdateFetch";
 
 const Task = (prop) => {
 
@@ -43,23 +43,23 @@ const Task = (prop) => {
         );
     },[]);
     
-    function UpdateTask(id) {
+    // function UpdateTask(id) {
 
-        fetch("http://localhost:3001/Tasks/"+id,{
-            method: 'PUT',
-            body: JSON.stringify({ id: id, title: prop.title , doDate: prop.doDate, section: prop.section , done: true}),
-            headers: {
-                'Content-Type': 'application/json',
-              },
-        })
-        .then(res => res.json())
-        .then(data => {
-            console.log('Success:', data);
-        })
-        .catch((error) => {
-            console.error('Error:', error);
-        });
-    }
+    //     fetch("http://localhost:3001/Tasks/"+id,{
+    //         method: 'PUT',
+    //         body: JSON.stringify({ id: id, title: prop.title , doDate: prop.doDate, section: prop.section , done: true}),
+    //         headers: {
+    //             'Content-Type': 'application/json',
+    //           },
+    //     })
+    //     .then(res => res.json())
+    //     .then(data => {
+    //         console.log('Success:', data);
+    //     })
+    //     .catch((error) => {
+    //         console.error('Error:', error);
+    //     });
+    // }
 
         
     
@@ -75,7 +75,7 @@ const Task = (prop) => {
                 <div 
                 className="task-name-icon" 
                 // onClick={prop.doneTask} 
-                onClick={ prop.done === false ?  () => [UpdateTask(prop.id),prop.doneTask(prop.id)] : ()=> {}} 
+                onClick={ prop.done === false ?  () => [UpdateFetch(prop.id, { id: prop.id, title: prop.title , doDate: prop.doDate, section: prop.section , done: true}),prop.doneTask(prop.id)] : ()=> {}} 
 
                 >
                     <DoneIcon done={prop.done}  />

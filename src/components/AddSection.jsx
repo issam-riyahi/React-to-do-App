@@ -6,7 +6,7 @@ const AddSection = (prop) => {
 
     const [section, setSection] = useState({
         name: "",
-        color: "#333",
+        color: "#333333",
     });
 
     function handleInputs(e){
@@ -22,7 +22,9 @@ const AddSection = (prop) => {
                 body: JSON.stringify(section),
                 headers: { 'content-Type' : 'Application/json' }
 
-            })
+            });
+
+            prop.handleAddSection();
         }
     }
 

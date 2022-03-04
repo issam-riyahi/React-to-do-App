@@ -26,17 +26,35 @@ const App = () => {
         })
     },[add]);
 
-    function addAttribute(e){
-        document.querySelectorAll('.tasks-list')[2].style.height = "0px";
+    function addAttribute(index){
+
+        // document.querySelectorAll('.tasks-list')[index].style.maxHeight = document.querySelectorAll('.tasks-list')[index].offsetHeight ;
+        
+        if(document.querySelectorAll('.tasks-list')[index].classList.contains("up-animate")){
+
+            
+
+            document.querySelectorAll('.tasks-list')[index].className = "tasks-list down-animate";
+        }
+        else {
+            document.querySelectorAll('.tasks-list')[index].className = "tasks-list up-animate"
+        }
+        console.log(index);
     }
     useEffect(()=>{
 
+        function addClasses(index,item){
+
+            item.classList.toggle('active');
+            addAttribute(index);
+        }
 
         if(document.querySelector('.tasks-list') !== null){
 
-                console.log(1);
-                document.querySelectorAll('.task-time').forEach(item => {
-                    item.addEventListener('click',addAttribute);
+                // console.log(1);
+                document.querySelectorAll('.task-time').forEach((item, index) => {
+                    // item.addEventListener('click',addAttribute.bind(this,index));
+                    item.addEventListener('click',addClasses.bind(this,index,item));
                 })
         
                 // return function cleanup() 
@@ -146,39 +164,39 @@ const App = () => {
             </div>
             <div className="tasks">
                 <div className="new-tasks">
-                    <div className="task-time">
+                    <div className={`task-time ${tasksObject.tomorrowTasks.length ? 'active' : ''}`}>
                         <h3>New Tasks</h3>  
                     </div>
-                    <div className="tasks-list">
+                    <div className={`tasks-list ${tasksObject.tomorrowTasks.length ? '' : 'up-animate'}`}>
                         
-                        {tasksObject.tomorrowTasks}
+                        {tasksObject.tomorrowTasks.length ? tasksObject.tomorrowTasks : <div className="no-data">No Tasks </div>}
                     </div>
                 </div>
                 <div className="today-tasks">
-                    <div className="task-time">
+                    <div className={`task-time ${tasksObject.todayTasks.length ? 'active' : ''}`}>
                         <h3>Today Tasks</h3>
                     </div>
-                    <div className="tasks-list">
-                        {tasksObject.todayTasks}
+                    <div className={`tasks-list ${tasksObject.todayTasks.length ? '' : 'up-animate'}`}>
+                    {tasksObject.todayTasks.length ? tasksObject.todayTasks : <div className="no-data">No Tasks </div>}
                         
                     </div>
                 </div>
                 <div className="upcoming-tasks">
-                    <div className="task-time">
+                    <div className={`task-time ${tasksObject.upcomingTasks.length  ? 'active' : ''}`}>
                         <h3>Upcoming Tasks</h3>
                     </div>
                     <div className="tasks-list">
-                        {tasksObject.upcomingTasks}
+                    {tasksObject.upcomingTasks.length ? tasksObject.upcomingTasks : <div className="no-data">No Tasks </div>}
                         
                     </div>
                     
                 </div>
                 <div className="done-tasks">
-                    <div className="task-time">
+                    <div className={`task-time ${tasksObject.doneTask.length ? 'active' : 'active'}`}>
                         <h3>Done Tasks</h3>
                     </div>
                     <div className="tasks-list">
-                        {tasksObject.doneTask}
+                    {tasksObject.doneTask.length ? tasksObject.doneTask : <div className="no-data">No Tasks </div>}
                         
                     </div>
                     

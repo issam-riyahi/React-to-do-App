@@ -59,6 +59,11 @@ body {
   margin-right: 30px;
   font-size: 12px;
 }
+
+.no-data {
+  padding: 0 16px;
+  color: #d80000;
+}
 .date {
   color: rgb(71, 71, 71);
 }
@@ -92,7 +97,11 @@ body {
   border-top: 5px solid black;
   left: 0;
   top: 50%;
-  transform: translateY(-50%);
+  transform: translateY(-50%) rotate(-90deg);
+  transition: all .3s ease;
+}
+.task-time.active::before {
+  transform: rotate(0deg);
 }
 .tasks h3 {
   font-size: 1.1rem;
@@ -127,7 +136,38 @@ body {
 .tasks-list {
   margin-bottom: 16px;
   overflow: hidden;
+  /* max-height: 500px; */
 }
+.tasks-list.close{
+  max-height: 0px;
+}
+.tasks-list.up-animate {
+  animation: upAnimate .3s ease forwards;
+}
+.tasks-list.down-animate {
+  animation: downAnimate 1s ease-in-out forwards;
+}
+
+/* Animation */
+
+@keyframes downAnimate {
+  0% {
+    max-height: 0px;
+  }
+  100%{
+    max-height: 500px;
+  }
+}
+@keyframes upAnimate {
+  0% {
+    max-height: 500px;
+  }
+  100%{
+    max-height: 0px;
+  }
+} */
+
+
 .tasks-list .task:not(:last-child){
   border-bottom: 1px solid rgb(224, 224, 224);
 }

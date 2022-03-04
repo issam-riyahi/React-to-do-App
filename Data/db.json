@@ -54,7 +54,7 @@
       "title": "Test 2",
       "doDate": "2022-03-05",
       "section": "2",
-      "done": false
+      "done": true
     },
     {
       "id": 9,
@@ -62,6 +62,20 @@
       "doDate": "2022-03-04",
       "section": "2",
       "done": true
+    },
+    {
+      "title": "Test 4 ",
+      "section": "3",
+      "doDate": "2022-03-12",
+      "done": false,
+      "id": 10
+    },
+    {
+      "title": "test 3",
+      "section": "5",
+      "doDate": "2022-03-19",
+      "done": false,
+      "id": 11
     }
   ],
   "sections": [
@@ -89,6 +103,16 @@
       "name": "Cyber Security",
       "color": "#333",
       "id": 5
+    },
+    {
+      "name": "youtube",
+      "color": "#f35959",
+      "id": 6
+    },
+    {
+      "name": "Managment",
+      "color": "#f57600",
+      "id": 7
     }
   ]
 }

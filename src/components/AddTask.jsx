@@ -1,23 +1,25 @@
 import { useEffect, useState } from "react";
-
+import GetFetch from "../GolobalMethods/GetFetch";
 
 const AddTask = (prop) => {
 
-    const [section, setSection] = useState([]);
-    
+    // const [section, setSection] = useState([]);
+    let section = [...GetFetch("http://localhost:3001/sections")];
+    console.log(section)
     const [taskData, setTaskData] = useState({
         title: "",
         section: "",
         doDate: "",
         done: false,
     })
-    useEffect(()=>{
+    // useEffect(()=>{
 
-        fetch("http://localhost:3001/sections")
-        .then(res => res.json())
-       .then(data => setSection(data) );
-    },[]);
+    //     fetch("http://localhost:3001/sections")
+    //     .then(res => res.json())
+    //    .then(data => setSection(data) );
+    // },[]);
     
+    // setSection(GetFetch("http://localhost:3001/sections"))
     function addTaskClick(e){
         e.preventDefault();
         if(taskData.title !== "" && taskData.section !== "" && taskData.doDate !== ""){
@@ -84,8 +86,9 @@ const AddTask = (prop) => {
                             name="section" 
                             id=""
                             onChange={(e) => handleChange(e)}
-                            value={taskData.title}
+                            // value={taskData.title}
                         >
+                            <option value="">-- select section -- </option>
                             {sectionElements}
                         </select>
                     </div>
