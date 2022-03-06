@@ -12,14 +12,14 @@
       "title": "do React App",
       "doDate": "3/2/2022",
       "section": 1,
-      "done": false
+      "done": true
     },
     {
       "id": 3,
       "title": "learn Php Session",
       "doDate": "3/1/2022",
       "section": 1,
-      "done": false
+      "done": true
     },
     {
       "id": 4,
@@ -64,18 +64,32 @@
       "done": true
     },
     {
+      "id": 10,
       "title": "Test 4 ",
-      "section": "3",
       "doDate": "2022-03-12",
-      "done": false,
-      "id": 10
+      "section": "3",
+      "done": true
     },
     {
+      "id": 11,
       "title": "test 3",
-      "section": "5",
       "doDate": "2022-03-19",
+      "section": "5",
+      "done": true
+    },
+    {
+      "title": "Task not Done ",
+      "section": "4",
+      "doDate": "2022-03-01",
       "done": false,
-      "id": 11
+      "id": 12
+    },
+    {
+      "id": 13,
+      "title": "Imane ",
+      "doDate": "2022-03-03",
+      "section": "6",
+      "done": true
     }
   ],
   "sections": [

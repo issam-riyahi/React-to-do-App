@@ -21,7 +21,7 @@ const Task = (prop) => {
         dateText = "Tomorrow";
         style.color = "rgb(63, 238, 238)"
     }
-    else if(date.getDate() < new Date().getDate() + 3){
+    else if(date.getDate() < new Date().getDate() + 3 && date.getDate() >= new Date().getDate()){
         dateText = dayNames[date.getDate()];
     }
     else {

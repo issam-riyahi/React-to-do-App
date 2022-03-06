@@ -39,7 +39,7 @@ const App = () => {
         else {
             document.querySelectorAll('.tasks-list')[index].className = "tasks-list up-animate"
         }
-        console.log(index);
+        
     }
     useEffect(()=>{
 
@@ -51,7 +51,7 @@ const App = () => {
 
         if(document.querySelector('.tasks-list') !== null){
 
-                // console.log(1);
+                console.log(1);
                 document.querySelectorAll('.task-time').forEach((item, index) => {
                     // item.addEventListener('click',addAttribute.bind(this,index));
                     item.addEventListener('click',addClasses.bind(this,index,item));
@@ -67,7 +67,7 @@ const App = () => {
         }
             
         
-    });
+    },[allTasks]);
 
     function handleAddTask() {
         setAdd(oldvalue => ({...oldvalue , addTask: !oldvalue.addTask }))
@@ -100,6 +100,9 @@ const App = () => {
                 // prevItem.upcomingTasks.push(<Task {...currentitem} key={currentitem.id} doneTask={ ()=> doneTask(currentitem.id) } />);
                 prevItem.upcomingTasks.push(<Task {...currentitem} key={currentitem.id} doneTask={ doneTask} />);
             }
+            else {
+                prevItem.tasksNotDone.push(<Task {...currentitem} key={currentitem.id} doneTask={ doneTask} />);
+            }
         }
         else{
             prevItem.doneTask.push(<Task {...currentitem} key={currentitem.id}  />);
@@ -112,6 +115,7 @@ const App = () => {
         tomorrowTasks : [],
         upcomingTasks: [],
         doneTask: [],
+        tasksNotDone: [],
     });
 
     // function sortingList(list){
@@ -192,11 +196,21 @@ const App = () => {
                     
                 </div>
                 <div className="done-tasks">
-                    <div className={`task-time ${tasksObject.doneTask.length ? 'active' : 'active'}`}>
+                    <div className={`task-time ${tasksObject.doneTask.length ? 'active' : ''}`}>
                         <h3>Done Tasks</h3>
                     </div>
                     <div className="tasks-list">
                     {tasksObject.doneTask.length ? tasksObject.doneTask : <div className="no-data">No Tasks </div>}
+                        
+                    </div>
+                    
+                </div>
+                <div className="not-done-tasks">
+                    <div className={`task-time ${tasksObject.tasksNotDone.length ? 'active' : ''}`}>
+                        <h3>Tasks not Done</h3>
+                    </div>
+                    <div className="tasks-list">
+                    {tasksObject.tasksNotDone.length ? tasksObject.tasksNotDone : <div className="no-data">No Tasks </div>}
                         
                     </div>
                     
