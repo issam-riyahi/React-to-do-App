@@ -12,35 +12,35 @@
       "title": "do React App",
       "doDate": "3/2/2022",
       "section": 1,
-      "done": true
+      "done": false
     },
     {
       "id": 3,
       "title": "learn Php Session",
       "doDate": "3/1/2022",
       "section": 1,
-      "done": true
+      "done": false
     },
     {
       "id": 4,
       "title": "start PFE Project",
       "doDate": "3/10/2022",
       "section": 3,
-      "done": false
+      "done": true
     },
     {
       "id": 5,
       "title": "Learn React Class",
       "doDate": "3/20/2022",
       "section": 4,
-      "done": false
+      "done": true
     },
     {
       "id": 6,
       "title": "add some features in App to do",
       "doDate": "2022-03-03",
       "section": "3",
-      "done": true
+      "done": false
     },
     {
       "id": 7,
@@ -54,14 +54,14 @@
       "title": "Test 2",
       "doDate": "2022-03-05",
       "section": "2",
-      "done": true
+      "done": false
     },
     {
       "id": 9,
       "title": "Test 3 ",
       "doDate": "2022-03-04",
       "section": "2",
-      "done": true
+      "done": false
     },
     {
       "id": 10,
@@ -78,18 +78,18 @@
       "done": true
     },
     {
+      "id": 12,
       "title": "Task not Done ",
-      "section": "4",
       "doDate": "2022-03-01",
-      "done": false,
-      "id": 12
+      "section": "4",
+      "done": false
     },
     {
       "id": 13,
       "title": "Imane ",
       "doDate": "2022-03-03",
       "section": "6",
-      "done": true
+      "done": false
     }
   ],
   "sections": [

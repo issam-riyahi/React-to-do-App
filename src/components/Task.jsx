@@ -1,10 +1,13 @@
 import { useEffect, useState } from "react";
 import DoneIcon from "../icons/DoneIcon";
 import UpdateFetch from "../GolobalMethods/UpdateFetch";
+import Pen from "../icons/Pen";
+import Trash from "../icons/Trash";
 
 const Task = (prop) => {
 
     const [section, setSection] = useState({});
+    const [update, setUpdate] = useState(false);
     let date = new Date(prop.doDate);
     
     const month = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul","Aug", "Sep", "Oct", "Nov", "Dec"]; 
@@ -61,7 +64,9 @@ const Task = (prop) => {
     //     });
     // }
 
-        
+      function handleUpdate() {
+          setUpdate(oldValue => !oldValue);
+      }  
     
 
     const bgStyle = {
@@ -70,7 +75,9 @@ const Task = (prop) => {
 
     
     return ( 
-        <div className="task">
+
+        
+            <div className="task">
             <div className="task-content">
                 <div 
                 className="task-name-icon" 
@@ -89,9 +96,30 @@ const Task = (prop) => {
                         {section.name}
                     </span>
                     <p className="date" style={ prop.done ? {} : style}>{dateText}</p>
+                <div className="crud">
+
+                    <span 
+                    
+                        className="update"
+                        onClick={handleUpdate}
+                    >
+                        <Pen />
+                    </span>
+                    <span 
+                    
+                    className="delete"
+                    
+                    >
+                        <Trash />    
+                    </span>
+                   
+
+                </div>
                 </div>
             </div>
         </div>
+    
+        
      );
 }
  
