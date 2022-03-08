@@ -91,12 +91,7 @@ const App = () => {
     function handleAddSection() {
         setCrudState(oldvalue => ({...oldvalue , addSection: !oldvalue.addSection }))
     }
-    function handleUpdateTask() {
-        setCrudState(oldvalue => ({...oldvalue , updateTask: !oldvalue.updateTask }))
-    }
-    function handleDeleteTask() {
-        setCrudState(oldvalue => ({...oldvalue , deletedTask: !oldvalue.deletedTask }))
-    }
+  
 
 
     function handleCrudState(method){
@@ -133,7 +128,7 @@ const App = () => {
                 // prevItem.tomorrowTasks.push(<Task {...currentitem} key={currentitem.id} doneTask={()=> doneTask(currentitem.id) } />);
                 prevItem.tomorrowTasks.push(<Task {...currentitem} key={currentitem.id} doneTask={ doneTask } handleCrudState={handleCrudState}  />);
             }
-            else if(taskDate.getDate() > dateNow.getDate() + 1) {
+            else if(taskDate.getTime() > dateNow.getTime() + 1000 * 60 * 60 * 24) {
                 // prevItem.upcomingTasks.push(<Task {...currentitem} key={currentitem.id} doneTask={ ()=> doneTask(currentitem.id) } />);
                 prevItem.upcomingTasks.push(<Task {...currentitem} key={currentitem.id} doneTask={ doneTask} handleCrudState={handleCrudState}  />);
             }
