@@ -242,7 +242,7 @@ body {
   border: none;
   cursor: pointer;
 }
-.task-name-icon {
+.click-icon {
   cursor: pointer;
 }
 .done-icon {
@@ -259,4 +259,7 @@ body {
 
 .crud span {
   cursor: pointer;
+}
+.Update-select {
+  margin-right: 15px;
 }

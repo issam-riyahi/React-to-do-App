@@ -16,7 +16,7 @@ function GetFetch(url){
         .then(res => res.json())
         .then(data => setSection(data) );
 
-        console.log('GetSection: ', section);
+        // console.log('GetSection: ', section);
        return function () {
         return abort.abort();
      }

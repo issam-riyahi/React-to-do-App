@@ -2,19 +2,18 @@
 
 
 
-function UpdateFetch(id,data){
+function UpdateFetch(id,init, callBack = null){
 
 
-    fetch("http://localhost:3001/Tasks/"+id,{
-            method: 'PUT',
-            body: JSON.stringify(data),
-            headers: {
-                'Content-Type': 'application/json',
-              },
-        })
-        .then(res => res.json())
-        .then(data => {
-            console.log('Success:', data);
+    fetch("http://localhost:3001/Tasks/"+id,init)
+        .then(res => {
+            if(res.ok){
+
+                console.log('success')
+                if(callBack instanceof Function){
+                    callBack('deletedTask');
+                }
+            }
         })
         .catch((error) => {
             console.error('Error:', error);

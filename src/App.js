@@ -10,14 +10,15 @@ const App = () => {
    
     const [allTasks, setAllTasks] = useState([]);
     let [isPending, setIsPending] = useState(true);
-    let [add, setAdd] = useState({
+    let [crudState, setCrudState] = useState({
         addTask: false,
         addSection: false,
         updateTask: false,
+        deletedTask: false,
     });
     let dateNow = new Date();
     
-    console.log('render');
+    console.log(crudState);
 
     useEffect(()=> {
         fetch('http://localhost:3001/Tasks')
@@ -26,7 +27,7 @@ const App = () => {
             setAllTasks(data)
             setIsPending(false);
         })
-    },[add]);
+    },[crudState]);
 
     function addAttribute(index){
 
@@ -46,12 +47,12 @@ const App = () => {
     useEffect(()=>{
         
 
-        console.log('inside')
+        // console.log('inside')
         function addClasses(index, item){
 
             item.classList.toggle('active');
             addAttribute(index);
-            console.log(index, item)
+            // console.log(index, item)
         }
 
        
@@ -59,11 +60,11 @@ const App = () => {
         // if(document.querySelector('.tasks-list') !== null){
 
             
-                console.log(document.querySelectorAll('.task-time'))
+                // console.log(document.querySelectorAll('.task-time'))
                 document.querySelectorAll('.task-time').forEach((item, index) => {
                     // item.addEventListener('click',addAttribute.bind(this,index));
                     var hadnelCopy = addClasses.bind(null,index,item);
-                    console.log(item);
+                    // console.log(item);
                     item.addEventListener('click',hadnelCopy);
                     // item.addEventListener('click',testClick);
                     
@@ -85,15 +86,33 @@ const App = () => {
     },[isPending]);
 
     function handleAddTask() {
-        setAdd(oldvalue => ({...oldvalue , addTask: !oldvalue.addTask }))
+        setCrudState(oldvalue => ({...oldvalue , addTask: !oldvalue.addTask }))
     }
     function handleAddSection() {
-        setAdd(oldvalue => ({...oldvalue , addSection: !oldvalue.addSection }))
+        setCrudState(oldvalue => ({...oldvalue , addSection: !oldvalue.addSection }))
     }
     function handleUpdateTask() {
-        setAdd(oldvalue => ({...oldvalue , updateTask: !oldvalue.updateTask }))
+        setCrudState(oldvalue => ({...oldvalue , updateTask: !oldvalue.updateTask }))
+    }
+    function handleDeleteTask() {
+        setCrudState(oldvalue => ({...oldvalue , deletedTask: !oldvalue.deletedTask }))
     }
 
+
+    function handleCrudState(method){
+        // if(method === 'addTask'){
+            setCrudState(oldvalue => ({...oldvalue , [method]: !oldvalue.addTask }))
+        // }
+        // else if(method === 'addSection'){
+        //     setCrudState(oldvalue => ({...oldvalue , addSection: !oldvalue.addSection }))
+        // }
+        // else if(method === 'updateTask'){
+        //     setCrudState(oldvalue => ({...oldvalue , updateTask: !oldvalue.updateTask }))
+        // }
+        // else if(method === 'deleteTask') {
+        //     setCrudState(oldvalue => ({...oldvalue , deletedTask: !oldvalue.deletedTask }))
+        // }
+    }
     function doneTask(id) {
         setAllTasks(oldvalue => (
             oldvalue.map(task => task.id === id ? ({...task, done: true}) : task)
@@ -108,22 +127,22 @@ const App = () => {
 
             if(taskDate.getDate() === dateNow.getDate() ){
                 // prevItem.todayTasks.push(<Task {...currentitem} key={currentitem.id} doneTask={()=> doneTask(currentitem.id) } />);
-                prevItem.todayTasks.push(<Task {...currentitem} key={currentitem.id} doneTask={doneTask} handleUpdateTask={handleUpdateTask} />);
+                prevItem.todayTasks.push(<Task {...currentitem} key={currentitem.id} doneTask={doneTask} handleCrudState={handleCrudState} />);
             }
             else if(taskDate.getDate() === dateNow.getDate() + 1){
                 // prevItem.tomorrowTasks.push(<Task {...currentitem} key={currentitem.id} doneTask={()=> doneTask(currentitem.id) } />);
-                prevItem.tomorrowTasks.push(<Task {...currentitem} key={currentitem.id} doneTask={ doneTask } handleUpdateTask={handleUpdateTask}  />);
+                prevItem.tomorrowTasks.push(<Task {...currentitem} key={currentitem.id} doneTask={ doneTask } handleCrudState={handleCrudState}  />);
             }
             else if(taskDate.getDate() > dateNow.getDate() + 1) {
                 // prevItem.upcomingTasks.push(<Task {...currentitem} key={currentitem.id} doneTask={ ()=> doneTask(currentitem.id) } />);
-                prevItem.upcomingTasks.push(<Task {...currentitem} key={currentitem.id} doneTask={ doneTask} handleUpdateTask={handleUpdateTask}  />);
+                prevItem.upcomingTasks.push(<Task {...currentitem} key={currentitem.id} doneTask={ doneTask} handleCrudState={handleCrudState}  />);
             }
             else {
-                prevItem.tasksNotDone.push(<Task {...currentitem} key={currentitem.id} doneTask={ doneTask} handleUpdateTask={handleUpdateTask}  />);
+                prevItem.tasksNotDone.push(<Task {...currentitem} key={currentitem.id} doneTask={ doneTask} handleCrudState={handleCrudState}  />);
             }
         }
         else{
-            prevItem.doneTask.push(<Task {...currentitem} key={currentitem.id} handleUpdateTask={handleUpdateTask}  />);
+            prevItem.doneTask.push(<Task {...currentitem} key={currentitem.id} handleCrudState={handleCrudState}  />);
         }
         
 
@@ -168,9 +187,9 @@ const App = () => {
     return ( 
 
         <>
-        { add.addTask &&  <AddTask handleAddTask={handleAddTask} />}
-        { add.updateTask &&  <AddTask handleAddTask={handleAddTask}  />}
-        { add.addSection &&  <AddSection handleAddSection={handleAddSection} />}
+        { crudState.addTask &&  <AddTask handleAddTask={handleAddTask} />}
+        
+        { crudState.addSection &&  <AddSection handleAddSection={handleAddSection} />}
         <Header />
     {  !isPending  ?  <div className="container-task">
             <div className="add">
