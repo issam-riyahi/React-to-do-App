@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import GetFetch from "../GolobalMethods/GetFetch";
+import UpdateFetch from "../GolobalMethods/UpdateFetch";
 
 const AddTask = (prop) => {
 
@@ -22,19 +23,29 @@ const AddTask = (prop) => {
     // setSection(GetFetch("http://localhost:3001/sections"))
     function addTaskClick(e){
         e.preventDefault();
+
+        if(document.getElementById('task-title').value == 1){
+            console.log(1);
+        }
+        
         if(taskData.title !== "" && taskData.section !== "" && taskData.doDate !== ""){
-            fetch("http://localhost:3001/Tasks",{
+            // fetch("http://localhost:3001/Tasks",{
+            //     method: 'POST',
+            //     body: JSON.stringify(taskData),
+            //     headers: { 'content-Type' : 'Application/json' }
+            // })
+            // .then(res => {
+                
+            //     prop.handleAddTask();
+            // })
+            // .catch(err => {
+            //     console.log(err)
+            // })
+            UpdateFetch(null, "http://localhost:3001/Tasks",{
                 method: 'POST',
                 body: JSON.stringify(taskData),
                 headers: { 'content-Type' : 'Application/json' }
-            })
-            .then(res => {
-                
-                prop.handleAddTask();
-            })
-            .catch(err => {
-                console.log(err)
-            })
+            },prop.handleAddTask)
         }
         else {
             console.log("no")
@@ -42,7 +53,9 @@ const AddTask = (prop) => {
         
             
         }
-
+     
+        
+        
     
     function handleChange(e){
         let { name , value } = e.target;
@@ -73,7 +86,8 @@ const AddTask = (prop) => {
                     <div className="task-input-title input-scope">
                         <label htmlFor="">Task Title :</label>
                         <input 
-                            type="text" 
+                            type="text"
+                            id="task-title" 
                             name="title" 
                             placeholder="Enter The Task Title" 
                             onChange={(e) => handleChange(e)}

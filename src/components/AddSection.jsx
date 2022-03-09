@@ -1,4 +1,5 @@
 import { useState } from "react";
+import UpdateFetch from "../GolobalMethods/UpdateFetch";
 
 
 
@@ -17,12 +18,12 @@ const AddSection = (prop) => {
     function addSection(e){
         e.preventDefault();
         if(section.name !== ""){
-            fetch('http://localhost:3001/sections',{
+            UpdateFetch(null, "http://localhost:3001/sections",{
                 method: 'POST',
                 body: JSON.stringify(section),
                 headers: { 'content-Type' : 'Application/json' }
 
-            });
+            })
 
             prop.handleAddSection();
         }

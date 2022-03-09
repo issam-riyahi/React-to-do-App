@@ -5,35 +5,28 @@
       "title": "learn Php Session",
       "doDate": "3/1/2022",
       "section": "7",
-      "done": true
-    },
-    {
-      "id": 4,
-      "title": "start PFE Project",
-      "doDate": "3/10/2022",
-      "section": 3,
-      "done": true
+      "done": false
     },
     {
       "id": 5,
       "title": "Learn React Class",
       "doDate": "3/20/2022",
       "section": 4,
-      "done": true
+      "done": false
     },
     {
       "id": 6,
       "title": "add some features in App to do",
       "doDate": "2022-03-03",
       "section": "3",
-      "done": true
+      "done": false
     },
     {
       "id": 8,
       "title": "Test 2",
       "doDate": "2022-03-05",
       "section": "2",
-      "done": true
+      "done": false
     },
     {
       "id": 9,
@@ -60,8 +53,8 @@
       "id": 14,
       "title": "test date",
       "doDate": "2022-03-10",
-      "section": "6",
-      "done": true
+      "section": "8",
+      "done": false
     },
     {
       "id": 16,
@@ -85,11 +78,11 @@
       "id": 18
     },
     {
+      "id": 19,
       "title": "hhhhhhh",
-      "section": "5",
       "doDate": "2022-04-01",
-      "done": false,
-      "id": 19
+      "section": "5",
+      "done": true
     }
   ],
   "sections": [
@@ -127,6 +120,11 @@
       "name": "Managment",
       "color": "#f57600",
       "id": 7
+    },
+    {
+      "name": "Bolckchain",
+      "color": "#ffd500",
+      "id": 8
     }
   ]
 }

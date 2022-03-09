@@ -2,16 +2,16 @@
 
 
 
-function UpdateFetch(id,init, callBack = null){
+function UpdateFetch(id = null, url, init, callBack = null){
 
-
-    fetch("http://localhost:3001/Tasks/"+id,init)
+    console.log((id !== null ? id  : ''))
+    fetch(url+(id !== null ? id  : ''),init)
         .then(res => {
             if(res.ok){
 
                 console.log('success')
                 if(callBack instanceof Function){
-                    callBack('deletedTask');
+                    callBack();
                 }
             }
         })

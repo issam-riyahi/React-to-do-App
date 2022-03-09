@@ -124,7 +124,9 @@ const Task = (prop) => {
                 
                     <div 
                         className="click-icon"
-                         onClick={ prop.done === false ?  () => [UpdateFetch(prop.id, {
+                         onClick={ prop.done === false ?  () => [UpdateFetch(prop.id, 
+                            "http://localhost:3001/Tasks/",
+                            {
                             method: 'PUT',
                             body: JSON.stringify({ id: prop.id, title: prop.title , doDate: prop.doDate, section: prop.section , done: true}),
                             headers: {
@@ -187,7 +189,7 @@ const Task = (prop) => {
                     
                         className="Complete-update"
                         onClick={(prop.title !== updatedData.title || prop.section !== updatedData.section ) 
-                            ? () => [UpdateFetch(prop.id,
+                            ? () => [UpdateFetch(prop.id, "http://localhost:3001/Tasks/",
                             {
                                 method: 'PUT',
                                 body: JSON.stringify({ id: prop.id, title: updatedData.title , doDate: prop.doDate, section: updatedData.section , done: prop.done}),
@@ -202,12 +204,12 @@ const Task = (prop) => {
                     <span 
                     
                         className="delete"
-                        onClick={() => UpdateFetch(prop.id,
+                        onClick={() => UpdateFetch(prop.id, "http://localhost:3001/Tasks/", 
                             {
                                 method: 'DELETE',
                                
                                 
-                            }, prop.handleCrudState)}
+                            },()=>  prop.handleCrudState('deletedTask'))}
                     >
                         <Trash />    
                     </span>

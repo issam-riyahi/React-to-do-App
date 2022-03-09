@@ -29,6 +29,14 @@ body {
   font-weight: 600;
   letter-spacing: 2px;
 }
+.header .nav {
+  margin-top: 10px;
+}
+.header .nav a {
+  text-decoration: none;
+  color: #535353;
+  margin: 0 10px;
+}
 .task {
   font-size: 14px;
   width: 100%;
@@ -262,4 +270,23 @@ body {
 }
 .Update-select {
   margin-right: 15px;
+}
+
+
+/* Table Style */
+
+table {
+  font-family: arial, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+td, th {
+  border: 1px solid #dddddd;
+  text-align: left;
+  padding: 8px;
+}
+
+tr:nth-child(even) {
+  background-color: #dddddd;
 }
