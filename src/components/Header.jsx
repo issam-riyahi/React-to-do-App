@@ -1,7 +1,32 @@
+import { useEffect } from "react";
 import { Link } from "react-router-dom";
 
 
 const Header = () => {
+
+    useEffect(()=> {
+        let links = document.querySelectorAll('.nav a');
+        
+        links.forEach(link => {
+
+            
+            link.addEventListener('click' , ()=>{
+                removeActive();
+                link.classList.add('active');
+            })
+        })
+
+        function removeActive(){
+            links.forEach(link => {
+
+            
+               
+                    link.classList.remove('active');
+                
+            })
+        }
+    },[])
+
     return ( 
         <div className="header">
             <h1>My Tasks in Note App</h1>

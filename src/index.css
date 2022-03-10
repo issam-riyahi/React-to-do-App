@@ -22,6 +22,8 @@ body {
   padding: 1.3rem 0 ;
   box-shadow: 0px 2px 10px 1px rgba(0, 0, 0, 0.1);
   background-color: #ffffff;
+  position: relative;
+  z-index: 99;
 }
 .header h1 {
   font-size: 1.4rem;
@@ -36,6 +38,9 @@ body {
   text-decoration: none;
   color: #535353;
   margin: 0 10px;
+}
+.header .nav a.active {
+  color: rgb(0, 162, 255);
 }
 .task {
   font-size: 14px;
@@ -190,6 +195,7 @@ body {
     align-items: center;
     background-color: rgba(0, 0, 0, 0.3);
     z-index: 99;
+    top: 0;
 }
 
 .add-content {
@@ -289,4 +295,48 @@ td, th {
 
 tr:nth-child(even) {
   background-color: #dddddd;
+}
+
+.tasks-table {
+  margin: 16px;
+  width: 100%;
+}
+
+
+.all-tasks-container {
+  display: flex;
+  /* justify-content: stretch; */
+  background-color: #ffffff;
+}
+
+.section-container {
+  /* background-color: #d80000; */
+  padding: 10px 16px ;
+  width: 25%;
+  flex-shrink: 0;
+  height: 100vh ;
+  position: sticky;
+  top: 0;
+  border-right: 2px solid #dddddd;
+}
+.section-container h2 {
+  margin-bottom: 1rem;
+}
+.section-container ul li {
+  list-style: none;
+  padding: .5rem 0 ;
+  /* color: #ffffff; */
+  /* background-color: #dddddd; */
+  border-bottom: 1px solid #dddddd;
+  cursor: pointer;
+}
+
+.head-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+#search {
+  margin-left: 10px;
+  padding: .2rem .5rem;
 }

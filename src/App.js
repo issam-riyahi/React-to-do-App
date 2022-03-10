@@ -1,7 +1,7 @@
 import Home from "./Home";
 import Header from "./components/Header"
 import { Route, Routes } from "react-router-dom";
-import TableTasks from "./components/TableTasks";
+import AllTasks from "./components/AllTasks";
 
 const App = () => {
 
@@ -11,7 +11,7 @@ const App = () => {
 
         <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="allTasks" element={<TableTasks />} />
+        <Route path="allTasks" element={<AllTasks />} />
 
       </Routes>
         

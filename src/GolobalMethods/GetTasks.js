@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 
 
 const GetTasks = () => {
-    const [allTasks, setAllTasks] = useState();
+    const [allTasks, setAllTasks] = useState([]);
     let [isPending, setIsPending] = useState(true);
     useEffect(()=> {
         const abortControl = new AbortController();
@@ -20,7 +20,8 @@ const GetTasks = () => {
             abortControl.abort();
         }
     },[]);
-    return ( {allTasks, isPending} );
+    // return ( {allTasks, isPending} );
+    return ( allTasks );
 }
  
 export default GetTasks;

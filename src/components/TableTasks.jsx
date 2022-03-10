@@ -5,26 +5,76 @@ import TableRow from "./TableRow";
 
 
 
-const TableTasks = () => {
-    let {allTasks, isPending} = GetTasks();
-    // console.log(data)
-    // const [Tasks, setTasks] = useState(data);
-    // console.log(Tasks)
-
-    console.log(isPending)
-
-    if(!isPending){
-        var rowElements = allTasks.map(row => {
-            return <TableRow {...row} key={row.id} />
-        })
-    }
-
+const TableTasks = (props) => {
+    // let {allTasks, isPending} = GetTasks();
+    let allTasks= [...GetTasks()];
     
+
+    const [search , setSearch] = useState('');
+
+    // const [Tasks, setTasks] = useState(data);
+    console.log(props.sectionId)
+
+    // console.log(isPending)
+
+    // if(!isPending){
+    //     var rowElements = allTasks.map(row => {
+    //         return <TableRow {...row} key={row.id} />
+    //     })
+    // }
+    
+        let rowElements = allTasks.map(row => {
+            if(props.sectionId.id !== ""){
+                
+                if(row.section == props.sectionId.id){
+
+                    if(search !== ""){
+                        if(row.title.toLowerCase().indexOf(search) > -1){
+                            
+                            return <TableRow {...row} key={row.id} />  
+                        }
+                    }
+                    else {
+                        return <TableRow {...row} key={row.id} />
+                    }
+                    
+                }
+            }
+            else {
+
+                if(search !== ""){
+                    if(row.title.toLowerCase().indexOf(search) > -1){
+                        
+                        return <TableRow {...row} key={row.id} />  
+                    }
+                }
+                else {
+                    return <TableRow {...row} key={row.id} />
+                }
+            }
+        })
+    
+
+    function handleChange(e){
+
+        setSearch(e.target.value);
+    }
     return ( 
 
-        <div className="tasks-table">
+        <main className="tasks-table">
             <div className="container">
-                <h1>Tasks Table</h1>
+                <div className="head-bar">
+                    <h1> {props.sectionId.id ? props.sectionId.title : 'All'} Tasks</h1>
+                    <div className="search-input">
+                        <label htmlFor="">Search by Title :</label>
+                        <input 
+                            type="text" 
+                            name="title"
+                            id="search"
+                            onChange={(e)=>{handleChange(e)}}
+                        />   
+                    </div>
+                </div>
                 <table>
                     <thead>
                         <tr>
@@ -32,6 +82,7 @@ const TableTasks = () => {
                             <th>Task Title</th>
                             <th>Task section</th>
                             <th>Task Date</th>
+                            <th>Done</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -39,7 +90,7 @@ const TableTasks = () => {
                     </tbody>
                 </table>
             </div>    
-        </div>
+        </main>
 
      );
 }

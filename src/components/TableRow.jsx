@@ -11,6 +11,7 @@ const TableRow = (props) => {
             <td>{props.title}</td>
             <td>{props.section}</td>
             <td>{props.doDate}</td>
+            <td>{props.done ? "true" : 'false'}</td>
         </tr>
      );
 }
