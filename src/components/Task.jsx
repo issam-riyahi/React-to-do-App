@@ -153,6 +153,12 @@ const Task = (prop) => {
 
                 </div>
                 <div className="task-section-date">
+                        {/* <span 
+                            className="task-status" 
+                            style={{backgroundColor: prop.status.color}} 
+                        >
+                            {prop.status.statusTag}
+                        </span> */}
                     { update 
                 ?   <select 
                         className="Update-select"
@@ -161,13 +167,12 @@ const Task = (prop) => {
                         onChange={(e) => handelInput(e)}
                         value={updatedData.section}
                     >
-                    <option value="">-- select section -- </option>
                         {sectionElements}
                     </select>  
 
-                    :    <span 
-                        className="section-task" 
-                        style={bgStyle} 
+                    :   <span 
+                            className="section-task" 
+                            style={bgStyle} 
                         >
                             {TaskSection.name}
                         </span>

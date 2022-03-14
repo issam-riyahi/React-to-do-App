@@ -83,6 +83,8 @@ const TableTasks = (props) => {
                             <th>Task section</th>
                             <th>Task Date</th>
                             <th>Done</th>
+                            <th>Status</th>
+
                         </tr>
                     </thead>
                     <tbody>

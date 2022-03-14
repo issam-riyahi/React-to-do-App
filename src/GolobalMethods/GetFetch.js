@@ -28,7 +28,6 @@ function GetFetch(url){
         })
         // console.log('GetSection: ', section);
        return function () {
-            console.log(1);
              abort.abort();
        }
     },[url]);

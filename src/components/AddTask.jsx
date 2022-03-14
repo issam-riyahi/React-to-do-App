@@ -6,13 +6,17 @@ const AddTask = (prop) => {
 
     // const [section, setSection] = useState([]);
     let section = [...GetFetch("http://localhost:3001/sections")];
-    console.log(section)
     const [taskData, setTaskData] = useState({
         title: "",
         section: "",
         doDate: "",
+        status: {
+            statusTag: "",
+            color: "333333",
+        },
         done: false,
     })
+    console.log(taskData)
     // useEffect(()=>{
 
     //     fetch("http://localhost:3001/sections")
@@ -59,7 +63,7 @@ const AddTask = (prop) => {
     
     function handleChange(e){
         let { name , value } = e.target;
-        setTaskData(oladTask => ({...oladTask, [name]: value}))
+        setTaskData(oladTask => (name == "statusTag" || name == "color"  ?  {...oladTask, status :{ ...oladTask.status , [name] : value } } : {...oladTask, [name] : value } ));
 
         
     }   
@@ -105,6 +109,23 @@ const AddTask = (prop) => {
                             <option value="">-- select section -- </option>
                             {sectionElements}
                         </select>
+                    </div>
+                    <div className="task-input-status input-scope">
+                        <label htmlFor="">status :</label>
+                        <input 
+                            type="text"
+                            id="task-title" 
+                            name="statusTag" 
+                            placeholder="Enter Tasks Status" 
+                            onChange={(e) => handleChange(e)}
+                            value={taskData.status.statusTag}
+                        />
+                        <input 
+                            type="color"
+                            name="color"
+                            onChange={(e) => handleChange(e)}
+                            value={taskData.status.color}
+                        />
                     </div>
                     <div className="task-input-date input-scope">
                         <label htmlFor="">Do Date :</label>
