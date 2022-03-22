@@ -2,12 +2,12 @@ import { useEffect, useState } from "react";
 import Task from "./components/Task";
 import AddTask from "./components/AddTask";
 import AddSection from "./components/AddSection";
+import {connect} from "react-redux";
+import { fetchToDo } from "./redux/toDo/toDoAction";
+import Laoding from "./components/Laoding";
 
-
-const Home = () => {
-    
+const Home = ({fetchToDo, toDoData}) => {
     let inSortedList = [];
-    const [allTasks, setAllTasks] = useState([]);
     let [isPending, setIsPending] = useState(true);
     let [crudState, setCrudState] = useState({
         addTask: false,
@@ -18,22 +18,22 @@ const Home = () => {
     let dateNow = new Date();
     
 
-    useEffect(()=> {
-        const abortControl = new AbortController();
-        fetch('http://localhost:3001/Tasks',{
-            signal: abortControl.signal,
-        })
-        .then(res => res.json())
-        .then(data => {
-            setAllTasks(data)
-            setIsPending(false);
-        })
+    // useEffect(()=> {
+    //     const abortControl = new AbortController();
+    //     fetch('http://localhost:3001/Tasks',{
+    //         signal: abortControl.signal,
+    //     })
+    //     .then(res => res.json())
+    //     .then(data => {
+    //         setAllTasks(data)
+    //         setIsPending(false);
+    //     })
 
-        return function cleanup(){
-            console.log(2)
-            abortControl.abort();
-        }
-    },[crudState]);
+    //     return function cleanup(){
+    //         console.log(2)
+    //         abortControl.abort();
+    //     }
+    // },[crudState]);
 
     function addAttribute(index){
 
@@ -121,7 +121,7 @@ const Home = () => {
     }
 
     let tasksObject;
-    tasksObject = allTasks.reduce((prevItem,currentitem)=>{
+    tasksObject = toDoData.data.reduce((prevItem,currentitem)=>{
         if(currentitem.done === false){
 
             let taskDate = new Date(currentitem.doDate);
@@ -188,13 +188,18 @@ const Home = () => {
 //     console.log(sortUpcoingList);
 
     // console.log(inSortedList)
+
+    useEffect(()=>{
+        fetchToDo();
+    },[])
+
     return ( 
 
         <>
         { crudState.addTask &&  <AddTask handleAddTask={handleAddTask} />}
         
         { crudState.addSection &&  <AddSection handleAddSection={handleAddSection} />}
-    {  !isPending  ?  <div className="container-task">
+        <div className="container-task">
             <div className="add">
                 <span 
                     className="add-task" 
@@ -214,16 +219,17 @@ const Home = () => {
                     </div>
                     <div className={`tasks-list ${tasksObject.tomorrowTasks.length ? '' : 'up-animate'}`}>
                         
-                        {tasksObject.tomorrowTasks.length ? tasksObject.tomorrowTasks : <div className="no-data">No Tasks </div>}
+                        
+                        {toDoData.laoding  ? <Laoding /> : tasksObject.tomorrowTasks.length ?  tasksObject.tomorrowTasks : <div className="no-data">No Tasks </div> }
                     </div>
                 </div>
                 <div className="today-tasks">
                     <div className={`task-time ${tasksObject.todayTasks.length ? 'active' : ''}`}>
                         <h3>Today Tasks</h3>
                     </div>
-                    <div className={`tasks-list ${tasksObject.todayTasks.length ? '' : 'up-animate'}`}>
-                    {tasksObject.todayTasks.length ? tasksObject.todayTasks : <div className="no-data">No Tasks </div>}
-                        
+                    <div className={`tasks-list ${tasksObject.todayTasks.length ? '' : 'up-animate'} `}>
+                    
+                    {toDoData.laoding  ? <Laoding /> : tasksObject.todayTasks.length ? tasksObject.todayTasks : <div className="no-data">No Tasks </div> }                    
                     </div>
                 </div>
                 <div className="upcoming-tasks">
@@ -231,8 +237,8 @@ const Home = () => {
                         <h3>Upcoming Tasks</h3>
                     </div>
                     <div className="tasks-list">
-                    {tasksObject.upcomingTasks.length ? tasksObject.upcomingTasks : <div className="no-data">No Tasks </div>}
-                        
+                    
+                    {toDoData.laoding  ? <Laoding /> : tasksObject.upcomingTasks.length ? tasksObject.upcomingTasks : <div className="no-data">No Tasks </div> }  
                     </div>
                     
                 </div>
@@ -241,8 +247,7 @@ const Home = () => {
                         <h3>Done Tasks</h3>
                     </div>
                     <div className="tasks-list">
-                    {tasksObject.doneTask.length ? tasksObject.doneTask : <div className="no-data">No Tasks </div>}
-                        
+                    {toDoData.laoding  ? <Laoding /> : tasksObject.doneTask.length ? tasksObject.doneTask : <div className="no-data">No Tasks </div> }    
                     </div>
                     
                 </div>
@@ -251,19 +256,30 @@ const Home = () => {
                         <h3>Tasks not Done</h3>
                     </div>
                     <div className="tasks-list">
-                    {tasksObject.tasksNotDone.length ? tasksObject.tasksNotDone : <div className="no-data">No Tasks </div>}
-                        
+                    
+                    {toDoData.laoding  ? <Laoding /> : tasksObject.tasksNotDone.length ? tasksObject.tasksNotDone : <div className="no-data">No Tasks </div> }     
                     </div>
                     
                 </div>
             </div>
         </div> 
-        :
-        <div>Loading...</div>
-        }
+        
+        
         </>
         // <h1>Hello, World</h1>
      );
 }
- 
-export default Home;
+
+const mapStateToProp = (state) =>{
+    return {
+        toDoData: state,
+    }
+}
+const mapDispatchToProp = (dispatch) => {
+
+    return {
+        fetchToDo : () => dispatch(fetchToDo()),
+    }
+
+}
+export default connect(mapStateToProp, mapDispatchToProp)(Home)  ;
