@@ -5,8 +5,11 @@ import Pen from "../icons/Pen";
 import Trash from "../icons/Trash";
 import Check from "../icons/Check";
 import GetFetch from "../GolobalMethods/GetFetch";
-const Task = (prop) => {
+import { connect } from "react-redux";
+import { deletetoDo, updateTask } from "../redux/toDo/toDoAction";
 
+const Task = (prop) => {
+    // console.log(prop)
     // const [section, setSection] = useState({});
     let section = [...GetFetch("http://localhost:3001/sections")];
     let TaskSection = "";
@@ -124,15 +127,17 @@ const Task = (prop) => {
                 
                     <div 
                         className="click-icon"
-                         onClick={ prop.done === false ?  () => [UpdateFetch(prop.id, 
-                            "http://localhost:3001/Tasks/",
-                            {
-                            method: 'PUT',
-                            body: JSON.stringify({ id: prop.id, title: prop.title , doDate: prop.doDate, section: prop.section , done: true}),
-                            headers: {
-                                'Content-Type': 'application/json',
-                              },
-                        }),prop.doneTask(prop.id)] : ()=> {}}       
+                        //  onClick={ prop.done === false ?  () => [UpdateFetch(prop.id, 
+                        //     "http://localhost:3001/Tasks/",
+                        //     {
+                        //     method: 'PUT',
+                        //     body: JSON.stringify({ id: prop.id, title: prop.title , doDate: prop.doDate, section: prop.section , done: true}),
+                        //     headers: {
+                        //         'Content-Type': 'application/json',
+                        //       },
+                        // }),prop.doneTask(prop.id)] : ()=> {}}       
+
+                            onClick={()=> { !prop.done ?  prop.updateTask({ id: prop.id, title: prop.title , doDate: prop.doDate, section: prop.section , done: true}) : ()=>{}}}
                     >
                         
                         <DoneIcon done={prop.done}  />
@@ -193,28 +198,26 @@ const Task = (prop) => {
                     <span 
                     
                         className="Complete-update"
+                        // onClick={(prop.title !== updatedData.title || prop.section !== updatedData.section ) 
+                        //     ? () => [UpdateFetch(prop.id, "http://localhost:3001/Tasks/",
+                        //     {
+                        //         method: 'PUT',
+                        //         body: JSON.stringify({ id: prop.id, title: updatedData.title , doDate: prop.doDate, section: updatedData.section , done: prop.done}),
+                        //         headers: {
+                        //             'Content-Type': 'application/json',
+                        //         },
+                        //     }),handleUpdate(),prop.handleCrudState('updateTask')] 
+                        //     : handleUpdate}
                         onClick={(prop.title !== updatedData.title || prop.section !== updatedData.section ) 
-                            ? () => [UpdateFetch(prop.id, "http://localhost:3001/Tasks/",
-                            {
-                                method: 'PUT',
-                                body: JSON.stringify({ id: prop.id, title: updatedData.title , doDate: prop.doDate, section: updatedData.section , done: prop.done}),
-                                headers: {
-                                    'Content-Type': 'application/json',
-                                },
-                            }),handleUpdate(),prop.handleCrudState('updateTask')] 
-                            : handleUpdate}
+                            ? () => [prop.updateTask({ id: prop.id, title: updatedData.title , doDate: prop.doDate, section: updatedData.section , done: prop.done}),handleUpdate(),prop.handleCrudState('updateTask')] 
+                            : ()=>{}}
                     >
                         <Check />
                     </span>}
                     <span 
                     
                         className="delete"
-                        onClick={() => UpdateFetch(prop.id, "http://localhost:3001/Tasks/", 
-                            {
-                                method: 'DELETE',
-                               
-                                
-                            },()=>  prop.handleCrudState('deletedTask'))}
+                        onClick={() => [prop.deleteToDo({id:prop.id}),prop.handleCrudState('deletedTask')]}
                     >
                         <Trash />    
                     </span>
@@ -228,5 +231,18 @@ const Task = (prop) => {
         
      );
 }
- 
-export default Task;
+const mapStateToProp = (state) =>{
+    return {
+        toDoData: state,
+    }
+}
+const mapDispatchToProp = (dispatch) => {
+
+    return {
+        
+        updateTask : (task) =>  dispatch(updateTask(task)) ,
+        deleteToDo : (taskId) => dispatch(deletetoDo(taskId)),
+    }
+
+}
+export default connect(mapStateToProp, mapDispatchToProp) (Task);

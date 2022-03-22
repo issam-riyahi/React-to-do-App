@@ -3,10 +3,12 @@ import Task from "./components/Task";
 import AddTask from "./components/AddTask";
 import AddSection from "./components/AddSection";
 import {connect} from "react-redux";
-import { fetchToDo } from "./redux/toDo/toDoAction";
+import { fetchToDo, updateTask } from "./redux/toDo/toDoAction";
 import Laoding from "./components/Laoding";
 
 const Home = ({fetchToDo, toDoData}) => {
+
+    console.log(toDoData)
     // let inSortedList = [];
     let [crudState, setCrudState] = useState({
         addTask: false,
@@ -130,19 +132,19 @@ const Home = ({fetchToDo, toDoData}) => {
     
                 if(taskDate.getDate() === dateNow.getDate() ){
                     // prevItem.todayTasks.push(<Task {...currentitem} key={currentitem.id} doneTask={()=> doneTask(currentitem.id) } />);
-                    prevItem.todayTasks.push(<Task {...currentitem} key={currentitem.id} doneTask={doneTask} handleCrudState={handleCrudState} />);
+                    prevItem.todayTasks.push(<Task {...currentitem} key={currentitem.id}  handleCrudState={handleCrudState} />);
                 }
                 else if(taskDate.getDate() === dateNow.getDate() + 1){
                     // prevItem.tomorrowTasks.push(<Task {...currentitem} key={currentitem.id} doneTask={()=> doneTask(currentitem.id) } />);
-                    prevItem.tomorrowTasks.push(<Task {...currentitem} key={currentitem.id} doneTask={ doneTask } handleCrudState={handleCrudState}  />);
+                    prevItem.tomorrowTasks.push(<Task {...currentitem} key={currentitem.id}  handleCrudState={handleCrudState}  />);
                 }
                 else if(taskDate.getTime() > dateNow.getTime() + 1000 * 60 * 60 * 24) {
                     // prevItem.upcomingTasks.push(<Task {...currentitem} key={currentitem.id} doneTask={ ()=> doneTask(currentitem.id) } />);
-                    prevItem.upcomingTasks.push(<Task {...currentitem} key={currentitem.id} doneTask={ doneTask} handleCrudState={handleCrudState}  />);
+                    prevItem.upcomingTasks.push(<Task {...currentitem} key={currentitem.id}  handleCrudState={handleCrudState}  />);
                     // inSortedList.push(currentitem);
                 }
                 else {
-                    prevItem.tasksNotDone.push(<Task {...currentitem} key={currentitem.id} doneTask={ doneTask} handleCrudState={handleCrudState}  />);
+                    prevItem.tasksNotDone.push(<Task {...currentitem} key={currentitem.id}  handleCrudState={handleCrudState}  />);
                 }
             }
             else{
@@ -282,6 +284,7 @@ const mapDispatchToProp = (dispatch) => {
 
     return {
         fetchToDo : () => dispatch(fetchToDo()),
+        updateTask : (task) =>  updateTask(task) ,
     }
 
 }
