@@ -7,8 +7,7 @@ import { fetchToDo } from "./redux/toDo/toDoAction";
 import Laoding from "./components/Laoding";
 
 const Home = ({fetchToDo, toDoData}) => {
-    let inSortedList = [];
-    let [isPending, setIsPending] = useState(true);
+    // let inSortedList = [];
     let [crudState, setCrudState] = useState({
         addTask: false,
         addSection: false,
@@ -37,16 +36,16 @@ const Home = ({fetchToDo, toDoData}) => {
 
     function addAttribute(index){
 
-        // document.querySelectorAll('.tasks-list')[index].style.maxHeight = document.querySelectorAll('.tasks-list')[index].offsetHeight ;
+        const taskList = document.querySelectorAll('.tasks-list');
         
-        if(document.querySelectorAll('.tasks-list')[index].classList.contains("up-animate")){
+        if(taskList[index].classList.contains("up-animate")){
 
             
 
-            document.querySelectorAll('.tasks-list')[index].className = "tasks-list down-animate";
+            taskList[index].className = "tasks-list down-animate";
         }
         else {
-            document.querySelectorAll('.tasks-list')[index].className = "tasks-list up-animate"
+            taskList[index].className = "tasks-list up-animate"
         }
         
     }
@@ -89,7 +88,7 @@ const Home = ({fetchToDo, toDoData}) => {
         // }
             
         
-    },[isPending]);
+    },[fetchToDo.laoding]);
 
     function handleAddTask() {
         setCrudState(oldvalue => ({...oldvalue , addTask: !oldvalue.addTask }))
@@ -120,42 +119,46 @@ const Home = ({fetchToDo, toDoData}) => {
         ))
     }
 
-    let tasksObject;
-    tasksObject = toDoData.data.reduce((prevItem,currentitem)=>{
-        if(currentitem.done === false){
+    
+    let tasksObject = filterTasks(toDoData.data);
 
-            let taskDate = new Date(currentitem.doDate);
-
-            if(taskDate.getDate() === dateNow.getDate() ){
-                // prevItem.todayTasks.push(<Task {...currentitem} key={currentitem.id} doneTask={()=> doneTask(currentitem.id) } />);
-                prevItem.todayTasks.push(<Task {...currentitem} key={currentitem.id} doneTask={doneTask} handleCrudState={handleCrudState} />);
+    function filterTasks(tasksData){
+       return tasksData.reduce((prevItem,currentitem)=>{
+            if(currentitem.done === false){
+    
+                let taskDate = new Date(currentitem.doDate);
+    
+                if(taskDate.getDate() === dateNow.getDate() ){
+                    // prevItem.todayTasks.push(<Task {...currentitem} key={currentitem.id} doneTask={()=> doneTask(currentitem.id) } />);
+                    prevItem.todayTasks.push(<Task {...currentitem} key={currentitem.id} doneTask={doneTask} handleCrudState={handleCrudState} />);
+                }
+                else if(taskDate.getDate() === dateNow.getDate() + 1){
+                    // prevItem.tomorrowTasks.push(<Task {...currentitem} key={currentitem.id} doneTask={()=> doneTask(currentitem.id) } />);
+                    prevItem.tomorrowTasks.push(<Task {...currentitem} key={currentitem.id} doneTask={ doneTask } handleCrudState={handleCrudState}  />);
+                }
+                else if(taskDate.getTime() > dateNow.getTime() + 1000 * 60 * 60 * 24) {
+                    // prevItem.upcomingTasks.push(<Task {...currentitem} key={currentitem.id} doneTask={ ()=> doneTask(currentitem.id) } />);
+                    prevItem.upcomingTasks.push(<Task {...currentitem} key={currentitem.id} doneTask={ doneTask} handleCrudState={handleCrudState}  />);
+                    // inSortedList.push(currentitem);
+                }
+                else {
+                    prevItem.tasksNotDone.push(<Task {...currentitem} key={currentitem.id} doneTask={ doneTask} handleCrudState={handleCrudState}  />);
+                }
             }
-            else if(taskDate.getDate() === dateNow.getDate() + 1){
-                // prevItem.tomorrowTasks.push(<Task {...currentitem} key={currentitem.id} doneTask={()=> doneTask(currentitem.id) } />);
-                prevItem.tomorrowTasks.push(<Task {...currentitem} key={currentitem.id} doneTask={ doneTask } handleCrudState={handleCrudState}  />);
+            else{
+                prevItem.doneTask.push(<Task {...currentitem} key={currentitem.id} handleCrudState={handleCrudState}  />);
             }
-            else if(taskDate.getTime() > dateNow.getTime() + 1000 * 60 * 60 * 24) {
-                // prevItem.upcomingTasks.push(<Task {...currentitem} key={currentitem.id} doneTask={ ()=> doneTask(currentitem.id) } />);
-                prevItem.upcomingTasks.push(<Task {...currentitem} key={currentitem.id} doneTask={ doneTask} handleCrudState={handleCrudState}  />);
-                inSortedList.push(currentitem);
-            }
-            else {
-                prevItem.tasksNotDone.push(<Task {...currentitem} key={currentitem.id} doneTask={ doneTask} handleCrudState={handleCrudState}  />);
-            }
-        }
-        else{
-            prevItem.doneTask.push(<Task {...currentitem} key={currentitem.id} handleCrudState={handleCrudState}  />);
-        }
-        
-
-        return prevItem;
-    },{
-        todayTasks : [],
-        tomorrowTasks : [],
-        upcomingTasks: [],
-        doneTask: [],
-        tasksNotDone: [],
-    });
+            
+    
+            return prevItem;
+        },{
+            todayTasks : [],
+            tomorrowTasks : [],
+            upcomingTasks: [],
+            doneTask: [],
+            tasksNotDone: [],
+        });
+    }
 
 //     function sortingList(list){
 //         let sort = true ;
@@ -217,7 +220,7 @@ const Home = ({fetchToDo, toDoData}) => {
                     <div className={`task-time ${tasksObject.tomorrowTasks.length ? 'active' : ''}`}>
                         <h3>New Tasks</h3>  
                     </div>
-                    <div className={`tasks-list ${tasksObject.tomorrowTasks.length ? '' : 'up-animate'}`}>
+                    <div className={`tasks-list  ${ toDoData.laoding ? '' : tasksObject.tomorrowTasks.length  ? ''  : 'up-animate'}`}>
                         
                         
                         {toDoData.laoding  ? <Laoding /> : tasksObject.tomorrowTasks.length ?  tasksObject.tomorrowTasks : <div className="no-data">No Tasks </div> }
@@ -227,7 +230,7 @@ const Home = ({fetchToDo, toDoData}) => {
                     <div className={`task-time ${tasksObject.todayTasks.length ? 'active' : ''}`}>
                         <h3>Today Tasks</h3>
                     </div>
-                    <div className={`tasks-list ${tasksObject.todayTasks.length ? '' : 'up-animate'} `}>
+                    <div className={`tasks-list ${ toDoData.laoding ? '' : tasksObject.todayTasks.length  ? ''  : 'up-animate'} `}>
                     
                     {toDoData.laoding  ? <Laoding /> : tasksObject.todayTasks.length ? tasksObject.todayTasks : <div className="no-data">No Tasks </div> }                    
                     </div>
@@ -236,7 +239,7 @@ const Home = ({fetchToDo, toDoData}) => {
                     <div className={`task-time ${tasksObject.upcomingTasks.length  ? 'active' : ''}`}>
                         <h3>Upcoming Tasks</h3>
                     </div>
-                    <div className="tasks-list">
+                    <div className={`tasks-list ${ toDoData.laoding ? '' : tasksObject.upcomingTasks.length  ? ''  : 'up-animate'} `}>
                     
                     {toDoData.laoding  ? <Laoding /> : tasksObject.upcomingTasks.length ? tasksObject.upcomingTasks : <div className="no-data">No Tasks </div> }  
                     </div>
@@ -246,7 +249,7 @@ const Home = ({fetchToDo, toDoData}) => {
                     <div className={`task-time ${tasksObject.doneTask.length ? 'active' : ''}`}>
                         <h3>Done Tasks</h3>
                     </div>
-                    <div className="tasks-list">
+                    <div className={`tasks-list ${ toDoData.laoding ? '' : tasksObject.doneTask.length  ? ''  : 'up-animate'} `}>
                     {toDoData.laoding  ? <Laoding /> : tasksObject.doneTask.length ? tasksObject.doneTask : <div className="no-data">No Tasks </div> }    
                     </div>
                     
@@ -255,7 +258,7 @@ const Home = ({fetchToDo, toDoData}) => {
                     <div className={`task-time ${tasksObject.tasksNotDone.length ? 'active' : ''}`}>
                         <h3>Tasks not Done</h3>
                     </div>
-                    <div className="tasks-list">
+                    <div className={`tasks-list ${ toDoData.laoding ? '' : tasksObject.tasksNotDone.length  ? ''  : 'up-animate'} `}>
                     
                     {toDoData.laoding  ? <Laoding /> : tasksObject.tasksNotDone.length ? tasksObject.tasksNotDone : <div className="no-data">No Tasks </div> }     
                     </div>
