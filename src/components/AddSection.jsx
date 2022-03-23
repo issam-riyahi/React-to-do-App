@@ -4,7 +4,7 @@ import UpdateFetch from "../GolobalMethods/UpdateFetch";
 
 
 const AddSection = (prop) => {
-
+    console.log(prop)
     const [section, setSection] = useState({
         name: "",
         color: "#333333",
@@ -25,7 +25,7 @@ const AddSection = (prop) => {
 
             })
 
-            prop.handleAddSection();
+            prop.handleAddSection('addSection');
         }
     }
 
@@ -35,7 +35,7 @@ const AddSection = (prop) => {
                 <div className="close">
                     <button 
                     className="btn-close"
-                    onClick={prop.handleAddSection}
+                    onClick={()=> prop.handleAddSection('addSection')}
                     >
 
                     <img className="icon i-close" src="./images/xmark.svg" alt="" />

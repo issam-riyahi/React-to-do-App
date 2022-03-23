@@ -57,37 +57,7 @@ const Task = (prop) => {
     let {dateText, style} = setupDate();
 
     
-    // useEffect(()=>{
-
-    //     fetch("http://localhost:3001/sections")
-    //     .then(res => res.json())
-    //    .then(data => 
-
-    //         data.forEach(item => {
-    //             if(item.id ===  parseInt(prop.section) ){
-    //                  setSection(item) ;
-    //             }
-    //         })
-    //     );
-    // },[]);
-    
-    // function UpdateTask(id) {
-
-    //     fetch("http://localhost:3001/Tasks/"+id,{
-    //         method: 'PUT',
-    //         body: JSON.stringify({ id: id, title: prop.title , doDate: prop.doDate, section: prop.section , done: true}),
-    //         headers: {
-    //             'Content-Type': 'application/json',
-    //           },
-    //     })
-    //     .then(res => res.json())
-    //     .then(data => {
-    //         console.log('Success:', data);
-    //     })
-    //     .catch((error) => {
-    //         console.error('Error:', error);
-    //     });
-    // }
+   
 
     function handleUpdate() {
         setUpdate(oldValue => !oldValue);
@@ -126,16 +96,7 @@ const Task = (prop) => {
 
                 
                     <div 
-                        className="click-icon"
-                        //  onClick={ prop.done === false ?  () => [UpdateFetch(prop.id, 
-                        //     "http://localhost:3001/Tasks/",
-                        //     {
-                        //     method: 'PUT',
-                        //     body: JSON.stringify({ id: prop.id, title: prop.title , doDate: prop.doDate, section: prop.section , done: true}),
-                        //     headers: {
-                        //         'Content-Type': 'application/json',
-                        //       },
-                        // }),prop.doneTask(prop.id)] : ()=> {}}       
+                        className="click-icon"   
 
                             onClick={()=> { !prop.done ?  prop.updateTask({ id: prop.id, title: prop.title , doDate: prop.doDate, section: prop.section , done: true}) : ()=>{}}}
                     >
@@ -158,12 +119,6 @@ const Task = (prop) => {
 
                 </div>
                 <div className="task-section-date">
-                        {/* <span 
-                            className="task-status" 
-                            style={{backgroundColor: prop.status.color}} 
-                        >
-                            {prop.status.statusTag}
-                        </span> */}
                     { update 
                 ?   <select 
                         className="Update-select"
@@ -198,16 +153,7 @@ const Task = (prop) => {
                     <span 
                     
                         className="Complete-update"
-                        // onClick={(prop.title !== updatedData.title || prop.section !== updatedData.section ) 
-                        //     ? () => [UpdateFetch(prop.id, "http://localhost:3001/Tasks/",
-                        //     {
-                        //         method: 'PUT',
-                        //         body: JSON.stringify({ id: prop.id, title: updatedData.title , doDate: prop.doDate, section: updatedData.section , done: prop.done}),
-                        //         headers: {
-                        //             'Content-Type': 'application/json',
-                        //         },
-                        //     }),handleUpdate(),prop.handleCrudState('updateTask')] 
-                        //     : handleUpdate}
+                
                         onClick={(prop.title !== updatedData.title || prop.section !== updatedData.section ) 
                             ? () => [prop.updateTask({ id: prop.id, title: updatedData.title , doDate: prop.doDate, section: updatedData.section , done: prop.done}),handleUpdate(),prop.handleCrudState('updateTask')] 
                             : ()=>{}}
@@ -231,11 +177,11 @@ const Task = (prop) => {
         
      );
 }
-const mapStateToProp = (state) =>{
-    return {
-        toDoData: state,
-    }
-}
+// const mapStateToProp = (state) =>{
+//     return {
+//         toDoData: state,
+//     }
+// }
 const mapDispatchToProp = (dispatch) => {
 
     return {
@@ -245,4 +191,4 @@ const mapDispatchToProp = (dispatch) => {
     }
 
 }
-export default connect(mapStateToProp, mapDispatchToProp) (Task);
+export default connect(null, mapDispatchToProp) (Task);

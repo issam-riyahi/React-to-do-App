@@ -1,10 +1,12 @@
 import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import GetFetch from "../GolobalMethods/GetFetch";
-import UpdateFetch from "../GolobalMethods/UpdateFetch";
+import { creatToDo } from "../redux/toDo/toDoAction";
 
 const AddTask = (prop) => {
-
-    // const [section, setSection] = useState([]);
+    const dispatch = useDispatch();
+    const lastId = useSelector((state) => ( state.data.length ? state.data[state.data.length - 1].id : 0));
+    console.log(lastId)
     let section = [...GetFetch("http://localhost:3001/sections")];
     const [taskData, setTaskData] = useState({
         title: "",
@@ -12,19 +14,11 @@ const AddTask = (prop) => {
         doDate: "",
         status: {
             statusTag: "",
-            color: "333333",
+            color: "#333333",
         },
         done: false,
     })
-    console.log(taskData)
-    // useEffect(()=>{
-
-    //     fetch("http://localhost:3001/sections")
-    //     .then(res => res.json())
-    //    .then(data => setSection(data) );
-    // },[]);
-    
-    // setSection(GetFetch("http://localhost:3001/sections"))
+   
     function addTaskClick(e){
         e.preventDefault();
 
@@ -33,23 +27,10 @@ const AddTask = (prop) => {
         }
         
         if(taskData.title !== "" && taskData.section !== "" && taskData.doDate !== ""){
-            // fetch("http://localhost:3001/Tasks",{
-            //     method: 'POST',
-            //     body: JSON.stringify(taskData),
-            //     headers: { 'content-Type' : 'Application/json' }
-            // })
-            // .then(res => {
-                
-            //     prop.handleAddTask();
-            // })
-            // .catch(err => {
-            //     console.log(err)
-            // })
-            UpdateFetch(null, "http://localhost:3001/Tasks",{
-                method: 'POST',
-                body: JSON.stringify(taskData),
-                headers: { 'content-Type' : 'Application/json' }
-            },prop.handleAddTask)
+           
+            
+            dispatch(creatToDo({id: lastId + 1,...taskData}));
+            prop.handleAddTask('addTask');
         }
         else {
             console.log("no")
@@ -79,7 +60,7 @@ const AddTask = (prop) => {
                 <div className="close">
                     <button 
                     className="btn-close"
-                    onClick={prop.handleAddTask}
+                    onClick={() => prop.handleAddTask('addTask')}
                     >
 
                     <img className="icon i-close" src="./images/xmark.svg" alt="" />

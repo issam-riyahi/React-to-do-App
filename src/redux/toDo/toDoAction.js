@@ -1,4 +1,11 @@
-import { TODO_FETCH_SUCCESS, TODO_FETCH_REQUEST, TODO_FETCH_ERROR, TODO_UPDATE_REQUEST, TODO_DELETE_REQUEST } from "./toDoTypes";
+import {    
+        TODO_FETCH_SUCCESS, 
+        TODO_FETCH_REQUEST, 
+        TODO_FETCH_ERROR, 
+        TODO_UPDATE_REQUEST, 
+        TODO_DELETE_REQUEST,
+        TODO_CREAT_REQUEST
+ } from "./toDoTypes";
 import axios from "axios";
 
 
@@ -33,6 +40,14 @@ export const deletetoDoAction = (taskId) => {
     }
 }
 
+export const addToDo = (toDo) => {
+    return {
+        type: TODO_CREAT_REQUEST,
+        
+        paylaod: toDo,
+    }
+}
+
 export const fetchToDo = () => dispatch => {
     dispatch(toDoRequest());
     axios.get('http://localhost:3001/Tasks')
@@ -40,7 +55,7 @@ export const fetchToDo = () => dispatch => {
         setTimeout(()=> {
             dispatch(toDoSuccess(res.data))   
             
-        },3000)
+        },1000)
     })
     .catch(error => dispatch(toDoError(error)));
 }
@@ -62,6 +77,16 @@ export const deletetoDo = (task) => dispatch => {
     .then(res => {
         console.log(res);
         dispatch(deletetoDoAction(task))
+    })
+    .catch(error => console.log(error));
+}
+export const creatToDo = (task) => dispatch => {
+    axios.post(`http://localhost:3001/Tasks/`,{
+        ...task
+    })
+    .then(res => {
+        console.log(res);
+        dispatch(addToDo(task))
     })
     .catch(error => console.log(error));
 }

@@ -10,6 +10,7 @@ const Home = ({fetchToDo, toDoData}) => {
 
     console.log(toDoData)
     // let inSortedList = [];
+    let tasksObject = [];
     let [crudState, setCrudState] = useState({
         addTask: false,
         addSection: false,
@@ -54,101 +55,54 @@ const Home = ({fetchToDo, toDoData}) => {
     useEffect(()=>{
         
 
-        // console.log('inside')
         function addClasses(index, item){
-
             item.classList.toggle('active');
             addAttribute(index);
-            // console.log(index, item)
-        }
+        }   
 
-       
-
-        // if(document.querySelector('.tasks-list') !== null){
-
+        document.querySelectorAll('.task-time').forEach((item, index) => {
+            var hadnelCopy = addClasses.bind(null,index,item);
+            item.addEventListener('click',hadnelCopy);
             
-                // console.log(document.querySelectorAll('.task-time'))
-                document.querySelectorAll('.task-time').forEach((item, index) => {
-                    // item.addEventListener('click',addAttribute.bind(this,index));
-                    var hadnelCopy = addClasses.bind(null,index,item);
-                    // console.log(item);
-                    item.addEventListener('click',hadnelCopy);
-                    // item.addEventListener('click',testClick);
-                    
-                })
-                // return function cleanup() 
-                // {
-                    
-                //     console.log(2);
-                //     document.querySelectorAll('.task-time').forEach((item, index) => {
-                //         // var hadnelCopy = addClasses.bind(null,index,item);
-                //         // item.removeEventListener('click',hadnelCopy);
-                        
-                //         // console.log(hadnelCopy);
-                //     })
-                // };
-        // }
-            
-        
-    },[fetchToDo.laoding]);
+        })
+    },[]);
 
-    function handleAddTask() {
-        setCrudState(oldvalue => ({...oldvalue , addTask: !oldvalue.addTask }))
-    }
-    function handleAddSection() {
-        setCrudState(oldvalue => ({...oldvalue , addSection: !oldvalue.addSection }))
-    }
-  
+    
 
 
     function handleCrudState(method){
-        // if(method === 'addTask'){
-            setCrudState(oldvalue => ({...oldvalue , [method]: !oldvalue.addTask }))
-        // }
-        // else if(method === 'addSection'){
-        //     setCrudState(oldvalue => ({...oldvalue , addSection: !oldvalue.addSection }))
-        // }
-        // else if(method === 'updateTask'){
-        //     setCrudState(oldvalue => ({...oldvalue , updateTask: !oldvalue.updateTask }))
-        // }
-        // else if(method === 'deleteTask') {
-        //     setCrudState(oldvalue => ({...oldvalue , deletedTask: !oldvalue.deletedTask }))
-        // }
+            setCrudState(oldvalue => ({...oldvalue , [method]: !oldvalue[method] }))
     }
-    function doneTask(id) {
-        setAllTasks(oldvalue => (
-            oldvalue.map(task => task.id === id ? ({...task, done: true}) : task)
-        ))
-    }
+    
 
     
-    let tasksObject = filterTasks(toDoData.data);
+    tasksObject = filterTasks(toDoData.data);
 
     function filterTasks(tasksData){
-       return tasksData.reduce((prevItem,currentitem)=>{
+       return tasksData.reduce((prevItem,currentitem,index)=>{
             if(currentitem.done === false){
     
                 let taskDate = new Date(currentitem.doDate);
     
                 if(taskDate.getDate() === dateNow.getDate() ){
                     // prevItem.todayTasks.push(<Task {...currentitem} key={currentitem.id} doneTask={()=> doneTask(currentitem.id) } />);
-                    prevItem.todayTasks.push(<Task {...currentitem} key={currentitem.id}  handleCrudState={handleCrudState} />);
+                    prevItem.todayTasks.push(<Task {...currentitem} key={index}  handleCrudState={handleCrudState} />);
                 }
                 else if(taskDate.getDate() === dateNow.getDate() + 1){
                     // prevItem.tomorrowTasks.push(<Task {...currentitem} key={currentitem.id} doneTask={()=> doneTask(currentitem.id) } />);
-                    prevItem.tomorrowTasks.push(<Task {...currentitem} key={currentitem.id}  handleCrudState={handleCrudState}  />);
+                    prevItem.tomorrowTasks.push(<Task {...currentitem} key={index}  handleCrudState={handleCrudState}  />);
                 }
                 else if(taskDate.getTime() > dateNow.getTime() + 1000 * 60 * 60 * 24) {
                     // prevItem.upcomingTasks.push(<Task {...currentitem} key={currentitem.id} doneTask={ ()=> doneTask(currentitem.id) } />);
-                    prevItem.upcomingTasks.push(<Task {...currentitem} key={currentitem.id}  handleCrudState={handleCrudState}  />);
+                    prevItem.upcomingTasks.push(<Task {...currentitem} key={index}  handleCrudState={handleCrudState}  />);
                     // inSortedList.push(currentitem);
                 }
                 else {
-                    prevItem.tasksNotDone.push(<Task {...currentitem} key={currentitem.id}  handleCrudState={handleCrudState}  />);
+                    prevItem.tasksNotDone.push(<Task {...currentitem} key={index}  handleCrudState={handleCrudState}  />);
                 }
             }
             else{
-                prevItem.doneTask.push(<Task {...currentitem} key={currentitem.id} handleCrudState={handleCrudState}  />);
+                prevItem.doneTask.push(<Task {...currentitem} key={index} handleCrudState={handleCrudState}  />);
             }
             
     
@@ -162,37 +116,7 @@ const Home = ({fetchToDo, toDoData}) => {
         });
     }
 
-//     function sortingList(list){
-//         let sort = true ;
-//         let arr = list;
-//         if(arr.length > 0 ){
-//         while(sort){
-                
-//             for(let i = 0 ; i < arr.length - 1  ; i += 1  ){
-//                 console.log(i)
-                
-//             let currentDate = new Date(arr[i].doDate).getTime();
-//             let nextDate = new Date(arr[i + 1].doDate).getTime();
 
-//                 if(currentDate > nextDate ){
-//                     let temp = arr[i] ;
-//                     arr[i] = arr[i + 1];
-//                     arr[i + 1] = temp;
-//                     sort = true ;
-//                 }
-//                 sort = false ;
-//             }
-//         }
-        
-        
-//         return arr;
-
-//     }
-// }
-//     let sortUpcoingList = sortingList(inSortedList);
-//     console.log(sortUpcoingList);
-
-    // console.log(inSortedList)
 
     useEffect(()=>{
         fetchToDo();
@@ -201,20 +125,20 @@ const Home = ({fetchToDo, toDoData}) => {
     return ( 
 
         <>
-        { crudState.addTask &&  <AddTask handleAddTask={handleAddTask} />}
+        { crudState.addTask &&  <AddTask handleAddTask={handleCrudState} />}
         
-        { crudState.addSection &&  <AddSection handleAddSection={handleAddSection} />}
+        { crudState.addSection &&  <AddSection handleAddSection={handleCrudState} />}
         <div className="container-task">
             <div className="add">
                 <span 
                     className="add-task" 
-                    onClick={handleAddTask}
+                    onClick={() =>  handleCrudState('addTask')}
                 >
                     Add Task
                 </span>
                 <span 
                     className="add-section"
-                    onClick={handleAddSection}
+                    onClick={() =>  handleCrudState('addSection')}
                 > Add Section</span>
             </div>
             <div className="tasks">
@@ -271,7 +195,6 @@ const Home = ({fetchToDo, toDoData}) => {
         
         
         </>
-        // <h1>Hello, World</h1>
      );
 }
 
