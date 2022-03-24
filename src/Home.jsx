@@ -5,11 +5,10 @@ import AddSection from "./components/AddSection";
 import {connect} from "react-redux";
 import { fetchToDo, updateTask } from "./redux/toDo/toDoAction";
 import Laoding from "./components/Laoding";
+import { getSection } from "./redux/section/sectionAction";
 
-const Home = ({fetchToDo, toDoData}) => {
+const Home = ({fetchToDo, getSection , toDoData}) => {
 
-    console.log(toDoData)
-    // let inSortedList = [];
     let tasksObject = [];
     let [crudState, setCrudState] = useState({
         addTask: false,
@@ -19,23 +18,6 @@ const Home = ({fetchToDo, toDoData}) => {
     });
     let dateNow = new Date();
     
-
-    // useEffect(()=> {
-    //     const abortControl = new AbortController();
-    //     fetch('http://localhost:3001/Tasks',{
-    //         signal: abortControl.signal,
-    //     })
-    //     .then(res => res.json())
-    //     .then(data => {
-    //         setAllTasks(data)
-    //         setIsPending(false);
-    //     })
-
-    //     return function cleanup(){
-    //         console.log(2)
-    //         abortControl.abort();
-    //     }
-    // },[crudState]);
 
     function addAttribute(index){
 
@@ -120,6 +102,7 @@ const Home = ({fetchToDo, toDoData}) => {
 
     useEffect(()=>{
         fetchToDo();
+        getSection();
     },[])
 
     return ( 
@@ -200,14 +183,15 @@ const Home = ({fetchToDo, toDoData}) => {
 
 const mapStateToProp = (state) =>{
     return {
-        toDoData: state,
+        toDoData: state.task,
     }
 }
 const mapDispatchToProp = (dispatch) => {
 
     return {
         fetchToDo : () => dispatch(fetchToDo()),
-        updateTask : (task) =>  updateTask(task) ,
+        // updateTask : (task) =>  updateTask(task) ,
+        getSection : () => dispatch(getSection())
     }
 
 }

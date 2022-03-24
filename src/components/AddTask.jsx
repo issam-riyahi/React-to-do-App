@@ -1,13 +1,14 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import GetFetch from "../GolobalMethods/GetFetch";
+import { getSection } from "../redux/section/sectionAction";
 import { creatToDo } from "../redux/toDo/toDoAction";
 
 const AddTask = (prop) => {
     const dispatch = useDispatch();
-    const lastId = useSelector((state) => ( state.data.length ? state.data[state.data.length - 1].id : 0));
-    console.log(lastId)
-    let section = [...GetFetch("http://localhost:3001/sections")];
+    const lastId = useSelector((state) => ( state.task.data.length ? state.task.data[state.task.data.length - 1].id : 0));
+    const sections = useSelector(state => state.section);
+    console.log(sections)
     const [taskData, setTaskData] = useState({
         title: "",
         section: "",
@@ -18,7 +19,10 @@ const AddTask = (prop) => {
         },
         done: false,
     })
-   
+    
+    // useEffect(()=>{
+    //     dispatch(getSection());
+    // },[])
     function addTaskClick(e){
         e.preventDefault();
 
@@ -37,7 +41,7 @@ const AddTask = (prop) => {
         }
         
             
-        }
+    }
      
         
         
@@ -48,9 +52,9 @@ const AddTask = (prop) => {
 
         
     }   
-    let sectionElements = section.map(item => {
+    let sectionElements = sections.data.allId.map(item => {
         return (
-            <option key={item.id} value={item.id} >{item.name}</option>
+            <option key={item} value={item} >{sections.data.byId[item].name}</option>
         )
     })
 

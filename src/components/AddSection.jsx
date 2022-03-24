@@ -1,10 +1,11 @@
 import { useState } from "react";
-import UpdateFetch from "../GolobalMethods/UpdateFetch";
+import { useDispatch, useSelector } from "react-redux";
+import { createSection } from "../redux/section/sectionAction";
 
 
 
 const AddSection = (prop) => {
-    console.log(prop)
+    const dispatch = useDispatch();
     const [section, setSection] = useState({
         name: "",
         color: "#333333",
@@ -18,12 +19,8 @@ const AddSection = (prop) => {
     function addSection(e){
         e.preventDefault();
         if(section.name !== ""){
-            UpdateFetch(null, "http://localhost:3001/sections",{
-                method: 'POST',
-                body: JSON.stringify(section),
-                headers: { 'content-Type' : 'Application/json' }
-
-            })
+           
+            dispatch(createSection(section));
 
             prop.handleAddSection('addSection');
         }
@@ -70,7 +67,8 @@ const AddSection = (prop) => {
                         className="btn" 
                         onClick={(e) => addSection(e)}
                     >
-                        Add Task</button>
+                        Add Task
+                    </button>
                     </div>
                 </form>
             </div>
