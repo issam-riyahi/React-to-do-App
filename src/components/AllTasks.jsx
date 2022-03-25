@@ -28,8 +28,3 @@ const AllTasks = () => {
  
 export default AllTasks;
 
-<div className="all-tasks-container">
-
-   <SectionNav />
-   <TableTasks /> 
-    </div>

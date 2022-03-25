@@ -1,30 +1,25 @@
 import { useEffect, useState } from "react";
-import GetFetch from "../GolobalMethods/GetFetch";
-import UpdateFetch from "../GolobalMethods/UpdateFetch";
+import { useDispatch, useSelector } from "react-redux";
+import { creatToDo } from "../redux/toDo/toDoAction";
 
 const AddTask = (prop) => {
-
-    // const [section, setSection] = useState([]);
-    let section = [...GetFetch("http://localhost:3001/sections")];
+    const dispatch = useDispatch();
+    const sections = useSelector(state => state.section);
+    console.log(sections)
     const [taskData, setTaskData] = useState({
         title: "",
         section: "",
         doDate: "",
         status: {
             statusTag: "",
-            color: "333333",
+            color: "#333333",
         },
         done: false,
     })
-    console.log(taskData)
-    // useEffect(()=>{
-
-    //     fetch("http://localhost:3001/sections")
-    //     .then(res => res.json())
-    //    .then(data => setSection(data) );
-    // },[]);
     
-    // setSection(GetFetch("http://localhost:3001/sections"))
+    // useEffect(()=>{
+    //     dispatch(getSection());
+    // },[])
     function addTaskClick(e){
         e.preventDefault();
 
@@ -33,30 +28,17 @@ const AddTask = (prop) => {
         }
         
         if(taskData.title !== "" && taskData.section !== "" && taskData.doDate !== ""){
-            // fetch("http://localhost:3001/Tasks",{
-            //     method: 'POST',
-            //     body: JSON.stringify(taskData),
-            //     headers: { 'content-Type' : 'Application/json' }
-            // })
-            // .then(res => {
-                
-            //     prop.handleAddTask();
-            // })
-            // .catch(err => {
-            //     console.log(err)
-            // })
-            UpdateFetch(null, "http://localhost:3001/Tasks",{
-                method: 'POST',
-                body: JSON.stringify(taskData),
-                headers: { 'content-Type' : 'Application/json' }
-            },prop.handleAddTask)
+           
+            
+            dispatch(creatToDo({...taskData}));
+            prop.handleAddTask('addTask');
         }
         else {
             console.log("no")
         }
         
             
-        }
+    }
      
         
         
@@ -67,9 +49,9 @@ const AddTask = (prop) => {
 
         
     }   
-    let sectionElements = section.map(item => {
+    let sectionElements = sections.data.allId.map(item => {
         return (
-            <option key={item.id} value={item.id} >{item.name}</option>
+            <option key={item} value={item} >{sections.data.byId[item].name}</option>
         )
     })
 
@@ -79,7 +61,7 @@ const AddTask = (prop) => {
                 <div className="close">
                     <button 
                     className="btn-close"
-                    onClick={prop.handleAddTask}
+                    onClick={() => prop.handleAddTask('addTask')}
                     >
 
                     <img className="icon i-close" src="./images/xmark.svg" alt="" />

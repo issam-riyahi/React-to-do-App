@@ -5,165 +5,27 @@
       "title": "learn Php Session",
       "doDate": "3/1/2022",
       "section": "7",
-      "done": false,
-      "status": ""
+      "done": true
     },
     {
       "id": 5,
       "title": "Learn React Class",
       "doDate": "3/20/2022",
       "section": 4,
-      "done": false,
-      "status": ""
-    },
-    {
-      "id": 6,
-      "title": "add some features in App to do",
-      "doDate": "2022-03-03",
-      "section": "3",
-      "done": false,
-      "status": ""
-    },
-    {
-      "id": 8,
-      "title": "Test 2",
-      "doDate": "2022-03-05",
-      "section": "2",
-      "done": false,
-      "status": ""
-    },
-    {
-      "id": 9,
-      "title": "Test 3 ",
-      "doDate": "2022-03-04",
-      "section": "1",
-      "done": true,
-      "status": ""
-    },
-    {
-      "id": 12,
-      "title": "Task not Done ",
-      "doDate": "2022-03-01",
-      "section": "4",
-      "done": false,
-      "status": ""
-    },
-    {
-      "id": 13,
-      "title": "Imane ",
-      "doDate": "2022-03-03",
-      "section": "6",
-      "done": false,
-      "status": ""
-    },
-    {
-      "id": 14,
-      "title": "test date",
-      "doDate": "2022-03-10",
-      "section": "7",
-      "done": false
-    },
-    {
-      "id": 16,
-      "title": "dsadaaaaaa12",
-      "doDate": "2022-03-09",
-      "section": "4",
-      "done": false,
-      "status": ""
-    },
-    {
-      "title": "hello",
-      "section": "6",
-      "doDate": "2022-04-01",
-      "done": false,
-      "id": 17,
-      "status": ""
-    },
-    {
-      "id": 18,
-      "title": "issam",
-      "doDate": "2022-03-30",
-      "section": "4",
-      "done": false
-    },
-    {
-      "id": 19,
-      "title": "hhhhhhh",
-      "doDate": "2022-04-01",
-      "section": "8",
       "done": true
     },
     {
-      "id": 20,
-      "title": "web dev",
-      "doDate": "2022-03-29",
-      "section": "6",
-      "done": true
-    },
-    {
-      "title": "hello",
-      "section": "1",
-      "doDate": "2022-03-11",
-      "done": false,
       "id": 21,
-      "status": ""
-    },
-    {
-      "title": "Create Crud Application in Php",
+      "title": "hello",
+      "doDate": "2022-03-11",
       "section": "1",
-      "doDate": "2022-03-31",
-      "done": false,
-      "id": 22,
-      "status": ""
+      "done": true
     },
     {
-      "title": "Learn About Http",
-      "section": "5",
-      "doDate": "2022-03-24",
-      "done": false,
       "id": 23,
-      "status": ""
-    },
-    {
-      "title": "Learn about proxies",
-      "section": "5",
+      "title": "Learn About Http",
       "doDate": "2022-03-24",
-      "done": false,
-      "id": 24,
-      "status": ""
-    },
-    {
-      "title": "rwrwr",
-      "section": "2",
-      "doDate": "2022-03-30",
-      "status": "",
-      "done": false,
-      "id": 26
-    },
-    {
-      "title": "sasa",
-      "section": "2",
-      "doDate": "2022-04-05",
-      "status": "",
-      "done": false,
-      "id": 27
-    },
-    {
-      "title": "ssss",
-      "section": "4",
-      "doDate": "2022-03-23",
-      "status": {
-        "statusTag": "",
-        "color": ""
-      },
-      "done": false,
-      "id": 28
-    },
-    {
-      "id": 29,
-      "title": "test status",
-      "doDate": "2022-03-30",
-      "section": "6",
+      "section": "5",
       "done": true
     }
   ],
@@ -207,6 +69,50 @@
       "name": "Bolckchain",
       "color": "#ffd500",
       "id": 8
+    },
+    {
+      "id": 10,
+      "name": "music",
+      "color": "#333333"
+    },
+    {
+      "id": 11,
+      "name": "music",
+      "color": "#df1616"
+    },
+    {
+      "id": 12,
+      "name": "issam",
+      "color": "#333333"
+    },
+    {
+      "id": 13,
+      "name": "test1",
+      "color": "#333333"
+    },
+    {
+      "id": 14,
+      "name": "test2",
+      "color": "#333333"
+    },
+    {
+      "name": "SBCPA966GPL5",
+      "color": "#333333",
+      "id": 15
+    },
+    {
+      "name": "RIYAHI",
+      "color": "#0dfdad",
+      "id": 16
+    }
+  ],
+  "users": [
+    {
+      "userID": 1,
+      "userName": "issam",
+      "fullName": "issam-eddine",
+      "email": "issamriyahi2@gmail.com",
+      "password": "test123"
     }
   ]
 }
