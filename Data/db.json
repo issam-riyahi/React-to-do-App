@@ -27,13 +27,6 @@
       "doDate": "2022-03-24",
       "section": "5",
       "done": true
-    },
-    {
-      "id": 24,
-      "title": "issamarr",
-      "doDate": "2022-03-31",
-      "section": "6",
-      "done": false
     }
   ],
   "sections": [
@@ -111,6 +104,15 @@
       "name": "RIYAHI",
       "color": "#0dfdad",
       "id": 16
+    }
+  ],
+  "users": [
+    {
+      "userID": 1,
+      "userName": "issam",
+      "fullName": "issam-eddine",
+      "email": "issamriyahi2@gmail.com",
+      "password": "test123"
     }
   ]
 }

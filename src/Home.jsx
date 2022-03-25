@@ -3,7 +3,7 @@ import Task from "./components/Task";
 import AddTask from "./components/AddTask";
 import AddSection from "./components/AddSection";
 import {connect} from "react-redux";
-import { fetchToDo, updateTask } from "./redux/toDo/toDoAction";
+import { fetchToDo } from "./redux/toDo/toDoAction";
 import Laoding from "./components/Laoding";
 import { getSection } from "./redux/section/sectionAction";
 
@@ -101,7 +101,7 @@ const Home = ({fetchToDo, getSection , toDoData}) => {
 
 
     useEffect(()=>{
-        fetchToDo();
+        fetchToDo(true);
         getSection();
     },[])
 

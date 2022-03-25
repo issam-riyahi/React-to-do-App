@@ -1,12 +1,9 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import GetFetch from "../GolobalMethods/GetFetch";
-import { getSection } from "../redux/section/sectionAction";
 import { creatToDo } from "../redux/toDo/toDoAction";
 
 const AddTask = (prop) => {
     const dispatch = useDispatch();
-    const lastId = useSelector((state) => ( state.task.data.length ? state.task.data[state.task.data.length - 1].id : 0));
     const sections = useSelector(state => state.section);
     console.log(sections)
     const [taskData, setTaskData] = useState({
@@ -33,7 +30,7 @@ const AddTask = (prop) => {
         if(taskData.title !== "" && taskData.section !== "" && taskData.doDate !== ""){
            
             
-            dispatch(creatToDo({id: lastId + 1,...taskData}));
+            dispatch(creatToDo({...taskData}));
             prop.handleAddTask('addTask');
         }
         else {

@@ -48,14 +48,17 @@ export const addToDo = (toDo) => {
     }
 }
 
-export const fetchToDo = () => dispatch => {
-    dispatch(toDoRequest());
+export const fetchToDo = (firstLoading = true) => dispatch => {
+    if(firstLoading){
+        dispatch(toDoRequest());
+        
+    }
     axios.get('http://localhost:3001/Tasks')
     .then(res => {
-        setTimeout(()=> {
+       
             dispatch(toDoSuccess(res.data))   
             
-        },1000)
+       
     })
     .catch(error => dispatch(toDoError(error)));
 }
@@ -85,8 +88,9 @@ export const creatToDo = (task) => dispatch => {
         ...task
     })
     .then(res => {
-        console.log(res);
-        dispatch(addToDo(task))
+        // console.log(res);
+        dispatch(addToDo(task));
+        dispatch(fetchToDo(false));
     })
     .catch(error => console.log(error));
 }

@@ -54,7 +54,7 @@ const toDoReducer = (state = initailState , action) => {
                 })
             }
         case TODO_CREAT_REQUEST :
-            state.data.push({...action.paylaod})
+            // state.data.push({...action.paylaod})
             return {
                 ...state,
             }
