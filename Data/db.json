@@ -8,20 +8,6 @@
       "done": true
     },
     {
-      "id": 5,
-      "title": "Learn React Class",
-      "doDate": "3/20/2022",
-      "section": 4,
-      "done": true
-    },
-    {
-      "id": 21,
-      "title": "hello",
-      "doDate": "2022-03-11",
-      "section": "1",
-      "done": true
-    },
-    {
       "id": 23,
       "title": "Learn About Http",
       "doDate": "2022-03-24",
