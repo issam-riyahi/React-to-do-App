@@ -432,7 +432,7 @@ tr:nth-child(even) {
 }
 .register-container,
 .login-container {
-  width: 400px;
+  width: 450px;
   background-color: #ffffff;
   padding: 1.5rem 2rem;
   border-radius: 5px;
@@ -446,13 +446,15 @@ tr:nth-child(even) {
 }
 .register form,
 .login form {
-  margin: 1rem 0;
+  margin: 1.5rem 0;
 }
 .register .input-section,
 .login .input-section {
   display: flex;
   flex-direction: column;
   margin: .7rem 0;
+  height: 60px;
+  position: relative;
 }
 .register .input-section label,
 .login .input-section label {
@@ -473,5 +475,67 @@ tr:nth-child(even) {
   cursor: pointer;
   background-color: rgb(71, 177, 238);
   color: white;
-  float: right;
+  
+}
+.register .input-section .err.showError {
+  display: block;
+}
+.register .input-section .err,
+.login .input-section .err {
+  /* position: absolute; */
+  /* background-color: #ff6a6a ; */
+  width: 100%;
+  /* padding: .3rem .5rem; */
+  color: #d80000;
+  top: 108%;
+  z-index: 99;
+  border-radius: 5px;
+  display: none;
+  margin-bottom: 10px;
+}
+
+.register-footer {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 25px;
+}
+/* .register .err ::before {
+
+  position:absolute;
+  content: '';
+  width: 10px;
+  height: 10px;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-bottom: 5px solid #ff6a6a;
+  top: -5px;
+} */
+
+.err .msg-error {
+  font-size: 13px;
+}
+.register .pwd-section {
+  height: auto;
+}
+
+.login-link {
+  float: left;
+  margin-top: -5px;
+}
+.login-link a {
+  color: black;
+  /* line-height: 20px; */
+}
+.error-message-g {
+  padding: 1rem;
+  color: white;
+  font-size: 15px;
+  background-color: #ff5b5b;
+  border-radius: 3px;
+  margin-top: 20px;
+  display: none;
+}
+
+.error-message-g.showError {
+  display: block;
 }

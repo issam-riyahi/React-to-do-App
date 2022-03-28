@@ -94,11 +94,55 @@
   ],
   "users": [
     {
-      "userID": 1,
-      "userName": "issam",
+      "id": 1,
+      "userId": 1,
+      "username": "issam",
       "fullName": "issam-eddine",
       "email": "issamriyahi2@gmail.com",
       "password": "test123"
+    },
+    {
+      "id": 2,
+      "userId": 2,
+      "username": "issam-test",
+      "fullName": "issam-eddine",
+      "email": "issamriyahi2@gmail.com",
+      "password": "test123"
+    },
+    {
+      "username": "issam2",
+      "email": "issamriyahi2@gmail.com",
+      "fullName": "issam2",
+      "password": "IssRI123456@",
+      "id": 5
+    },
+    {
+      "username": "issam-",
+      "email": "issamriyahi2@gmail.com",
+      "fullName": "issam",
+      "password": "IssRI@123",
+      "id": 6
+    },
+    {
+      "username": "zakariya",
+      "email": "zaki@gmail.com",
+      "fullName": "issam",
+      "password": "zaki@123Z",
+      "id": 7
+    },
+    {
+      "username": "issam-riyahi",
+      "email": "issamriyahi2@gmail.com",
+      "fullName": "issamRiyahi",
+      "password": "IssRI123456@",
+      "id": 8
+    },
+    {
+      "username": "kajhsdkh",
+      "email": "issamriyahi2@gmail.com",
+      "fullName": "issam",
+      "password": "IssRI123456@",
+      "id": 9
     }
   ]
 }
