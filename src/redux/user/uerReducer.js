@@ -11,7 +11,7 @@ const userReducer = (state = initailState, action) => {
     switch(action.type) {
         case 'userRequest' :
             return {
-                user: action.payload[0],
+                user: action.payload,
                 error: ''
             } 
         

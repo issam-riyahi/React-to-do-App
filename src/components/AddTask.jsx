@@ -1,8 +1,10 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useAuth } from "../Context/AuthProvider";
 import { creatToDo } from "../redux/toDo/toDoAction";
 
 const AddTask = (prop) => {
+    const userContext = useAuth();
     const dispatch = useDispatch();
     const sections = useSelector(state => state.section);
     console.log(sections)
@@ -30,7 +32,7 @@ const AddTask = (prop) => {
         if(taskData.title !== "" && taskData.section !== "" && taskData.doDate !== ""){
            
             
-            dispatch(creatToDo({...taskData}));
+            dispatch(creatToDo({...taskData, userId: userContext.user.id}));
             prop.handleAddTask('addTask');
         }
         else {

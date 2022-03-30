@@ -7,22 +7,45 @@ import { Provider } from "react-redux";
 import  store  from "./redux/store";
 import Regiter from "./register/Regiter";
 import Login from "./login/Login";
+import {AuthProvider} from "./Context/AuthProvider";
+import RequireAuth from "./Context/RequireAuth";
+import CheckAuth from "./Context/CheckAuth";
 const App = () => {
+
+
 
   return (
     <div className="toDoApp">
-        <Header />
-        <Provider store={store}>
-
-        <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="register" element={<Regiter />} ></Route>
-            <Route path="login" element={<Login />} ></Route>
-            <Route path="allTasks" element={<AllTasks />} />
-            <Route path="*" element={<NotFouns />} ></Route>
-        </Routes>
-        </Provider>
-        
+      <AuthProvider>
+            
+              <Provider store={store}>
+                <Routes>
+                    <Route path="/register" element={<Regiter />} ></Route>
+                    <Route path="/login" element={<Login />} ></Route>
+                    <Route path="/" element={
+                      <CheckAuth> 
+                        <RequireAuth>
+                            <Header />
+                        </RequireAuth>
+                      </CheckAuth> 
+                    } > 
+                          {/* <Route index element={
+                            <RequireAuth>
+                              <Home /> 
+                            </RequireAuth>
+                          } /> */}
+                          <Route index path="home/:userId" element={
+                              <RequireAuth>
+                                <Home />
+                              </RequireAuth>
+                          } />
+                          <Route path="allTasks" element={<AllTasks />} />
+                          <Route path="*" element={<NotFouns />} ></Route>
+                    </Route>
+                </Routes>
+              </Provider>
+            
+        </AuthProvider>
           
     </div>
   )

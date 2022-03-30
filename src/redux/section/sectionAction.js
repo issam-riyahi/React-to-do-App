@@ -32,9 +32,9 @@ export const createSectionAction = (section)=>{
 }
 
 
-export const getSection = () => (dispatch) => {
+export const getSection = (userSection) => (dispatch) => {
         dispatch(fetchRequest());
-        axios.get('http://localhost:3001/sections')
+        axios.get(`http://localhost:3001/sections${userSection ? '?userId='+userSection : ''}`)
         .then(res => dispatch(fetchRequestSuccess(res.data)))
         .catch(error => dispatch(fetchRequestFailed(error)))
 }

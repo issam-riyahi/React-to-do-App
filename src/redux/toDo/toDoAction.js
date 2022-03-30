@@ -48,12 +48,11 @@ export const addToDo = (toDo) => {
     }
 }
 
-export const fetchToDo = (firstLoading = true) => dispatch => {
+export const fetchToDo = (userId, firstLoading = true) => dispatch => {
     if(firstLoading){
-        dispatch(toDoRequest());
-        
+        dispatch(toDoRequest());  
     }
-    axios.get('http://localhost:3001/Tasks')
+    axios.get(`http://localhost:3001/Tasks${userId ? '?userId='+userId : ''}`)
     .then(res => {
        
             dispatch(toDoSuccess(res.data))   

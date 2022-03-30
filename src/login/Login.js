@@ -1,25 +1,40 @@
-import { useEffect, useRef, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { fetchUser, getUser } from "../redux/user/userAction";
-
+import {  useEffect, useRef, useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
+import axios from "../api/axios";
+import { useAuth } from "../Context/AuthProvider";
 
 
 const Login = () => {
 
-    const userState = useSelector(state => state.user);
-    const dispatch = useDispatch();
-    // console.log(userState)
-
+   
+    const navigate = useNavigate();
+    const userContext = useAuth();
+    const location  = useLocation();
+    
+    const redirectPath = location.state?.location ?? '/' ;
     const userRef = useRef(null);
-    const [errorMsg, setErrorMsg] = useState(userState.error);
+    const [errorMsg, setErrorMsg] = useState();
     const [pwd, setPwd] = useState('');
     const [username, setUsername] = useState('');
-    console.log(pwd)
+    const [success, setSuccess] = useState(false);
     useEffect(() => {
         setErrorMsg('')
     },[pwd, username])
+    
+    
+    useEffect(() => {
+        userRef.current.focus();
+    },[])
 
-    function handleLogin(e) {
+    useEffect(() => {
+        if(success){
+            const userId = JSON.parse(localStorage.getItem('user')).userId;
+            navigate(`/home/${userId}`,{replace: true});
+        }
+    },[success]);
+
+
+    async function handleLogin(e) {
         e.preventDefault();
 
         if(pwd == '' || username == ''){
@@ -27,18 +42,40 @@ const Login = () => {
             return;
         }
 
-        console.log(userState)
-        dispatch(fetchUser(username, pwd));
-        if(userState !== undefined) {
-            if(userState.error){
-                setErrorMsg(userState.error)
+        try{
+
+            const response = await axios.get(`/users?username=${username}&password=${pwd}`,{
+                headers:{'Content-Type': 'Application/json'},
+                withCredentials: true,
+            });
+            
+            if(response?.data.length > 0 ){
+                
+                setUsername('');
+                setPwd('');
+                setErrorMsg('');
+                const { email, username, fullName, id} = response?.data[0];
+                userContext.setUser({ email, username, fullName, id});
+                localStorage.setItem('user',JSON.stringify({userId: id, username}))
+                setSuccess(true);
+            }
+            else {
+                setErrorMsg('incorrect username or Password ');
+            }
+
+
+        }catch(err){
+            if(!err?.response){
+                setErrorMsg('no server reponse')
             }
         }
-        else {
-            setErrorMsg('Username does not exist');
-        }
+
+      
 
     }
+
+    
+
     return ( 
         <div className="login">
             <div className="login-container">
@@ -54,6 +91,8 @@ const Login = () => {
                             name="username"
                             placeholder="Enter Username or Email"
                             onChange={(e)=> setUsername(e.target.value)}
+                            ref={userRef}
+                            value={username}
                         />
                     </div>
                     <div className="input-section">
@@ -62,6 +101,7 @@ const Login = () => {
                             name="password"
                             placeholder="Enter Password"
                             onChange={(e) => setPwd(e.target.value)}
+                            value={pwd}
                         />
                     </div>
                     
@@ -73,5 +113,6 @@ const Login = () => {
         </div>
      );
 }
- 
-export default Login;
+
+
+export default Login ;

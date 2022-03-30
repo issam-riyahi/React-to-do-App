@@ -6,9 +6,14 @@ import {connect} from "react-redux";
 import { fetchToDo } from "./redux/toDo/toDoAction";
 import Laoding from "./components/Laoding";
 import { getSection } from "./redux/section/sectionAction";
+import { useAuth } from "./Context/AuthProvider";
+import { useParams } from "react-router-dom";
 
-const Home = ({fetchToDo, getSection , toDoData}) => {
+const Home = ({fetchToDo, getSection, toDoData}) => {
 
+    const userContext = useAuth();
+    // const URLParam = useParams();
+    console.log(userContext)
     let tasksObject = [];
     let [crudState, setCrudState] = useState({
         addTask: false,
@@ -56,7 +61,7 @@ const Home = ({fetchToDo, getSection , toDoData}) => {
             setCrudState(oldvalue => ({...oldvalue , [method]: !oldvalue[method] }))
     }
     
-
+    // const userIdTasks =  toDoData.data.filter(task => task.userId == userContext.user.id);
     
     tasksObject = filterTasks(toDoData.data);
 
@@ -101,8 +106,8 @@ const Home = ({fetchToDo, getSection , toDoData}) => {
 
 
     useEffect(()=>{
-        fetchToDo(true);
-        getSection();
+        fetchToDo(userContext.user.id, true);
+        getSection(userContext.user.id);
     },[])
 
     return ( 
@@ -189,8 +194,7 @@ const mapStateToProp = (state) =>{
 const mapDispatchToProp = (dispatch) => {
 
     return {
-        fetchToDo : () => dispatch(fetchToDo()),
-        // updateTask : (task) =>  updateTask(task) ,
+        fetchToDo : (userId) => dispatch(fetchToDo(userId)),
         getSection : () => dispatch(getSection())
     }
 

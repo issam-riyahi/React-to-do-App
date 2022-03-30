@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, Outlet } from "react-router-dom";
 
 
 const Header = () => {
@@ -30,6 +30,7 @@ const Header = () => {
     },[])
 
     return ( 
+        <>
         <div className="header">
             <h1>MyTasks</h1>
             <div className="nav">
@@ -37,6 +38,8 @@ const Header = () => {
                 <Link to="allTasks">All Tasks</Link>
             </div>
         </div>
+        <Outlet />
+        </>
      );
 }
  

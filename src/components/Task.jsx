@@ -21,7 +21,7 @@ const Task = (prop) => {
     
     
     
-
+    
     function setupDate(){
         
         let date = new Date(prop.doDate);
@@ -83,7 +83,15 @@ const Task = (prop) => {
         backgroundColor: `${TaskSection.color}`
     }
 
-    
+    // useEffect(()=>{
+    //     if(update == true){
+    //         document.addEventListener('click',handleUpdate); 
+    //     }
+    //     return () => {
+            
+    //         document.removeEventListener('click', handleUpdate);
+    //     }
+    // },[update])
     return ( 
 
         
@@ -98,7 +106,7 @@ const Task = (prop) => {
                     <div 
                         className="click-icon"   
 
-                            onClick={()=> { !prop.done ?  prop.updateTask({ id: prop.id, title: prop.title , doDate: prop.doDate, section: prop.section , done: true}) : ()=>{}}}
+                            onClick={()=> { !prop.done ?  prop.updateTask({ id: prop.id, title: prop.title , doDate: prop.doDate, section: prop.section , done: true, userId:prop.userId}) : ()=>{}}}
                     >
                         
                         <DoneIcon done={prop.done}  />
@@ -126,6 +134,7 @@ const Task = (prop) => {
                         id=""
                         onChange={(e) => handelInput(e)}
                         value={updatedData.section}
+                        
                     >
                         {sectionElements}
                     </select>  
@@ -155,8 +164,8 @@ const Task = (prop) => {
                         className="Complete-update"
                 
                         onClick={(prop.title !== updatedData.title || prop.section !== updatedData.section ) 
-                            ? () => [prop.updateTask({ id: prop.id, title: updatedData.title , doDate: prop.doDate, section: updatedData.section , done: prop.done}),handleUpdate(),prop.handleCrudState('updateTask')] 
-                            : ()=>{}}
+                            ? () => [prop.updateTask({ id: prop.id, title: updatedData.title , doDate: prop.doDate, section: updatedData.section , done: prop.done ,userId:prop.userId}),handleUpdate(),prop.handleCrudState('updateTask')] 
+                            : ()=>{handleUpdate()}}
                     >
                         <Check />
                     </span>}
