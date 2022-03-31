@@ -5,14 +5,15 @@ import Pen from "../icons/Pen";
 import Trash from "../icons/Trash";
 import Check from "../icons/Check";
 import GetFetch from "../GolobalMethods/GetFetch";
-import { connect } from "react-redux";
+import { connect, useSelector } from "react-redux";
 import { deletetoDo, updateTask } from "../redux/toDo/toDoAction";
 
 const Task = (prop) => {
     // console.log(prop)
     // const [section, setSection] = useState({});
-    let section = [...GetFetch("http://localhost:3001/sections")];
-    let TaskSection = "";
+    let section = useSelector(state => state.section.data);
+    let TaskSection = section.byId[prop.section] || {name: "" , color: "g"};
+    console.log(section)
     const [update, setUpdate] = useState(false);
     const [updatedData, setUpdatedData] = useState({
         title: prop.title,
@@ -69,11 +70,11 @@ const Task = (prop) => {
         setUpdatedData(oldValues => ({...oldValues, [name]: value}));
     }
     
-    let sectionElements = section.map(item => {
+    let sectionElements = section.allId.map(item => {
 
-        if(item.id === parseInt(prop.section) ){
-            TaskSection = item;
-        }
+        
+            
+        
 
         return (
             <option key={item.id} value={item.id} >{item.name}</option>

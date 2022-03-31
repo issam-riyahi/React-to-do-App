@@ -1,16 +1,19 @@
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useAuth } from "../Context/AuthProvider";
 import { createSection } from "../redux/section/sectionAction";
 
 
 
 const AddSection = (prop) => {
+    const userContext = useAuth();
     const dispatch = useDispatch();
     const [section, setSection] = useState({
         name: "",
         color: "#333333",
+        userId: userContext.user.id
     });
-
+    console.log(userContext)
     function handleInputs(e){
         let { name , value} = e.target ;
         setSection(oldSection => ({...oldSection, [name]: value}))

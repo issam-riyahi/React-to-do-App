@@ -195,7 +195,7 @@ const mapDispatchToProp = (dispatch) => {
 
     return {
         fetchToDo : (userId) => dispatch(fetchToDo(userId)),
-        getSection : () => dispatch(getSection())
+        getSection : (userId) => dispatch(getSection(userId)),
     }
 
 }

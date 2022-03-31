@@ -10,8 +10,7 @@ const Login = () => {
     const navigate = useNavigate();
     const userContext = useAuth();
     const location  = useLocation();
-    
-    const redirectPath = location.state?.location ?? '/' ;
+    const redirectPath = location.state?.from?.pathname || '/' ;
     const userRef = useRef(null);
     const [errorMsg, setErrorMsg] = useState();
     const [pwd, setPwd] = useState('');

@@ -97,8 +97,12 @@ const Regiter = () => {
     const inputStyle = {
         border: "2px solid #ff6a6a"
     }
+    const userId = () => {
+        return String.fromCharCode(Math.floor(Math.random() * 26) + 97)
+        + Math.random().toString(16).slice(8)
+        + Date.now().toString(16).slice(4);
+    }
     // submit function 
-
     async function  handlesubmit(e) {
         e.preventDefault();
         const usernameCheck = userRegex.test(username);
@@ -114,6 +118,7 @@ const Regiter = () => {
         }
         else {
             axios.post(`/users`,{
+                id: userId(),
                 username: username,
                 email: email,
                 fullName: fullName,
