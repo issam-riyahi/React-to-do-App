@@ -1,12 +1,14 @@
 import { useState, useEffect } from "react";
 import { Navigate } from "react-router-dom";
-import { useAuth } from "./AuthProvider";
+import useAuth  from "../Hooks/useAuth";
 import { useLocation } from "react-router-dom";
 import axios from "../api/axios";
+import Laoding from "../components/Laoding";
+import LoadingPage from "../components/LoadingPage";
 
 
 const CheckAuth = ({ children }) => {
-    const userContext = useAuth();
+    const { signIn } = useAuth();
     const [requiestFaild, setRequiestFaild] = useState(false);
     const [requiestSuccess, setRequiestSuccess] = useState(false);
     const location = useLocation();
@@ -23,12 +25,16 @@ const CheckAuth = ({ children }) => {
                 withCredentials: true,
             })
             .then(response => {
+                console.log(response)
                 if(response?.data.length > 0 ){
                     
                     console.log(response?.data[0])
                     const { email, username, fullName, id} = response?.data[0];
-                    userContext.setUser({email, username, fullName, id});
+                    signIn({email, username, fullName, id});
                     setRequiestSuccess(true)
+                }
+                else {
+                    setRequiestFaild(true);
                 }
                 
             })
@@ -51,7 +57,7 @@ const CheckAuth = ({ children }) => {
     else if(requiestSuccess){
         return children;
     } 
-    return <div>Loading...</div>
+    return (<LoadingPage />)
 }
  
 export default CheckAuth;

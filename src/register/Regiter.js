@@ -9,7 +9,6 @@ const emailRegix = /^[^\s@]+@[^\s@]+\.[^\s@]+$/ ;
 const Regiter = () => {
 
     const userRef = useRef(null);
-    const errorref = useRef();
 
     const [username, setUsername] = useState();
     const [validUsername, setValidUsername] = useState();
@@ -34,6 +33,7 @@ const Regiter = () => {
     const [errMsg, setErrMsg] = useState();
     const [success, setSuccess] = useState();
 
+    console.log(errMsg);
 
 
     useEffect(() => {
@@ -106,9 +106,11 @@ const Regiter = () => {
     async function  handlesubmit(e) {
         e.preventDefault();
         const usernameCheck = userRegex.test(username);
+        const emailCheck = emailRegix.test(email);
         const pwdCheck = pwdRegex.test(pwd);
-        if(!usernameCheck || !pwdCheck ) {
-            setErrMsg('Invalid entry');
+        console.log(usernameCheck , pwdCheck, emailCheck)
+        if(!usernameCheck || !pwdCheck || !emailCheck ) {
+            setErrMsg('Invalid Entries');
             return;
         }
         const response  = await axios.get(`/users?username=${username}&email=${email}`)
@@ -262,7 +264,7 @@ const Regiter = () => {
                     </div>
                         <button 
                             className="signup"
-                            disabled={!validEmail || !validMatchPwd || !validPwd || !validMatchPwd ? true : false}
+                            
                         >
                             SIGN UP
                         </button>

@@ -6,14 +6,13 @@ import {connect} from "react-redux";
 import { fetchToDo } from "./redux/toDo/toDoAction";
 import Laoding from "./components/Laoding";
 import { getSection } from "./redux/section/sectionAction";
-import { useAuth } from "./Context/AuthProvider";
+import  useAuth from "./Hooks/useAuth";
 import { useParams } from "react-router-dom";
 
 const Home = ({fetchToDo, getSection, toDoData}) => {
 
-    const userContext = useAuth();
+    const {user} = useAuth();
     // const URLParam = useParams();
-    console.log(userContext)
     let tasksObject = [];
     let [crudState, setCrudState] = useState({
         addTask: false,
@@ -106,8 +105,8 @@ const Home = ({fetchToDo, getSection, toDoData}) => {
 
 
     useEffect(()=>{
-        fetchToDo(userContext.user.id, true);
-        getSection(userContext.user.id);
+        fetchToDo(user.id, true);
+        getSection(user.id);
     },[])
 
     return ( 

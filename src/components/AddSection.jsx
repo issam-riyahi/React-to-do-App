@@ -1,6 +1,7 @@
 import { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { useAuth } from "../Context/AuthProvider";
+import { useDispatch} from "react-redux";
+import  useAuth  from "../Hooks/useAuth";
+import Close from "../icons/Close";
 import { createSection } from "../redux/section/sectionAction";
 
 
@@ -38,7 +39,7 @@ const AddSection = (prop) => {
                     onClick={()=> prop.handleAddSection('addSection')}
                     >
 
-                    <img className="icon i-close" src="./images/xmark.svg" alt="" />
+                    <Close />
                     </button>
                 </div>
                 <form>

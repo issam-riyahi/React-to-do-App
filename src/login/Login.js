@@ -1,14 +1,14 @@
 import {  useEffect, useRef, useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import axios from "../api/axios";
-import { useAuth } from "../Context/AuthProvider";
+import  useAuth  from "../Hooks/useAuth";
 
 
 const Login = () => {
 
    
     const navigate = useNavigate();
-    const userContext = useAuth();
+    const {signIn} = useAuth();
     const location  = useLocation();
     const redirectPath = location.state?.from?.pathname || '/' ;
     const userRef = useRef(null);
@@ -54,7 +54,7 @@ const Login = () => {
                 setPwd('');
                 setErrorMsg('');
                 const { email, username, fullName, id} = response?.data[0];
-                userContext.setUser({ email, username, fullName, id});
+                signIn({ email, username, fullName, id});
                 localStorage.setItem('user',JSON.stringify({userId: id, username}))
                 setSuccess(true);
             }
@@ -103,9 +103,14 @@ const Login = () => {
                             value={pwd}
                         />
                     </div>
-                    
-                    <div className="submit">
-                        <button className="loginbtn">LOGIN</button>
+                    <div className="footer-login">
+
+                        <div className="link-register">
+                            <Link to="/register" >Create an account ?</Link>
+                        </div>
+                        <div className="submit">
+                            <button className="loginbtn">Sing In</button>
+                        </div>
                     </div>
                 </form>
             </div>
