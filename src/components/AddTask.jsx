@@ -37,7 +37,7 @@ const AddTask = (prop) => {
             prop.handleAddTask('addTask');
         }
         else {
-            console.log("no")
+            console.log("no");
         }
         
             
