@@ -1,4 +1,4 @@
-import Laoding from "./Laoding";
+import Laoding from "./Loading";
 
 
 

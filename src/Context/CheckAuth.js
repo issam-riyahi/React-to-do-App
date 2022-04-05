@@ -3,7 +3,7 @@ import { Navigate } from "react-router-dom";
 import useAuth  from "../Hooks/useAuth";
 import { useLocation } from "react-router-dom";
 import axios from "../api/axios";
-import Laoding from "../components/Laoding";
+import Laoding from "../components/Loading";
 import LoadingPage from "../components/LoadingPage";
 
 
@@ -12,7 +12,6 @@ const CheckAuth = ({ children }) => {
     const [requiestFaild, setRequiestFaild] = useState(false);
     const [requiestSuccess, setRequiestSuccess] = useState(false);
     const location = useLocation();
-
 
     useEffect(() => {
         let userStorage = JSON.parse(localStorage.getItem('user'));
@@ -50,6 +49,8 @@ const CheckAuth = ({ children }) => {
             setRequiestFaild(true);
         }
     },[])
+    
+
 
     if(requiestFaild){
         return <Navigate to="/login"  state={{from: location}} replace />

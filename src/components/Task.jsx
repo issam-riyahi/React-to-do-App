@@ -1,10 +1,8 @@
 import { useEffect, useState } from "react";
 import DoneIcon from "../icons/DoneIcon";
-import UpdateFetch from "../GolobalMethods/UpdateFetch";
 import Pen from "../icons/Pen";
 import Trash from "../icons/Trash";
 import Check from "../icons/Check";
-import GetFetch from "../GolobalMethods/GetFetch";
 import { connect, useSelector } from "react-redux";
 import { deletetoDo, updateTask } from "../redux/toDo/toDoAction";
 

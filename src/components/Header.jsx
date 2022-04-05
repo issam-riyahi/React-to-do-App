@@ -53,7 +53,7 @@ const Header = () => {
                 <h1>MyTasks</h1>
                 <div className="nav">
                     <Link className={window.location.pathname == `/home/${user.id}` ? 'active' : ''} to={"/home/"+user.id} >Home</Link>
-                    <Link to="allTasks">All Tasks</Link>
+                    <Link to={"/allTasks/"+user.id}>All Tasks</Link>
                 </div>
 
                 </div>

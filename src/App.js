@@ -39,7 +39,11 @@ const App = () => {
                                 <Home />
                               </RequireAuth>
                           } />
-                          <Route path="allTasks" element={<AllTasks />} />
+                          <Route path="allTasks/:userId" element={
+                            <RequireAuth>
+                                <AllTasks />
+                            </RequireAuth>
+                          } />
                           <Route path="*" element={<NotFouns />} ></Route>
                     </Route>
                 </Routes>

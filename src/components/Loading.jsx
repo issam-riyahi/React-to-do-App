@@ -2,9 +2,9 @@
 
 
 
-const Laoding = () => {
+const Loading = () => {
     return ( 
-        <div className="laoding">
+        <div className="loading">
             <div className="circle">
                 <span></span>
             </div>
@@ -12,4 +12,4 @@ const Laoding = () => {
      );
 }
  
-export default Laoding;
+export default Loading;

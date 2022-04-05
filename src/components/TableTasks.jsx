@@ -1,46 +1,23 @@
 import { useEffect, useState } from "react";
-import GetTasks from "../GolobalMethods/GetTasks";
+import { useSelector, useDispatch } from "react-redux";
 import TableRow from "./TableRow";
-
+import { fetchToDo } from "../redux/toDo/toDoAction";
+import { useParams } from "react-router-dom";
 
 
 
 const TableTasks = (props) => {
-    // let {allTasks, isPending} = GetTasks();
-    let allTasks= [...GetTasks()];
-    
-
+    let allTasks= useSelector(state => state.task.data);
+    let pending = useSelector(state => state.task.loading);
+    const dispatch = useDispatch();
     const [search , setSearch] = useState('');
-
-    // const [Tasks, setTasks] = useState(data);
-    console.log(props.sectionId)
-
-    // console.log(isPending)
-
-    // if(!isPending){
-    //     var rowElements = allTasks.map(row => {
-    //         return <TableRow {...row} key={row.id} />
-    //     })
-    // }
+    const param = useParams();
+   
     
-        let rowElements = allTasks.map(row => {
-            if(props.sectionId.id !== ""){
-                
-                if(row.section == props.sectionId.id){
-
-                    if(search !== ""){
-                        if(row.title.toLowerCase().indexOf(search) > -1){
-                            
-                            return <TableRow {...row} key={row.id} />  
-                        }
-                    }
-                    else {
-                        return <TableRow {...row} key={row.id} />
-                    }
-                    
-                }
-            }
-            else {
+    let rowElements = allTasks.map(row => {
+        if(props.sectionId.id !== ""){
+            
+            if(row.section == props.sectionId.id){
 
                 if(search !== ""){
                     if(row.title.toLowerCase().indexOf(search) > -1){
@@ -51,14 +28,32 @@ const TableTasks = (props) => {
                 else {
                     return <TableRow {...row} key={row.id} />
                 }
+                
             }
-        })
+        }
+        else {
+
+            if(search !== ""){
+                if(row.title.toLowerCase().indexOf(search) > -1){
+                    
+                    return <TableRow {...row} key={row.id} />  
+                }
+            }
+            else {
+                return <TableRow {...row} key={row.id} />
+            }
+        }
+    })
     
 
     function handleChange(e){
 
         setSearch(e.target.value);
     }
+
+    useEffect(() => {
+        dispatch(fetchToDo(param.userId))
+    },[])
     return ( 
 
         <main className="tasks-table">
@@ -83,8 +78,8 @@ const TableTasks = (props) => {
                             <th>Task section</th>
                             <th>Task Date</th>
                             <th>Done</th>
-                            <th>Status</th>
-
+                            {/* <th>Status</th> */}
+                            {/* <th>UserId</th> */}
                         </tr>
                     </thead>
                     <tbody>

@@ -74,7 +74,6 @@ export const updateTask = (task) => dispatch => {
     .catch(error => console.log(error));
 }
 export const deletetoDo = (task) => dispatch => {
-    console.log(task)
     axios.delete(`http://localhost:3001/Tasks/${task.id}`)
     .then(res => {
         console.log(res);

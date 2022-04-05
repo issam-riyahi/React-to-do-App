@@ -1,37 +1,76 @@
-import GetFetch from "../GolobalMethods/GetFetch";
-
-
+import { useSelector, useDispatch } from "react-redux";
+import { useParams } from "react-router-dom";
+import Trash from "../icons/Trash";
+import { deleteSection, getSection } from "../redux/section/sectionAction";
+import { useEffect } from "react";
+import Loading from "./Loading";
 const SectionNav = (props) => {
 
-    let section = [...GetFetch("http://localhost:3001/sections")];
-
-    let sectionElements = section.map(item => {
+    const sections = useSelector(state => state.section.data);
+    const pending = useSelector(state => state.section.loading)
+    const param = useParams();
+    const dispatch = useDispatch();
+    
+    function handleDelete(section){
+        dispatch(deleteSection(section))
+    }
+    let sectionElements = sections.allId.map(item => {
         let style = {
-            color: item.color,
+            color: sections.byId[item].color,
         }
         return (
             <li 
-            key={item.id} 
-            style = {style} 
-            onClick = {()=>props.handleSection(item.id, item.name)}
+                className="section__list__item"
+                key={sections.byId[item].id} 
+                
+                onClick = {()=>props.handleSection(sections.byId[item].id, sections.byId[item].name)}
             >
-            {item.name} 
             
+            <a href="#" 
+                className="section_link"
+                style = {style} 
+            >
+                {sections.byId[item].name} 
+            </a> 
+                <button 
+                    className="delete-section"
+                    onClick={()=> handleDelete(sections.byId[item])}
+                >
+                    <Trash />
+                </button>
             </li>
         )
     })
-    return ( 
 
+    useEffect(()=>{
+        dispatch(getSection(param.userId));
+    },[]);
+    return ( 
+        
         <aside className="section-container">
             <h2>    Section List</h2>
-            <ul>
+            {pending ? 
+            <div className="loading-section">
+                <Loading />
+            </div>  :
+            <div className="menu__list__section">
+            
+            <ul className="sections_menu">
                 <li
-                onClick = {()=>props.handleSection("", "")}
-                >All Tasks</li>
+                    className="section__list__item"    
+                    onClick = {()=>props.handleSection("", "")}
+                >
+                   <a href="#" className="section_link">All Tasks</a> 
+                    
+                </li>
                 {sectionElements}
-
+                
             </ul>
+            </div>
+            }
         </aside>
+        
+        
      );
 }
  
