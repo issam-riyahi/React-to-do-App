@@ -7,12 +7,10 @@ import { fetchToDo } from "./redux/toDo/toDoAction";
 import { getSection } from "./redux/section/sectionAction";
 import Laoding from "./components/Loading";
 import  useAuth from "./Hooks/useAuth";
-import { useParams } from "react-router-dom";
 
 const Home = ({fetchToDo, getSection, toDoData}) => {
 
     const {user} = useAuth();
-    // const URLParam = useParams();
     let tasksObject = [];
     let [crudState, setCrudState] = useState({
         addTask: false,

@@ -33,16 +33,12 @@
       "id": 3
     },
     {
+      "id": 4,
       "title": "issam",
-      "section": "15",
       "doDate": "2022-04-28",
-      "status": {
-        "statusTag": "",
-        "color": "#333333"
-      },
+      "section": "15",
       "done": false,
-      "userId": "q8b40115ccfd34",
-      "id": 4
+      "userId": "q8b40115ccfd34"
     },
     {
       "title": "test",
@@ -77,16 +73,12 @@
       "id": 7
     },
     {
+      "id": 8,
       "title": "test",
-      "section": "19",
       "doDate": "2022-04-14",
-      "status": {
-        "statusTag": "",
-        "color": "#333333"
-      },
-      "done": false,
-      "userId": "m19b0cd7617d224",
-      "id": 8
+      "section": "19",
+      "done": true,
+      "userId": "m19b0cd7617d224"
     }
   ],
   "sections": [
@@ -167,6 +159,12 @@
       "color": "#0a3e5c",
       "userId": "m19b0cd7617d224",
       "id": 19
+    },
+    {
+      "name": "hello",
+      "color": "#121e54",
+      "userId": "d976b80b8a02474d",
+      "id": 20
     }
   ],
   "users": [
@@ -197,6 +195,13 @@
       "email": "issamdev0x7@gmail.com",
       "fullName": "issam",
       "password": "IssRI123456@"
+    },
+    {
+      "id": "d976b80b8a02474d",
+      "username": "testUser",
+      "email": "testuser@gmail.com",
+      "fullName": "testUser",
+      "password": "testUser@123"
     }
   ]
 }

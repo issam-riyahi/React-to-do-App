@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { Link, Outlet } from "react-router-dom";
+import { Link, Outlet, NavLink } from "react-router-dom";
 import  useAuth  from "../Hooks/useAuth";
 
 
@@ -7,28 +7,28 @@ const Header = () => {
 
     const {user , signOut} = useAuth();
 
-    useEffect(()=> {
-        let links = document.querySelectorAll('.nav a');
+    // useEffect(()=> {
+    //     let links = document.querySelectorAll('.nav a');
         
-        links.forEach(link => {
+    //     links.forEach(link => {
 
             
-            link.addEventListener('click' , ()=>{
-                removeActive();
-                link.classList.add('active');
-            })
-        })
+    //         link.addEventListener('click' , ()=>{
+    //             removeActive();
+    //             link.classList.add('active');
+    //         })
+    //     })
 
-        function removeActive(){
-            links.forEach(link => {
+    //     function removeActive(){
+    //         links.forEach(link => {
 
             
                
-                    link.classList.remove('active');
+    //                 link.classList.remove('active');
                 
-            })
-        }
-    },[])
+    //         })
+    //     }
+    // },[])
 
     useEffect(() => {
         const dropdown = document.querySelector('.dropdown');
@@ -52,8 +52,9 @@ const Header = () => {
                 <div className="left-side">
                 <h1>MyTasks</h1>
                 <div className="nav">
-                    <Link className={window.location.pathname == `/home/${user.id}` ? 'active' : ''} to={"/home/"+user.id} >Home</Link>
-                    <Link to={"/allTasks/"+user.id}>All Tasks</Link>
+                {/* window.location.pathname == `/home/${user.id}` ? 'active' : '' */}
+                    <NavLink className={({ isActive}) => isActive ? 'active' : ''} to={"/home/"+user.id} >Home</NavLink>
+                    <NavLink className={({ isActive}) => isActive ? 'active' : ''} to={"/allTasks/"+user.id}>All Tasks</NavLink>
                 </div>
 
                 </div>

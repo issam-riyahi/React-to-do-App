@@ -70,12 +70,8 @@ const Task = (prop) => {
     
     let sectionElements = section.allId.map(item => {
 
-        
-            
-        
-
         return (
-            <option key={item.id} value={item.id} >{item.name}</option>
+            <option key={item} value={section.byId[item].id} >{section.byId[item].name}</option>
         )
     })
     const bgStyle = {

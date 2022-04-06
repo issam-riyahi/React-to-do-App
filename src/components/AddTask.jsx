@@ -54,7 +54,7 @@ const AddTask = (prop) => {
     }   
     let sectionElements = sections.data.allId.map(item => {
         return (
-            <option key={item} value={item} >{sections.data.byId[item].name}</option>
+            <option key={item} value={item}>{sections.data.byId[item].name}</option>
         )
     })
 

@@ -22,7 +22,7 @@ button {
   cursor: pointer;
 }
 a {
-  text-decoration: none;
+  /* text-decoration: none; */
 }
 /* Header  */
 .header .container {
@@ -59,16 +59,16 @@ a {
   display: flex;
   align-items: center;
   margin-right: auto;
+  gap: 5rem;
 }
 .header h1 {
   font-size: 1.4rem;
   color: #535353;
   font-weight: 600;
   letter-spacing: 2px;
+  margin-bottom: 2px;
 }
-.header .nav {
-  /* margin-top: 10px; */
-}
+
 .header .nav a {
   text-decoration: none;
   color: #535353;
@@ -377,6 +377,7 @@ a {
 }
 .done-icon {
   margin-right: 15px ;
+  margin-top: 5px ;
 }
 
 .done-icon.done {
@@ -428,7 +429,7 @@ tr:nth-child(even) {
 .section-container {
   /* background-color: #d80000; */
   padding: 10px 16px ;
-  width: 25%;
+  width: 20%;
   flex-shrink: 0;
   height: 100vh ;
   position: sticky;
@@ -454,6 +455,7 @@ tr:nth-child(even) {
 }
 .section-container .sections_menu .section__list__item .section_link {
   color: #aaaaaa;
+  text-decoration: none;
 }
 
 .section-container .sections_menu .section__list__item .delete-section {
@@ -603,7 +605,7 @@ tr:nth-child(even) {
   color: white;
   
 }
-.register .input-section .err.showError {
+.err.showError {
   display: block;
 }
 
