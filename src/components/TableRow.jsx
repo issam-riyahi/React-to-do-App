@@ -12,6 +12,7 @@ const TableRow = (props) => {
             <td>{props.section}</td>
             <td>{props.doDate}</td>
             <td>{props.done ? "true" : 'false'}</td>
+            {/* <td>{props.userId}</td> */}
         </tr>
      );
 }

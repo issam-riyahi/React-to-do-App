@@ -1,18 +1,17 @@
 import { useEffect, useState } from "react";
 import DoneIcon from "../icons/DoneIcon";
-import UpdateFetch from "../GolobalMethods/UpdateFetch";
 import Pen from "../icons/Pen";
 import Trash from "../icons/Trash";
 import Check from "../icons/Check";
-import GetFetch from "../GolobalMethods/GetFetch";
-import { connect } from "react-redux";
+import { connect, useSelector } from "react-redux";
 import { deletetoDo, updateTask } from "../redux/toDo/toDoAction";
 
 const Task = (prop) => {
     // console.log(prop)
     // const [section, setSection] = useState({});
-    let section = [...GetFetch("http://localhost:3001/sections")];
-    let TaskSection = "";
+    let section = useSelector(state => state.section.data);
+    let TaskSection = section.byId[prop.section] || {name: "" , color: "g"};
+    console.log(section)
     const [update, setUpdate] = useState(false);
     const [updatedData, setUpdatedData] = useState({
         title: prop.title,
@@ -21,7 +20,7 @@ const Task = (prop) => {
     
     
     
-
+    
     function setupDate(){
         
         let date = new Date(prop.doDate);
@@ -69,21 +68,25 @@ const Task = (prop) => {
         setUpdatedData(oldValues => ({...oldValues, [name]: value}));
     }
     
-    let sectionElements = section.map(item => {
-
-        if(item.id === parseInt(prop.section) ){
-            TaskSection = item;
-        }
+    let sectionElements = section.allId.map(item => {
 
         return (
-            <option key={item.id} value={item.id} >{item.name}</option>
+            <option key={item} value={section.byId[item].id} >{section.byId[item].name}</option>
         )
     })
     const bgStyle = {
         backgroundColor: `${TaskSection.color}`
     }
 
-    
+    // useEffect(()=>{
+    //     if(update == true){
+    //         document.addEventListener('click',handleUpdate); 
+    //     }
+    //     return () => {
+            
+    //         document.removeEventListener('click', handleUpdate);
+    //     }
+    // },[update])
     return ( 
 
         
@@ -98,7 +101,7 @@ const Task = (prop) => {
                     <div 
                         className="click-icon"   
 
-                            onClick={()=> { !prop.done ?  prop.updateTask({ id: prop.id, title: prop.title , doDate: prop.doDate, section: prop.section , done: true}) : ()=>{}}}
+                            onClick={()=> { !prop.done ?  prop.updateTask({ id: prop.id, title: prop.title , doDate: prop.doDate, section: prop.section , done: true, userId:prop.userId}) : ()=>{}}}
                     >
                         
                         <DoneIcon done={prop.done}  />
@@ -126,6 +129,7 @@ const Task = (prop) => {
                         id=""
                         onChange={(e) => handelInput(e)}
                         value={updatedData.section}
+                        
                     >
                         {sectionElements}
                     </select>  
@@ -155,8 +159,8 @@ const Task = (prop) => {
                         className="Complete-update"
                 
                         onClick={(prop.title !== updatedData.title || prop.section !== updatedData.section ) 
-                            ? () => [prop.updateTask({ id: prop.id, title: updatedData.title , doDate: prop.doDate, section: updatedData.section , done: prop.done}),handleUpdate(),prop.handleCrudState('updateTask')] 
-                            : ()=>{}}
+                            ? () => [prop.updateTask({ id: prop.id, title: updatedData.title , doDate: prop.doDate, section: updatedData.section , done: prop.done ,userId:prop.userId}),handleUpdate(),prop.handleCrudState('updateTask')] 
+                            : ()=>{handleUpdate()}}
                     >
                         <Check />
                     </span>}

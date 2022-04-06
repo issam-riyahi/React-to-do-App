@@ -23,7 +23,6 @@ const initailState = {
 const sectionReducer = (state = initailState , action) => {
     switch(action.type){
         case FETCH_SECTION_REQUEST :
-            console.log(1)
             return {
                 ...state,
                 loading: true,

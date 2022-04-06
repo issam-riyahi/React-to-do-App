@@ -48,12 +48,11 @@ export const addToDo = (toDo) => {
     }
 }
 
-export const fetchToDo = (firstLoading = true) => dispatch => {
+export const fetchToDo = (userId, firstLoading = true) => dispatch => {
     if(firstLoading){
-        dispatch(toDoRequest());
-        
+        dispatch(toDoRequest());  
     }
-    axios.get('http://localhost:3001/Tasks')
+    axios.get(`http://localhost:3001/Tasks${userId ? '?userId='+userId : ''}`)
     .then(res => {
        
             dispatch(toDoSuccess(res.data))   
@@ -74,8 +73,8 @@ export const updateTask = (task) => dispatch => {
     })
     .catch(error => console.log(error));
 }
+
 export const deletetoDo = (task) => dispatch => {
-    console.log(task)
     axios.delete(`http://localhost:3001/Tasks/${task.id}`)
     .then(res => {
         console.log(res);
@@ -83,14 +82,15 @@ export const deletetoDo = (task) => dispatch => {
     })
     .catch(error => console.log(error));
 }
+
 export const creatToDo = (task) => dispatch => {
     axios.post(`http://localhost:3001/Tasks/`,{
         ...task
     })
     .then(res => {
-        // console.log(res);
+        const {userId} = task
         dispatch(addToDo(task));
-        dispatch(fetchToDo(false));
+        dispatch(fetchToDo(userId, false));
     })
     .catch(error => console.log(error));
 }

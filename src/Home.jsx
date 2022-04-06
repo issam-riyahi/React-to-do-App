@@ -4,11 +4,13 @@ import AddTask from "./components/AddTask";
 import AddSection from "./components/AddSection";
 import {connect} from "react-redux";
 import { fetchToDo } from "./redux/toDo/toDoAction";
-import Laoding from "./components/Laoding";
 import { getSection } from "./redux/section/sectionAction";
+import Laoding from "./components/Loading";
+import  useAuth from "./Hooks/useAuth";
 
-const Home = ({fetchToDo, getSection , toDoData}) => {
+const Home = ({fetchToDo, getSection, toDoData}) => {
 
+    const {user} = useAuth();
     let tasksObject = [];
     let [crudState, setCrudState] = useState({
         addTask: false,
@@ -56,7 +58,7 @@ const Home = ({fetchToDo, getSection , toDoData}) => {
             setCrudState(oldvalue => ({...oldvalue , [method]: !oldvalue[method] }))
     }
     
-
+    // const userIdTasks =  toDoData.data.filter(task => task.userId == userContext.user.id);
     
     tasksObject = filterTasks(toDoData.data);
 
@@ -101,8 +103,8 @@ const Home = ({fetchToDo, getSection , toDoData}) => {
 
 
     useEffect(()=>{
-        fetchToDo(true);
-        getSection();
+        fetchToDo(user.id, true);
+        getSection(user.id);
     },[])
 
     return ( 
@@ -129,28 +131,28 @@ const Home = ({fetchToDo, getSection , toDoData}) => {
                     <div className={`task-time ${tasksObject.tomorrowTasks.length ? 'active' : ''}`}>
                         <h3>New Tasks</h3>  
                     </div>
-                    <div className={`tasks-list  ${ toDoData.laoding ? '' : tasksObject.tomorrowTasks.length  ? ''  : 'up-animate'}`}>
+                    <div className={`tasks-list  ${ toDoData.loading ? '' : tasksObject.tomorrowTasks.length  ? ''  : 'up-animate'}`}>
                         
                         
-                        {toDoData.laoding  ? <Laoding /> : tasksObject.tomorrowTasks.length ?  tasksObject.tomorrowTasks : <div className="no-data">No Tasks </div> }
+                        {toDoData.loading  ? <Laoding /> : tasksObject.tomorrowTasks.length ?  tasksObject.tomorrowTasks : <div className="no-data">No Tasks </div> }
                     </div>
                 </div>
                 <div className="today-tasks">
                     <div className={`task-time ${tasksObject.todayTasks.length ? 'active' : ''}`}>
                         <h3>Today Tasks</h3>
                     </div>
-                    <div className={`tasks-list ${ toDoData.laoding ? '' : tasksObject.todayTasks.length  ? ''  : 'up-animate'} `}>
+                    <div className={`tasks-list ${ toDoData.loading ? '' : tasksObject.todayTasks.length  ? ''  : 'up-animate'} `}>
                     
-                    {toDoData.laoding  ? <Laoding /> : tasksObject.todayTasks.length ? tasksObject.todayTasks : <div className="no-data">No Tasks </div> }                    
+                    {toDoData.loading  ? <Laoding /> : tasksObject.todayTasks.length ? tasksObject.todayTasks : <div className="no-data">No Tasks </div> }                    
                     </div>
                 </div>
                 <div className="upcoming-tasks">
                     <div className={`task-time ${tasksObject.upcomingTasks.length  ? 'active' : ''}`}>
                         <h3>Upcoming Tasks</h3>
                     </div>
-                    <div className={`tasks-list ${ toDoData.laoding ? '' : tasksObject.upcomingTasks.length  ? ''  : 'up-animate'} `}>
+                    <div className={`tasks-list ${ toDoData.loading ? '' : tasksObject.upcomingTasks.length  ? ''  : 'up-animate'} `}>
                     
-                    {toDoData.laoding  ? <Laoding /> : tasksObject.upcomingTasks.length ? tasksObject.upcomingTasks : <div className="no-data">No Tasks </div> }  
+                    {toDoData.loading  ? <Laoding /> : tasksObject.upcomingTasks.length ? tasksObject.upcomingTasks : <div className="no-data">No Tasks </div> }  
                     </div>
                     
                 </div>
@@ -158,8 +160,8 @@ const Home = ({fetchToDo, getSection , toDoData}) => {
                     <div className={`task-time ${tasksObject.doneTask.length ? 'active' : ''}`}>
                         <h3>Done Tasks</h3>
                     </div>
-                    <div className={`tasks-list ${ toDoData.laoding ? '' : tasksObject.doneTask.length  ? ''  : 'up-animate'} `}>
-                    {toDoData.laoding  ? <Laoding /> : tasksObject.doneTask.length ? tasksObject.doneTask : <div className="no-data">No Tasks </div> }    
+                    <div className={`tasks-list ${ toDoData.loading ? '' : tasksObject.doneTask.length  ? ''  : 'up-animate'} `}>
+                    {toDoData.loading  ? <Laoding /> : tasksObject.doneTask.length ? tasksObject.doneTask : <div className="no-data">No Tasks </div> }    
                     </div>
                     
                 </div>
@@ -167,9 +169,9 @@ const Home = ({fetchToDo, getSection , toDoData}) => {
                     <div className={`task-time ${tasksObject.tasksNotDone.length ? 'active' : ''}`}>
                         <h3>Tasks not Done</h3>
                     </div>
-                    <div className={`tasks-list ${ toDoData.laoding ? '' : tasksObject.tasksNotDone.length  ? ''  : 'up-animate'} `}>
+                    <div className={`tasks-list ${ toDoData.loading ? '' : tasksObject.tasksNotDone.length  ? ''  : 'up-animate'} `}>
                     
-                    {toDoData.laoding  ? <Laoding /> : tasksObject.tasksNotDone.length ? tasksObject.tasksNotDone : <div className="no-data">No Tasks </div> }     
+                    {toDoData.loading  ? <Laoding /> : tasksObject.tasksNotDone.length ? tasksObject.tasksNotDone : <div className="no-data">No Tasks </div> }     
                     </div>
                     
                 </div>
@@ -189,9 +191,8 @@ const mapStateToProp = (state) =>{
 const mapDispatchToProp = (dispatch) => {
 
     return {
-        fetchToDo : () => dispatch(fetchToDo()),
-        // updateTask : (task) =>  updateTask(task) ,
-        getSection : () => dispatch(getSection())
+        fetchToDo : (userId) => dispatch(fetchToDo(userId)),
+        getSection : (userId) => dispatch(getSection(userId)),
     }
 
 }

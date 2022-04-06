@@ -9,7 +9,7 @@ import { TODO_FETCH_SUCCESS,
 
 
 const initailState = {
-    laoding : false,
+    loading : false,
     data: [],
     error: "",
 }
@@ -19,18 +19,18 @@ const toDoReducer = (state = initailState , action) => {
         case  TODO_FETCH_REQUEST :
             return {
                 ...state,
-                laoding: true,
+                loading: true,
             }
         case TODO_FETCH_SUCCESS :
             return {
                 ...state,
-                laoding: false,
+                loading: false,
                 data: [...action.paylaod],
             }
         case TODO_FETCH_ERROR: 
             return {
                 ...state,
-                laoding: false,
+                loading: false,
                 error: action.paylaod,
             }
         case TODO_UPDATE_REQUEST : 

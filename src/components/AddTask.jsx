@@ -1,11 +1,14 @@
-import { useEffect, useState } from "react";
+import {  useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import  useAuth  from "../Hooks/useAuth";
+import Close from "../icons/Close";
 import { creatToDo } from "../redux/toDo/toDoAction";
 
 const AddTask = (prop) => {
+    const userContext = useAuth();
     const dispatch = useDispatch();
     const sections = useSelector(state => state.section);
-    console.log(sections)
+    
     const [taskData, setTaskData] = useState({
         title: "",
         section: "",
@@ -30,11 +33,11 @@ const AddTask = (prop) => {
         if(taskData.title !== "" && taskData.section !== "" && taskData.doDate !== ""){
            
             
-            dispatch(creatToDo({...taskData}));
+            dispatch(creatToDo({...taskData, userId: userContext.user.id}));
             prop.handleAddTask('addTask');
         }
         else {
-            console.log("no")
+            console.log("no");
         }
         
             
@@ -51,7 +54,7 @@ const AddTask = (prop) => {
     }   
     let sectionElements = sections.data.allId.map(item => {
         return (
-            <option key={item} value={item} >{sections.data.byId[item].name}</option>
+            <option key={item} value={item}>{sections.data.byId[item].name}</option>
         )
     })
 
@@ -63,8 +66,7 @@ const AddTask = (prop) => {
                     className="btn-close"
                     onClick={() => prop.handleAddTask('addTask')}
                     >
-
-                    <img className="icon i-close" src="./images/xmark.svg" alt="" />
+                        <Close />
                     </button>
                 </div>
                 <form>
@@ -91,6 +93,11 @@ const AddTask = (prop) => {
                             <option value="">-- select section -- </option>
                             {sectionElements}
                         </select>
+                        <div className={`err ${ !sectionElements.length ?  'showError' : '' }`}>
+                            <p className="msg-error">
+                                You should add Section first <br></br>
+                            </p>
+                        </div>
                     </div>
                     <div className="task-input-status input-scope">
                         <label htmlFor="">status :</label>
