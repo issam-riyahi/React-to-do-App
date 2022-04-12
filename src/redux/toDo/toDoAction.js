@@ -84,12 +84,12 @@ export const deletetoDo = (task) => dispatch => {
 }
 
 export const creatToDo = (task) => dispatch => {
-    axios.post(`http://localhost:9091/tasks`,{
+    axios.post(`http://localhost:3001/Tasks`,{
         ...task,
-        section: 2
     },{
         withCredentials: true,
-        headers:'Access-Control-Allow-Origin: *' 
+        
+        
     })
     .then(res => {
         // const {userId} = task
@@ -97,5 +97,6 @@ export const creatToDo = (task) => dispatch => {
         // dispatch(fetchToDo(userId, false));
         console.log(res);
     })
-    .catch(error => console.log(error));
+    .catch(error => console.log(error.message));
 }
+
