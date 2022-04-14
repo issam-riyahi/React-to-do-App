@@ -8,7 +8,7 @@ const AddTask = (prop) => {
     const userContext = useAuth();
     const dispatch = useDispatch();
     const sections = useSelector(state => state.section);
-    
+    console.log(sections);
     const [taskData, setTaskData] = useState({
         title: "",
         section: "",

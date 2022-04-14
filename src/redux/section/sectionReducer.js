@@ -29,8 +29,8 @@ const sectionReducer = (state = initailState , action) => {
             }
         case FETCH_SECTION_SUCCESS : 
         const data = action.payload.reduce((prevItem, currItem) => {
-                prevItem.byId[currItem.id] = {...currItem};
-                prevItem.allId.push(currItem.id); 
+                prevItem.byId[currItem.section_id] = {...currItem};
+                prevItem.allId.push(currItem.section_id); 
 
                 return prevItem;
             },{
@@ -41,6 +41,7 @@ const sectionReducer = (state = initailState , action) => {
                     allId: [],
                 
             })
+            console.log(action.payload)
             return {
                 ...state,
                 data: data,

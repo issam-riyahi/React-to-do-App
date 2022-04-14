@@ -12,7 +12,7 @@ const AddSection = (prop) => {
     const [section, setSection] = useState({
         name: "",
         color: "#333333",
-        userId: userContext.user.id
+        userId: userContext.user.userId
     });
     console.log(userContext)
     function handleInputs(e){

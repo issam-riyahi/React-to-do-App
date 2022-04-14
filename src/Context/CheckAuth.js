@@ -19,17 +19,17 @@ const CheckAuth = ({ children }) => {
         if(userStorage){    
             console.log(userStorage)
         try{
-            axios.get(`/users?id=${userStorage.userId}`,{
+            axios.get(`/user/${userStorage.userId}`,{
                 headers:{'Content-Type': 'Application/json'},
-                withCredentials: true,
+                // withCredentials: true,
             })
             .then(response => {
                 console.log(response)
-                if(response?.data.length > 0 ){
+                if(response?.data?.data?.rows.length > 0 ){
                     
                     console.log(response?.data[0])
-                    const { email, username, fullName, id} = response?.data[0];
-                    signIn({email, username, fullName, id});
+                    const { email, username, fullName, userId} = response?.data?.data?.row;
+                    signIn({email, username, fullName, userId});
                     setRequiestSuccess(true)
                 }
                 else {

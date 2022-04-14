@@ -10,8 +10,10 @@ const Task = (prop) => {
     // console.log(prop)
     // const [section, setSection] = useState({});
     let section = useSelector(state => state.section.data);
-    let TaskSection = section.byId[prop.section] || {name: "" , color: "g"};
-    console.log(section)
+    // console.log(section);
+    let TaskSection = section.byId[prop.section_id] || {name: "" , color: ""};
+    console.log(TaskSection);
+    // console.log(section)
     const [update, setUpdate] = useState(false);
     const [updatedData, setUpdatedData] = useState({
         title: prop.title,
@@ -71,7 +73,7 @@ const Task = (prop) => {
     let sectionElements = section.allId.map(item => {
 
         return (
-            <option key={item} value={section.byId[item].id} >{section.byId[item].name}</option>
+            <option key={item} value={section.byId[item].section_id} >{section.byId[item].name}</option>
         )
     })
     const bgStyle = {
@@ -141,7 +143,7 @@ const Task = (prop) => {
                             {TaskSection.name}
                         </span>
                     }
-                    <p className="date" style={ prop.done ? {} : style}>{dateText}</p>
+                    <p className="date" style={ !prop.done ? {} : style}>{dateText}</p>
                 <div className="crud">
 
                     {  !update ? 

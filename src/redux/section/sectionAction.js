@@ -34,14 +34,20 @@ export const createSectionAction = (section)=>{
 
 export const getSection = (userSection) => (dispatch) => {
         dispatch(fetchRequest());
-        axios.get(`sections${'?userId='+userSection}`)
-        .then(res => dispatch(fetchRequestSuccess(res.data)))
+        axios.get(`section/${userSection}`)
+        .then(res => dispatch(fetchRequestSuccess(res.data?.data?.rows)))
         .catch(error => dispatch(fetchRequestFailed(error)))
 }
 
 export const createSection = (section) => (dispatch) => {
-    axios.post('/sections',{
-        ...section
+    // axios.defaults.headers.post['Content-Type'] ='application/x-www-form-urlencoded; charset=UTF-8';
+    // axios.defaults.headers.post['Access-Control-Allow-Origin'] = '*';
+    axios.post('/section',JSON.stringify({
+       data: {...section}
+    }),{
+        // withCredentials: true,
+        mode: 'cros',
+        headers:{'Content-Type' : 'application/x-www-form-urlencoded; charset=UTF-8',}
     })
     .then(res => {
         if(res.status === 201){

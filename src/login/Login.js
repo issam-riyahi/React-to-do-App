@@ -43,19 +43,24 @@ const Login = () => {
 
         try{
 
-            const response = await axios.get(`/users?username=${username}&password=${pwd}`,{
-                headers:{'Content-Type': 'Application/json'},
-                withCredentials: true,
+            // const response = await axios.get(`/user?username=issam&password=testtest`,{
+            //     // headers:{'Content-Type': 'Application/json'},
+            //     // withCredentials: true,
+            // });
+            const response = await axios.get(`/user?username=${username.trim()}&password=${pwd.trim()}`,{
+                // headers:{'Content-Type': 'Application/json'},
+                // withCredentials: true,
             });
             
-            if(response?.data.length > 0 ){
-                
+            console.log(response?.data?.data.rows);
+            if(response?.data?.data.rows.length > 0 ){
+                console.log(response?.data);
                 setUsername('');
                 setPwd('');
                 setErrorMsg('');
-                const { email, username, fullName, id} = response?.data[0];
-                signIn({ email, username, fullName, id});
-                localStorage.setItem('user',JSON.stringify({userId: id, username}))
+                const { email, username, fullName, userId} = response?.data?.data?.rows[0];
+                signIn({ email, username, fullName, userId});
+                localStorage.setItem('user',JSON.stringify({userId: userId, username}))
                 setSuccess(true);
             }
             else {
@@ -65,6 +70,7 @@ const Login = () => {
 
         }catch(err){
             if(!err?.response){
+                console.log(err)
                 setErrorMsg('no server reponse')
             }
         }

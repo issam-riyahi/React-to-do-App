@@ -10,6 +10,8 @@ import  useAuth from "./Hooks/useAuth";
 
 const Home = ({fetchToDo, getSection, toDoData}) => {
 
+    console.log(toDoData);
+    console.log(toDoData);
     const {user} = useAuth();
     let tasksObject = [];
     let [crudState, setCrudState] = useState({
@@ -64,7 +66,7 @@ const Home = ({fetchToDo, getSection, toDoData}) => {
 
     function filterTasks(tasksData){
        return tasksData.reduce((prevItem,currentitem,index)=>{
-            if(currentitem.done === false){
+            if(currentitem.done == false){
     
                 let taskDate = new Date(currentitem.doDate);
     
@@ -103,8 +105,8 @@ const Home = ({fetchToDo, getSection, toDoData}) => {
 
 
     useEffect(()=>{
-        fetchToDo(user.id, true);
-        getSection(user.id);
+        fetchToDo(user.userId, true);
+        getSection(user.userId);
     },[])
 
     return ( 

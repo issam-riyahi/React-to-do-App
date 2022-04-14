@@ -6,7 +6,7 @@ import {
         TODO_DELETE_REQUEST,
         TODO_CREAT_REQUEST
  } from "./toDoTypes";
-import axios from "axios";
+import axios from "../../api/axios";
 
 
 export const toDoRequest = () => {
@@ -52,10 +52,10 @@ export const fetchToDo = (userId, firstLoading = true) => dispatch => {
     if(firstLoading){
         dispatch(toDoRequest());  
     }
-    axios.get(`http://localhost:3001/Tasks${userId ? '?userId='+userId : ''}`)
+    axios.get(`/tasks${userId ? '?user_id='+userId : ''}`)
     .then(res => {
-       
-            dispatch(toDoSuccess(res.data))   
+            // console.log(res.data);
+            dispatch(toDoSuccess(res.data?.data?.rows))   
             
        
     })
@@ -64,7 +64,7 @@ export const fetchToDo = (userId, firstLoading = true) => dispatch => {
 
 export const updateTask = (task) => dispatch => {
     console.log(task)
-    axios.put(`http://localhost:3001/Tasks/${task.id}`, {
+    axios.put(`/Tasks/${task.id}`, {
         ...task
     })
     .then(res => {
@@ -75,7 +75,7 @@ export const updateTask = (task) => dispatch => {
 }
 
 export const deletetoDo = (task) => dispatch => {
-    axios.delete(`http://localhost:3001/Tasks/${task.id}`)
+    axios.delete(`/Tasks/${task.id}`)
     .then(res => {
         console.log(res);
         dispatch(deletetoDoAction(task))
@@ -84,7 +84,7 @@ export const deletetoDo = (task) => dispatch => {
 }
 
 export const creatToDo = (task) => dispatch => {
-    axios.post(`http://localhost:3001/Tasks/`,{
+    axios.post(`/Tasks/`,{
         ...task
     })
     .then(res => {
