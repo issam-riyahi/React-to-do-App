@@ -7,12 +7,11 @@ import { connect, useSelector } from "react-redux";
 import { deletetoDo, updateTask } from "../redux/toDo/toDoAction";
 
 const Task = (prop) => {
-    // console.log(prop)
+    console.log(prop)
     // const [section, setSection] = useState({});
     let section = useSelector(state => state.section.data);
     // console.log(section);
     let TaskSection = section.byId[prop.section_id] || {name: "" , color: ""};
-    console.log(TaskSection);
     // console.log(section)
     const [update, setUpdate] = useState(false);
     const [updatedData, setUpdatedData] = useState({
@@ -103,7 +102,7 @@ const Task = (prop) => {
                     <div 
                         className="click-icon"   
 
-                            onClick={()=> { !prop.done ?  prop.updateTask({ id: prop.id, title: prop.title , doDate: prop.doDate, section: prop.section , done: true, userId:prop.userId}) : ()=>{}}}
+                            onClick={()=> { prop.done == 0 ?  prop.updateTask({ id: prop.task_id, title: prop.title , doDate: prop.doDate, section: prop.section_id , done: 1, userId:prop.user_id}) : ()=>{}}}
                     >
                         
                         <DoneIcon done={prop.done}  />
@@ -161,7 +160,7 @@ const Task = (prop) => {
                         className="Complete-update"
                 
                         onClick={(prop.title !== updatedData.title || prop.section !== updatedData.section ) 
-                            ? () => [prop.updateTask({ id: prop.id, title: updatedData.title , doDate: prop.doDate, section: updatedData.section , done: prop.done ,userId:prop.userId}),handleUpdate(),prop.handleCrudState('updateTask')] 
+                            ? () => [prop.updateTask({ id: prop.task_id, title: updatedData.title , doDate: prop.doDate, section: updatedData.section , done: prop.done ,userId:prop.user_id}),handleUpdate(),prop.handleCrudState('updateTask')] 
                             : ()=>{handleUpdate()}}
                     >
                         <Check />
@@ -169,7 +168,7 @@ const Task = (prop) => {
                     <span 
                     
                         className="delete"
-                        onClick={() => [prop.deleteToDo({id:prop.id}),prop.handleCrudState('deletedTask')]}
+                        onClick={() => [prop.deleteToDo({id:prop.task_id , userId:prop.user_id }),prop.handleCrudState('deletedTask')]}
                     >
                         <Trash />    
                     </span>

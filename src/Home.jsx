@@ -10,8 +10,7 @@ import  useAuth from "./Hooks/useAuth";
 
 const Home = ({fetchToDo, getSection, toDoData}) => {
 
-    console.log(toDoData);
-    console.log(toDoData);
+    
     const {user} = useAuth();
     let tasksObject = [];
     let [crudState, setCrudState] = useState({

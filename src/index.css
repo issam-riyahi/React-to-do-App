@@ -21,9 +21,9 @@ button {
   padding: .2rem 0;
   cursor: pointer;
 }
-a {
-  /* text-decoration: none; */
-}
+/* a {
+  text-decoration: none; 
+} */
 /* Header  */
 .header .container {
   width: 100%;

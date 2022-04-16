@@ -41,7 +41,6 @@ const sectionReducer = (state = initailState , action) => {
                     allId: [],
                 
             })
-            console.log(action.payload)
             return {
                 ...state,
                 data: data,

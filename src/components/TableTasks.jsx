@@ -7,6 +7,7 @@ import { useParams } from "react-router-dom";
 
 
 const TableTasks = (props) => {
+    console.log(props);
     let allTasks= useSelector(state => state.task.data);
     let pending = useSelector(state => state.task.loading);
     const dispatch = useDispatch();
@@ -17,16 +18,16 @@ const TableTasks = (props) => {
     let rowElements = allTasks.map(row => {
         if(props.sectionId.id !== ""){
             
-            if(row.section == props.sectionId.id){
+            if(row.section_id == props.sectionId.id){
 
                 if(search !== ""){
                     if(row.title.toLowerCase().indexOf(search) > -1){
                         
-                        return <TableRow {...row} key={row.id} />  
+                        return <TableRow {...row} key={row.task_id} />  
                     }
                 }
                 else {
-                    return <TableRow {...row} key={row.id} />
+                    return <TableRow {...row} key={row.task_id} />
                 }
                 
             }
@@ -36,11 +37,11 @@ const TableTasks = (props) => {
             if(search !== ""){
                 if(row.title.toLowerCase().indexOf(search) > -1){
                     
-                    return <TableRow {...row} key={row.id} />  
+                    return <TableRow {...row} key={row.task_id} />  
                 }
             }
             else {
-                return <TableRow {...row} key={row.id} />
+                return <TableRow {...row} key={row.task_id} />
             }
         }
     })

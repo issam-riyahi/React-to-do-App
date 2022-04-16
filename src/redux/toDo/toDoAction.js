@@ -63,29 +63,36 @@ export const fetchToDo = (userId, firstLoading = true) => dispatch => {
 }
 
 export const updateTask = (task) => dispatch => {
-    console.log(task)
-    axios.put(`/Tasks/${task.id}`, {
-        ...task
+    // Object.keys(task).map(k => `${encodeURIComponent(k)}=${encodeURIComponent(task[k])}`).join('&')
+    axios.put(`/tasks/${task.id}`, task ,{
+        headers:{
+            // 'Access-Control-Allow-Origin': 'http://localhost:3000',
+            // 'Content-Type' : 'application/x-www-form-urlencoded; charset=UTF-8'
+        },
+        // mode: 'cros',
     })
     .then(res => {
         console.log(res);
-        dispatch(UpdatetoDo(task))
+        dispatch(fetchToDo(task.userId, false));
     })
     .catch(error => console.log(error));
 }
 
 export const deletetoDo = (task) => dispatch => {
-    axios.delete(`/Tasks/${task.id}`)
+    axios.delete(`/tasks?tasks_id=${task.id}`)
     .then(res => {
-        console.log(res);
-        dispatch(deletetoDoAction(task))
+        if(res?.status === 200){
+
+            dispatch(fetchToDo(task.userId, false));
+        }
     })
     .catch(error => console.log(error));
 }
 
 export const creatToDo = (task) => dispatch => {
-    axios.post(`/Tasks/`,{
-        ...task
+    let data = {...task, done: 0};
+    axios.post(`/tasks`, Object.keys(data).map(k => `${encodeURIComponent(k)}=${encodeURIComponent(data[k])}`).join('&'),{
+        // headers:{'Content-Type': 'application/json'}
     })
     .then(res => {
         const {userId} = task

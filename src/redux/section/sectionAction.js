@@ -1,4 +1,5 @@
 import axios from "../../api/axios"
+import { fetchToDo } from "../toDo/toDoAction"
 import { 
     FETCH_SECTION_SUCCESS,
     FETCH_SECTION_FAILD,
@@ -42,15 +43,17 @@ export const getSection = (userSection) => (dispatch) => {
 export const createSection = (section) => (dispatch) => {
     // axios.defaults.headers.post['Content-Type'] ='application/x-www-form-urlencoded; charset=UTF-8';
     // axios.defaults.headers.post['Access-Control-Allow-Origin'] = '*';
-    axios.post('/section',JSON.stringify({
-       data: {...section}
-    }),{
+    
+    axios.post('/section',Object.keys(section).map(k => `${encodeURIComponent(k)}=${encodeURIComponent(section[k])}`).join('&'),{
         // withCredentials: true,
-        mode: 'cros',
-        headers:{'Content-Type' : 'application/x-www-form-urlencoded; charset=UTF-8',}
+        // mode: 'cros',
+        headers:{
+            // 'Content-Type' : 'application/json',
+            // 'Content-Type' : 'application/x-www-form-urlencoded; charset=UTF-8',
+        }
     })
     .then(res => {
-        if(res.status === 201){
+        if(res.status === 200){
             dispatch(createSectionAction(section));
             dispatch(getSection(section.userId));
         }
@@ -59,10 +62,10 @@ export const createSection = (section) => (dispatch) => {
 }
 
 export const deleteSection = (section) => dispatch => {
-    axios.delete(`/sections`,{
-        data : section
-    })
+    axios.delete(`/section?sectionId=${section.section_id}`)
     .then(res => {
-        dispatch(getSection(userId));
+        
+        dispatch(getSection(section.user_id));
+        dispatch(fetchToDo(section.user_id))
     })
 }

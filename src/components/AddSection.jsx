@@ -14,7 +14,6 @@ const AddSection = (prop) => {
         color: "#333333",
         userId: userContext.user.userId
     });
-    console.log(userContext)
     function handleInputs(e){
         let { name , value} = e.target ;
         setSection(oldSection => ({...oldSection, [name]: value}))

@@ -13,10 +13,10 @@ const AddTask = (prop) => {
         title: "",
         section: "",
         doDate: "",
-        status: {
-            statusTag: "",
-            color: "#333333",
-        },
+        // status: {
+        //     statusTag: "",
+        //     color: "#333333",
+        // },
         done: false,
     })
     
@@ -33,7 +33,7 @@ const AddTask = (prop) => {
         if(taskData.title !== "" && taskData.section !== "" && taskData.doDate !== ""){
            
             
-            dispatch(creatToDo({...taskData, userId: userContext.user.id}));
+            dispatch(creatToDo({...taskData, userId: userContext.user.userId}));
             prop.handleAddTask('addTask');
         }
         else {
@@ -99,7 +99,7 @@ const AddTask = (prop) => {
                             </p>
                         </div>
                     </div>
-                    <div className="task-input-status input-scope">
+                    {/* <div className="task-input-status input-scope">
                         <label htmlFor="">status :</label>
                         <input 
                             type="text"
@@ -115,7 +115,7 @@ const AddTask = (prop) => {
                             onChange={(e) => handleChange(e)}
                             value={taskData.status.color}
                         />
-                    </div>
+                    </div> */}
                     <div className="task-input-date input-scope">
                         <label htmlFor="">Do Date :</label>
                         <input 

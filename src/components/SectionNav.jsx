@@ -9,10 +9,16 @@ const SectionNav = (props) => {
     const sections = useSelector(state => state.section.data);
     const pending = useSelector(state => state.section.loading)
     const param = useParams();
+    console.log(param);
     const dispatch = useDispatch();
     
     function handleDelete(section){
-        dispatch(deleteSection(section))
+        let confirm = window.confirm('All the tasks related to this section will be delete')
+        if(confirm){
+
+            dispatch(deleteSection(section));
+            
+        }
     }
     let sectionElements = sections.allId.map(item => {
         let style = {
@@ -21,9 +27,9 @@ const SectionNav = (props) => {
         return (
             <li 
                 className="section__list__item"
-                key={sections.byId[item].id} 
+                key={sections.byId[item].section_id} 
                 
-                onClick = {()=>props.handleSection(sections.byId[item].id, sections.byId[item].name)}
+                onClick = {()=>props.handleSection(sections.byId[item].section_id, sections.byId[item].name)}
             >
             
             <a href="#" 
