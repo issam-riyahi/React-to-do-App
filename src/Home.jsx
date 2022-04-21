@@ -12,6 +12,7 @@ const Home = ({fetchToDo, getSection, toDoData}) => {
 
     
     const {user} = useAuth();
+    console.log(user);
     let tasksObject = [];
     let [crudState, setCrudState] = useState({
         addTask: false,

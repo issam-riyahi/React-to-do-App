@@ -47,20 +47,24 @@ const Login = () => {
             //     // headers:{'Content-Type': 'Application/json'},
             //     // withCredentials: true,
             // });
-            const response = await axios.get(`/user?username=${username.trim()}&password=${pwd.trim()}`,{
-                // headers:{'Content-Type': 'Application/json'},
+            const response = await axios.post(`/Authentication/auth.php`,JSON.stringify({username : username , password: pwd}),{
+                headers:{'Content-Type': 'Application/json'},
                 // withCredentials: true,
             });
+            // ?username=${username.trim()}&password=${pwd.trim()}
             
-            console.log(response?.data?.data.rows);
-            if(response?.data?.data.rows.length > 0 ){
-                console.log(response?.data);
+            if(response?.data ){
+                let jwt = response.data.jwt.split('.');
+                let payload = jwt[1];
+                let data = JSON.parse(atob(payload));
+                console.log(data)
+                const { email, username, userId} = data.data;
+                signIn({ email, username, userId , accessToken: response.data.jwt});
+                localStorage.setItem('user',JSON.stringify({userId: userId , username: username}));
+                localStorage.setItem('accessToken',response.data.jwt )
                 setUsername('');
                 setPwd('');
                 setErrorMsg('');
-                const { email, username, fullName, userId} = response?.data?.data?.rows[0];
-                signIn({ email, username, fullName, userId});
-                localStorage.setItem('user',JSON.stringify({userId: userId, username}))
                 setSuccess(true);
             }
             else {

@@ -37,9 +37,9 @@ const Header = () => {
         }
         document.querySelector('.dropdown-btn').addEventListener('click' , toggleClass);
 
-        return () => {
-            document.querySelector('.dropdown-btn').removeEventListener('click' , toggleClass);
-        }
+        // return () => {
+        //     document.querySelector('.dropdown-btn').removeEventListener('click' , toggleClass);
+        // }
     },[])
 
     function handleSignOut() {
