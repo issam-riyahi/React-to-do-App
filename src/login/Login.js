@@ -47,8 +47,8 @@ const Login = () => {
             //     // headers:{'Content-Type': 'Application/json'},
             //     // withCredentials: true,
             // });
-            const response = await axios.post(`/Authentication/auth.php`,JSON.stringify({username : username , password: pwd}),{
-                headers:{'Content-Type': 'Application/json'},
+            const response = await axios.put(`/user`,{username : username , password: pwd},{
+                headers:{'Content-Type': 'application/json'},
                 // withCredentials: true,
             });
             // ?username=${username.trim()}&password=${pwd.trim()}
