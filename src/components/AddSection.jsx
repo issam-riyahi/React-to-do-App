@@ -3,12 +3,13 @@ import { useDispatch} from "react-redux";
 import  useAuth  from "../Hooks/useAuth";
 import Close from "../icons/Close";
 import { createSection } from "../redux/section/sectionAction";
-
+import usePrivateAxios from "../Hooks/usePrivateAxios";
 
 
 const AddSection = (prop) => {
     const userContext = useAuth();
     const dispatch = useDispatch();
+    const axiosPrivate = usePrivateAxios();
     const [section, setSection] = useState({
         name: "",
         color: "#333333",
@@ -23,7 +24,7 @@ const AddSection = (prop) => {
         e.preventDefault();
         if(section.name !== ""){
            
-            dispatch(createSection(section));
+            dispatch(createSection(section,axiosPrivate));
 
             prop.handleAddSection('addSection');
         }

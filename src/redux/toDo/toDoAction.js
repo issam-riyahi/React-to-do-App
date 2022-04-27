@@ -6,7 +6,11 @@ import {
         TODO_DELETE_REQUEST,
         TODO_CREAT_REQUEST
  } from "./toDoTypes";
-import axios from "../../api/axios";
+import axios  from "../../api/axios";
+// import usePrivateAxios from "../../Hooks/usePrivateAxios";
+
+
+// const axiosPrivate = usePrivateAxios();
 
 
 export const toDoRequest = () => {
@@ -62,24 +66,19 @@ export const fetchToDo = (userId, firstLoading = true) => dispatch => {
     .catch(error => dispatch(toDoError(error)));
 }
 
-export const updateTask = (task) => dispatch => {
+export const updateTask = (task , axiosPrivate) => dispatch => {
     // Object.keys(task).map(k => `${encodeURIComponent(k)}=${encodeURIComponent(task[k])}`).join('&')
-    axios.put(`/tasks/${task.id}`, task ,{
-        headers:{
-            // 'Access-Control-Allow-Origin': 'http://localhost:3000',
-            // 'Content-Type' : 'application/x-www-form-urlencoded; charset=UTF-8'
-        },
-        // mode: 'cros',
+    axiosPrivate.put(`/tasks/${task.id}`, task ,{
+        
     })
     .then(res => {
-        console.log(res);
         dispatch(fetchToDo(task.userId, false));
     })
     .catch(error => console.log(error));
 }
 
-export const deletetoDo = (task) => dispatch => {
-    axios.delete(`/tasks?tasks_id=${task.id}`)
+export const deletetoDo = (task, axiosPrivate) => dispatch => {
+    axiosPrivate.delete(`/tasks?tasks_id=${task.id}`)
     .then(res => {
         if(res?.status === 200){
 
@@ -89,9 +88,9 @@ export const deletetoDo = (task) => dispatch => {
     .catch(error => console.log(error));
 }
 
-export const creatToDo = (task) => dispatch => {
+export const creatToDo = (task, axiosPrivate) => dispatch => {
     let data = {...task, done: 0};
-    axios.post(`/tasks`, Object.keys(data).map(k => `${encodeURIComponent(k)}=${encodeURIComponent(data[k])}`).join('&'),{
+    axiosPrivate.post(`/tasks`, JSON.stringify(data),{
         // headers:{'Content-Type': 'application/json'}
     })
     .then(res => {

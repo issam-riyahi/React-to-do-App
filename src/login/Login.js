@@ -51,9 +51,10 @@ const Login = () => {
                 headers:{'Content-Type': 'application/json'},
                 // withCredentials: true,
             });
+            console.log(response);
             // ?username=${username.trim()}&password=${pwd.trim()}
-            
-            if(response?.data ){
+            if(response?.status === 200) {
+                if(response?.data ){
                 let jwt = response.data.jwt.split('.');
                 let payload = jwt[1];
                 let data = JSON.parse(atob(payload));
@@ -66,7 +67,9 @@ const Login = () => {
                 setPwd('');
                 setErrorMsg('');
                 setSuccess(true);
+                }
             }
+            
             else {
                 setErrorMsg('incorrect username or Password ');
             }
@@ -74,7 +77,7 @@ const Login = () => {
 
         }catch(err){
             if(!err?.response){
-                console.log(err)
+               console.log(err.response);
                 setErrorMsg('no server reponse')
             }
         }

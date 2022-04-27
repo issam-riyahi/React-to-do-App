@@ -10,9 +10,7 @@ import  useAuth from "./Hooks/useAuth";
 
 const Home = ({fetchToDo, getSection, toDoData}) => {
 
-    
     const {user} = useAuth();
-    console.log(user);
     let tasksObject = [];
     let [crudState, setCrudState] = useState({
         addTask: false,
@@ -179,6 +177,7 @@ const Home = ({fetchToDo, getSection, toDoData}) => {
                 </div>
             </div>
         </div> 
+        
         
         
         </>

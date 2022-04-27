@@ -1,4 +1,4 @@
-import axios from "../../api/axios"
+import axios  from "../../api/axios"
 import { fetchToDo } from "../toDo/toDoAction"
 import { 
     FETCH_SECTION_SUCCESS,
@@ -6,8 +6,10 @@ import {
     FETCH_SECTION_REQUEST,
     CREATE_SECTION
  } from "./sectiontypes"
+// import usePrivateAxios from "../../Hooks/usePrivateAxios"
 
 
+// const axiosPrivate = usePrivateAxios();  
 export const fetchRequest = ()=>{
     return {
         type: FETCH_SECTION_REQUEST,
@@ -40,17 +42,12 @@ export const getSection = (userSection) => (dispatch) => {
         .catch(error => dispatch(fetchRequestFailed(error)))
 }
 
-export const createSection = (section) => (dispatch) => {
+export const createSection = (section, axiosPrivate) => (dispatch) => {
     // axios.defaults.headers.post['Content-Type'] ='application/x-www-form-urlencoded; charset=UTF-8';
     // axios.defaults.headers.post['Access-Control-Allow-Origin'] = '*';
-    
-    axios.post('/section',Object.keys(section).map(k => `${encodeURIComponent(k)}=${encodeURIComponent(section[k])}`).join('&'),{
-        // withCredentials: true,
-        // mode: 'cros',
-        headers:{
-            // 'Content-Type' : 'application/json',
-            // 'Content-Type' : 'application/x-www-form-urlencoded; charset=UTF-8',
-        }
+    // Object.keys(section).map(k => `${encodeURIComponent(k)}=${encodeURIComponent(section[k])}`).join('&')
+    axiosPrivate.post('/section',JSON.stringify(section),{
+       
     })
     .then(res => {
         if(res.status === 200){
@@ -61,8 +58,8 @@ export const createSection = (section) => (dispatch) => {
     
 }
 
-export const deleteSection = (section) => dispatch => {
-    axios.delete(`/section?sectionId=${section.section_id}`)
+export const deleteSection = (section, axiosPrivate) => dispatch => {
+    axiosPrivate.delete(`/section?sectionId=${section.section_id}`)
     .then(res => {
         
         dispatch(getSection(section.user_id));

@@ -7,15 +7,19 @@ import { useParams } from "react-router-dom";
 
 
 const TableTasks = (props) => {
-    console.log(props);
     let allTasks= useSelector(state => state.task.data);
     let pending = useSelector(state => state.task.loading);
     const dispatch = useDispatch();
     const [search , setSearch] = useState('');
+    const [allChecked, setAllChecked] = useState(false);
+    const [selectedIds, setSelectedIds] = useState([]);
     const param = useParams();
-   
-    
+    const setIds = new Set();
+    // console.log(allChecked);
+
+
     let rowElements = allTasks.map(row => {
+        // console.log('111111111111111111111');
         if(props.sectionId.id !== ""){
             
             if(row.section_id == props.sectionId.id){
@@ -23,11 +27,11 @@ const TableTasks = (props) => {
                 if(search !== ""){
                     if(row.title.toLowerCase().indexOf(search) > -1){
                         
-                        return <TableRow {...row} key={row.task_id} />  
+                        return <TableRow {...{...row,selected: allChecked}} key={row.task_id} setIds={handleSetIds} />  
                     }
                 }
                 else {
-                    return <TableRow {...row} key={row.task_id} />
+                    return <TableRow {...{...row,selected: allChecked}} key={row.task_id}  setIds={handleSetIds} />
                 }
                 
             }
@@ -37,24 +41,53 @@ const TableTasks = (props) => {
             if(search !== ""){
                 if(row.title.toLowerCase().indexOf(search) > -1){
                     
-                    return <TableRow {...row} key={row.task_id} />  
+                    return <TableRow {...{...row,selected: allChecked}} key={row.task_id}   setIds={handleSetIds}/>  
                 }
             }
             else {
-                return <TableRow {...row} key={row.task_id} />
+                return <TableRow {...{...row,selected: allChecked}} key={row.task_id}  setIds={handleSetIds} />
             }
         }
     })
-    
+
+    function handleSetIds(id){
+        if(selectedIds.includes(id)){
+            setSelectedIds(prevValues => {
+                return prevValues.filter(selectedid => {
+                    if(selectedid !== id){
+                        return selectedid;
+                    }
+                } )
+            })
+        }
+        else{
+            setSelectedIds(prevValues => [...prevValues, id]);
+        }
+    }
 
     function handleChange(e){
 
         setSearch(e.target.value);
     }
 
+    function handleAllCheckd(){
+        setAllChecked(!allChecked);
+        
+        
+    }
     useEffect(() => {
         dispatch(fetchToDo(param.userId))
     },[])
+
+    useEffect(() => {
+        if(allChecked){
+            
+            setSelectedIds(allTasks.map(task => task.task_id));
+        }
+        else{
+            setSelectedIds([]);
+        }
+    },[allChecked])
     return ( 
 
         <main className="tasks-table">
@@ -74,6 +107,13 @@ const TableTasks = (props) => {
                 <table>
                     <thead>
                         <tr>
+                            <th>
+                                <input 
+                                    type="checkbox" 
+                                    checked={allChecked} 
+                                    onChange={() => handleAllCheckd()}  
+                                />
+                            </th>
                             <th>Task Id</th>
                             <th>Task Title</th>
                             <th>Task section</th>
