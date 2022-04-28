@@ -14,15 +14,15 @@ const TableTasks = (props) => {
     const dispatch = useDispatch();
     const [search , setSearch] = useState('');
     const [allChecked, setAllChecked] = useState(false);
+    // const [notAllChecked, setNotAllChecked] = useState(true);
+    
     const [selectedIds, setSelectedIds] = useState([]);
     const axiosPrivate = usePrivateAxios();
     const param = useParams();
-    const setIds = new Set();
     console.log(selectedIds);
 
 
     let rowElements = allTasks.map(row => {
-        // console.log('111111111111111111111');
         if(props.sectionId.id !== ""){
             
             if(row.section_id == props.sectionId.id){
@@ -31,7 +31,7 @@ const TableTasks = (props) => {
                     if(row.title.toLowerCase().indexOf(search) > -1){
                         
                         return <TableRow 
-                            {...{...row,selected: allChecked}} 
+                            {...{...row,selected: allChecked, selectedIds}} 
                             key={row.task_id} 
                             setIds={handleSetIds} 
                             handleAllCheckd={handleAllCheckd}
@@ -40,7 +40,7 @@ const TableTasks = (props) => {
                 }
                 else {
                     return <TableRow 
-                        {...{...row,selected: allChecked}} 
+                        {...{...row,selected: allChecked, selectedIds}} 
                         key={row.task_id}  
                         setIds={handleSetIds}
                         handleAllCheckd={handleAllCheckd}
@@ -55,7 +55,7 @@ const TableTasks = (props) => {
                 if(row.title.toLowerCase().indexOf(search) > -1){
                     
                     return <TableRow 
-                        {...{...row,selected: allChecked}} 
+                        {...{...row,selected: allChecked, selectedIds}} 
                         key={row.task_id}   
                         setIds={handleSetIds}
                         handleAllCheckd={handleAllCheckd}
@@ -64,7 +64,7 @@ const TableTasks = (props) => {
             }
             else {
                 return <TableRow 
-                        {...{...row,selected: allChecked}}
+                        {...{...row,selected: allChecked, selectedIds}}
                         key={row.task_id}  
                         setIds={handleSetIds}
                         handleAllCheckd={handleAllCheckd} 
@@ -97,12 +97,21 @@ const TableTasks = (props) => {
         setAllChecked(!allChecked);
   
     }
+
+
+    
+
     useEffect(() => {
         dispatch(fetchToDo(param.userId))
     },[])
 
+
+
+
     useEffect(() => {
+        // console.log("Hook all Check");
         if(allChecked){
+            // console.log("Hook all Check true");
             
             setSelectedIds(allTasks.map(task => task.task_id));
         }
@@ -111,10 +120,43 @@ const TableTasks = (props) => {
         }
     },[allChecked]);
 
+
+
+
     function handleSubmit(e){
         e.preventDefault();
-        dispatch(deletetoDo(selectedIds, user.userId, axiosPrivate))
+        if(selectedIds.length){
+            dispatch(deletetoDo(selectedIds, user.userId, axiosPrivate))
+            setSelectedIds([]);
+        }
     }
+
+
+
+
+
+    // useEffect(() => {
+    //     if(selectedIds.length === allTasks.length){
+    //         console.log(selectedIds.length ,  allTasks.length)
+    //         setAllChecked(true);
+            
+    //     }
+    //     else{
+    //         setAllChecked(false);
+    //         // setNotAllChecked(true);  
+    //     }
+        
+    // },[selectedIds]);
+
+
+
+
+
+
+
+
+
+
     return ( 
 
         <main className="tasks-table">
@@ -144,8 +186,8 @@ const TableTasks = (props) => {
                             <th>
                                 <input 
                                     type="checkbox" 
-                                    checked={allChecked} 
-                                    onChange={() => handleAllCheckd()}  
+                                    checked={selectedIds.length === allTasks.length ? true : false} 
+                                    onChange={() => {setSelectedIds(selectedIds.length === allTasks.length ? [] : allTasks.map(task => task.task_id) )}}  
                                 />
                             </th>
                             <th>Task Id</th>

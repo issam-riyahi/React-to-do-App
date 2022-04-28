@@ -13,10 +13,10 @@ const Task = (prop) => {
     const [update, setUpdate] = useState(false);
     const [updatedData, setUpdatedData] = useState({
         title: prop.title,
-        section: prop.section,
+        section: prop.section_id,
     });
     const axiosPrivate = usePrivateAxios();
-    
+    // console.log(updatedData);
     
     
     

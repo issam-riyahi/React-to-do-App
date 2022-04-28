@@ -68,6 +68,7 @@ export const fetchToDo = (userId, firstLoading = true) => dispatch => {
 
 export const updateTask = (task , axiosPrivate) => dispatch => {
     // Object.keys(task).map(k => `${encodeURIComponent(k)}=${encodeURIComponent(task[k])}`).join('&')
+    console.log(task);
     axiosPrivate.put(`/tasks/${task.id}`, task ,{
         
     })

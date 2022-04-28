@@ -426,6 +426,7 @@ tr:nth-child(even) {
   color: white;
   padding: .3rem 1rem ;
   border-radius: 5px;
+  font-weight: 500;
 }
 
 
