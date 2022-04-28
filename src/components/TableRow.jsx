@@ -6,15 +6,19 @@ import { useEffect, useState } from "react";
 
 const TableRow = (props) => {
     
-    const [isChecked, setIdChecked] = useState(false);
+    const [isChecked, setIsChecked] = useState(false);
     
 
     const handleCheckbox = () => {
-        setIdChecked(!isChecked);
+        setIsChecked(!isChecked);
     }
     useEffect(()=>{
-        setIdChecked(props.selected);
+        setIsChecked(props.selected);
     },[props.selected])
+
+    useEffect(()=>{
+        
+    },[])
     return ( 
 
         <tr>

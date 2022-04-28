@@ -77,12 +77,12 @@ export const updateTask = (task , axiosPrivate) => dispatch => {
     .catch(error => console.log(error));
 }
 
-export const deletetoDo = (task, axiosPrivate) => dispatch => {
-    axiosPrivate.delete(`/tasks?tasks_id=${task.id}`)
+export const deletetoDo = (taskIds, userId, axiosPrivate) => dispatch => {
+    axiosPrivate.delete(`/tasks?tasks_id=${taskIds}`)
     .then(res => {
         if(res?.status === 200){
 
-            dispatch(fetchToDo(task.userId, false));
+            dispatch(fetchToDo(userId, false));
         }
     })
     .catch(error => console.log(error));

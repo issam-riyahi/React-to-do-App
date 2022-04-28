@@ -178,7 +178,8 @@ const Task = (prop) => {
                         className="delete"
                         onClick={() => [
                             prop.deleteToDo(
-                                            {id:prop.task_id , userId:prop.user_id },
+                                            prop.task_id ,
+                                            prop.user_id,
                                             axiosPrivate
                                             ),
                             prop.handleCrudState('deletedTask')
@@ -206,7 +207,7 @@ const mapDispatchToProp = (dispatch) => {
     return {
         
         updateTask : (task, axiosPrivate) =>  dispatch(updateTask(task, axiosPrivate)) ,
-        deleteToDo : (taskId, axiosPrivate) => dispatch(deletetoDo(taskId, axiosPrivate)),
+        deleteToDo : (taskId,userId, axiosPrivate) => dispatch(deletetoDo(taskId,userId,  axiosPrivate)),
     }
 
 }

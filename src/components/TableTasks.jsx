@@ -3,19 +3,22 @@ import { useSelector, useDispatch } from "react-redux";
 import TableRow from "./TableRow";
 import { fetchToDo } from "../redux/toDo/toDoAction";
 import { useParams } from "react-router-dom";
-
-
+import { deletetoDo } from "../redux/toDo/toDoAction";
+import usePrivateAxios from "../Hooks/usePrivateAxios";
+import useAuth from "../Hooks/useAuth";
 
 const TableTasks = (props) => {
     let allTasks= useSelector(state => state.task.data);
     let pending = useSelector(state => state.task.loading);
+    const {user} = useAuth();
     const dispatch = useDispatch();
     const [search , setSearch] = useState('');
     const [allChecked, setAllChecked] = useState(false);
     const [selectedIds, setSelectedIds] = useState([]);
+    const axiosPrivate = usePrivateAxios();
     const param = useParams();
     const setIds = new Set();
-    // console.log(allChecked);
+    console.log(selectedIds);
 
 
     let rowElements = allTasks.map(row => {
@@ -27,11 +30,21 @@ const TableTasks = (props) => {
                 if(search !== ""){
                     if(row.title.toLowerCase().indexOf(search) > -1){
                         
-                        return <TableRow {...{...row,selected: allChecked}} key={row.task_id} setIds={handleSetIds} />  
+                        return <TableRow 
+                            {...{...row,selected: allChecked}} 
+                            key={row.task_id} 
+                            setIds={handleSetIds} 
+                            handleAllCheckd={handleAllCheckd}
+                        />  
                     }
                 }
                 else {
-                    return <TableRow {...{...row,selected: allChecked}} key={row.task_id}  setIds={handleSetIds} />
+                    return <TableRow 
+                        {...{...row,selected: allChecked}} 
+                        key={row.task_id}  
+                        setIds={handleSetIds}
+                        handleAllCheckd={handleAllCheckd}
+                     />
                 }
                 
             }
@@ -41,11 +54,21 @@ const TableTasks = (props) => {
             if(search !== ""){
                 if(row.title.toLowerCase().indexOf(search) > -1){
                     
-                    return <TableRow {...{...row,selected: allChecked}} key={row.task_id}   setIds={handleSetIds}/>  
+                    return <TableRow 
+                        {...{...row,selected: allChecked}} 
+                        key={row.task_id}   
+                        setIds={handleSetIds}
+                        handleAllCheckd={handleAllCheckd}
+                    />  
                 }
             }
             else {
-                return <TableRow {...{...row,selected: allChecked}} key={row.task_id}  setIds={handleSetIds} />
+                return <TableRow 
+                        {...{...row,selected: allChecked}}
+                        key={row.task_id}  
+                        setIds={handleSetIds}
+                        handleAllCheckd={handleAllCheckd} 
+                />
             }
         }
     })
@@ -72,8 +95,7 @@ const TableTasks = (props) => {
 
     function handleAllCheckd(){
         setAllChecked(!allChecked);
-        
-        
+  
     }
     useEffect(() => {
         dispatch(fetchToDo(param.userId))
@@ -87,7 +109,12 @@ const TableTasks = (props) => {
         else{
             setSelectedIds([]);
         }
-    },[allChecked])
+    },[allChecked]);
+
+    function handleSubmit(e){
+        e.preventDefault();
+        dispatch(deletetoDo(selectedIds, user.userId, axiosPrivate))
+    }
     return ( 
 
         <main className="tasks-table">
@@ -103,6 +130,13 @@ const TableTasks = (props) => {
                             onChange={(e)=>{handleChange(e)}}
                         />   
                     </div>
+                </div>
+                <div className="deleted-btn">
+                    <form onSubmit={(e) =>{
+                        handleSubmit(e);
+                    }}>
+                        <button className="delete">delete</button>
+                    </form>
                 </div>
                 <table>
                     <thead>

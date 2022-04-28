@@ -418,6 +418,15 @@ tr:nth-child(even) {
   margin: 16px;
   width: 100%;
 }
+.deleted-btn {
+  margin: 1rem 0 .2rem 0;
+}
+.deleted-btn .delete{
+  background-color: #d80000;
+  color: white;
+  padding: .3rem 1rem ;
+  border-radius: 5px;
+}
 
 
 .all-tasks-container {
