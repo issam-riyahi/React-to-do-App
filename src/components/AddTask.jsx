@@ -3,12 +3,12 @@ import { useDispatch, useSelector } from "react-redux";
 import  useAuth  from "../Hooks/useAuth";
 import Close from "../icons/Close";
 import { creatToDo } from "../redux/toDo/toDoAction";
-
+import usePrivateAxios from "../Hooks/usePrivateAxios";
 const AddTask = (prop) => {
     const userContext = useAuth();
     const dispatch = useDispatch();
     const sections = useSelector(state => state.section);
-    
+    const axiosPrivate = usePrivateAxios();
     const [taskData, setTaskData] = useState({
         title: "",
         section: "",
@@ -26,14 +26,13 @@ const AddTask = (prop) => {
     function addTaskClick(e){
         e.preventDefault();
 
-        if(document.getElementById('task-title').value == 1){
-            console.log(1);
-        }
+        // if(document.getElementById('task-title').value == 1){
+        // }
         
         if(taskData.title !== "" && taskData.section !== "" && taskData.doDate !== ""){
            
             
-            dispatch(creatToDo({...taskData, userId: userContext.user.id}));
+            dispatch(creatToDo({...taskData, userId: userContext.user.userId}, axiosPrivate));
             prop.handleAddTask('addTask');
         }
         else {

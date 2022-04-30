@@ -43,21 +43,33 @@ const Login = () => {
 
         try{
 
-            const response = await axios.get(`/users?username=${username}&password=${pwd}`,{
-                headers:{'Content-Type': 'Application/json'},
-                withCredentials: true,
+            // const response = await axios.get(`/user?username=issam&password=testtest`,{
+            //     // headers:{'Content-Type': 'Application/json'},
+            //     // withCredentials: true,
+            // });
+            const response = await axios.put(`/user`,{username : username , password: pwd},{
+                headers:{'Content-Type': 'application/json'},
+                // withCredentials: true,
             });
-            
-            if(response?.data.length > 0 ){
-                
+            console.log(response);
+            // ?username=${username.trim()}&password=${pwd.trim()}
+            if(response?.status === 200) {
+                if(response?.data ){
+                let jwt = response.data.jwt.split('.');
+                let payload = jwt[1];
+                let data = JSON.parse(atob(payload));
+                console.log(data)
+                const { email, username, userId} = data.data;
+                signIn({ email, username, userId , accessToken: response.data.jwt});
+                localStorage.setItem('user',JSON.stringify({userId: userId , username: username}));
+                localStorage.setItem('accessToken',response.data.jwt )
                 setUsername('');
                 setPwd('');
                 setErrorMsg('');
-                const { email, username, fullName, id} = response?.data[0];
-                signIn({ email, username, fullName, id});
-                localStorage.setItem('user',JSON.stringify({userId: id, username}))
                 setSuccess(true);
+                }
             }
+            
             else {
                 setErrorMsg('incorrect username or Password ');
             }
@@ -65,6 +77,7 @@ const Login = () => {
 
         }catch(err){
             if(!err?.response){
+               console.log(err.response);
                 setErrorMsg('no server reponse')
             }
         }

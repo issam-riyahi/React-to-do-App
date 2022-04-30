@@ -37,9 +37,9 @@ const Header = () => {
         }
         document.querySelector('.dropdown-btn').addEventListener('click' , toggleClass);
 
-        return () => {
-            document.querySelector('.dropdown-btn').removeEventListener('click' , toggleClass);
-        }
+        // return () => {
+        //     document.querySelector('.dropdown-btn').removeEventListener('click' , toggleClass);
+        // }
     },[])
 
     function handleSignOut() {
@@ -53,8 +53,8 @@ const Header = () => {
                 <h1>MyTasks</h1>
                 <div className="nav">
                 {/* window.location.pathname == `/home/${user.id}` ? 'active' : '' */}
-                    <NavLink className={({ isActive}) => isActive ? 'active' : ''} to={"/home/"+user.id} >Home</NavLink>
-                    <NavLink className={({ isActive}) => isActive ? 'active' : ''} to={"/allTasks/"+user.id}>All Tasks</NavLink>
+                    <NavLink className={({ isActive}) => isActive ? 'active' : ''} to={"/home/"+user.userId} >Home</NavLink>
+                    <NavLink className={({ isActive}) => isActive ? 'active' : ''} to={"/allTasks/"+user.userId}>All Tasks</NavLink>
                 </div>
 
                 </div>

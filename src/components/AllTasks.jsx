@@ -12,8 +12,7 @@ const AllTasks = () => {
     function handleSection(id, title){
         setSectionId({id: id , title : title});
     }
-
-
+    console.log(sectionId); 
     return (  
 
         <div className="all-tasks-container">

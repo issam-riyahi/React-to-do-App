@@ -5,19 +5,18 @@ import Trash from "../icons/Trash";
 import Check from "../icons/Check";
 import { connect, useSelector } from "react-redux";
 import { deletetoDo, updateTask } from "../redux/toDo/toDoAction";
-
+import usePrivateAxios from "../Hooks/usePrivateAxios";
 const Task = (prop) => {
-    // console.log(prop)
     // const [section, setSection] = useState({});
     let section = useSelector(state => state.section.data);
-    let TaskSection = section.byId[prop.section] || {name: "" , color: "g"};
-    console.log(section)
+    let TaskSection = section.byId[prop.section_id] || {name: "" , color: ""};
     const [update, setUpdate] = useState(false);
     const [updatedData, setUpdatedData] = useState({
         title: prop.title,
-        section: prop.section,
+        section: prop.section_id,
     });
-    
+    const axiosPrivate = usePrivateAxios();
+    // console.log(updatedData);
     
     
     
@@ -71,7 +70,7 @@ const Task = (prop) => {
     let sectionElements = section.allId.map(item => {
 
         return (
-            <option key={item} value={section.byId[item].id} >{section.byId[item].name}</option>
+            <option key={item} value={section.byId[item].section_id} >{section.byId[item].name}</option>
         )
     })
     const bgStyle = {
@@ -101,7 +100,7 @@ const Task = (prop) => {
                     <div 
                         className="click-icon"   
 
-                            onClick={()=> { !prop.done ?  prop.updateTask({ id: prop.id, title: prop.title , doDate: prop.doDate, section: prop.section , done: true, userId:prop.userId}) : ()=>{}}}
+                            onClick={()=> { prop.done == 0 ?  prop.updateTask({ id: prop.task_id, title: prop.title , doDate: prop.doDate, section: prop.section_id , done: 1, userId:prop.user_id}, axiosPrivate) : ()=>{}}}
                     >
                         
                         <DoneIcon done={prop.done}  />
@@ -141,7 +140,7 @@ const Task = (prop) => {
                             {TaskSection.name}
                         </span>
                     }
-                    <p className="date" style={ prop.done ? {} : style}>{dateText}</p>
+                    <p className="date" style={ !prop.done ? {} : style}>{dateText}</p>
                 <div className="crud">
 
                     {  !update ? 
@@ -159,7 +158,17 @@ const Task = (prop) => {
                         className="Complete-update"
                 
                         onClick={(prop.title !== updatedData.title || prop.section !== updatedData.section ) 
-                            ? () => [prop.updateTask({ id: prop.id, title: updatedData.title , doDate: prop.doDate, section: updatedData.section , done: prop.done ,userId:prop.userId}),handleUpdate(),prop.handleCrudState('updateTask')] 
+                            ? () => [prop.updateTask(
+                                {   id: prop.task_id,
+                                    title: updatedData.title ,
+                                    doDate: prop.doDate,
+                                    section: updatedData.section ,
+                                    done: prop.done ,
+                                    userId:prop.user_id
+                                }, 
+                                axiosPrivate),
+                                handleUpdate(),
+                                prop.handleCrudState('updateTask')] 
                             : ()=>{handleUpdate()}}
                     >
                         <Check />
@@ -167,7 +176,14 @@ const Task = (prop) => {
                     <span 
                     
                         className="delete"
-                        onClick={() => [prop.deleteToDo({id:prop.id}),prop.handleCrudState('deletedTask')]}
+                        onClick={() => [
+                            prop.deleteToDo(
+                                            prop.task_id ,
+                                            prop.user_id,
+                                            axiosPrivate
+                                            ),
+                            prop.handleCrudState('deletedTask')
+                        ]}
                     >
                         <Trash />    
                     </span>
@@ -190,8 +206,8 @@ const mapDispatchToProp = (dispatch) => {
 
     return {
         
-        updateTask : (task) =>  dispatch(updateTask(task)) ,
-        deleteToDo : (taskId) => dispatch(deletetoDo(taskId)),
+        updateTask : (task, axiosPrivate) =>  dispatch(updateTask(task, axiosPrivate)) ,
+        deleteToDo : (taskId,userId, axiosPrivate) => dispatch(deletetoDo(taskId,userId,  axiosPrivate)),
     }
 
 }

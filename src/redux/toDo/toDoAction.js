@@ -6,7 +6,11 @@ import {
         TODO_DELETE_REQUEST,
         TODO_CREAT_REQUEST
  } from "./toDoTypes";
-import axios from "axios";
+import axios  from "../../api/axios";
+// import usePrivateAxios from "../../Hooks/usePrivateAxios";
+
+
+// const axiosPrivate = usePrivateAxios();
 
 
 export const toDoRequest = () => {
@@ -52,49 +56,50 @@ export const fetchToDo = (userId, firstLoading = true) => dispatch => {
     if(firstLoading){
         dispatch(toDoRequest());  
     }
-    axios.get(`http://localhost:3001/Tasks${userId ? '?userId='+userId : ''}`)
+    axios.get(`/tasks${userId ? '?user_id='+userId : ''}`)
     .then(res => {
-       
-            dispatch(toDoSuccess(res.data))   
+            // console.log(res.data);
+            dispatch(toDoSuccess(res.data?.data?.rows))   
             
        
     })
     .catch(error => dispatch(toDoError(error)));
 }
 
-export const updateTask = (task) => dispatch => {
-    console.log(task)
-    axios.put(`http://localhost:3001/Tasks/${task.id}`, {
-        ...task
+export const updateTask = (task , axiosPrivate) => dispatch => {
+    // Object.keys(task).map(k => `${encodeURIComponent(k)}=${encodeURIComponent(task[k])}`).join('&')
+    console.log(task);
+    axiosPrivate.put(`/tasks/${task.id}`, task ,{
+        
     })
     .then(res => {
-        console.log(res);
-        dispatch(UpdatetoDo(task))
+        dispatch(fetchToDo(task.userId, false));
     })
     .catch(error => console.log(error));
 }
 
-export const deletetoDo = (task) => dispatch => {
-    axios.delete(`http://localhost:3001/Tasks/${task.id}`)
+export const deletetoDo = (taskIds, userId, axiosPrivate) => dispatch => {
+    axiosPrivate.delete(`/tasks?tasks_id=${taskIds}`)
     .then(res => {
-        console.log(res);
-        dispatch(deletetoDoAction(task))
+        if(res?.status === 200){
+
+            dispatch(fetchToDo(userId, false));
+        }
     })
     .catch(error => console.log(error));
 }
 
-export const creatToDo = (task) => dispatch => {
-    axios.post(`http://localhost:3001/Tasks`,{
-        ...task,
-    },{
-        withCredentials: true,
-        
-        
+
+export const creatToDo = (task, axiosPrivate) => dispatch => {
+    let data = {...task, done: 0};
+    axiosPrivate.post(`/tasks`, JSON.stringify(data),{
+        // headers:{'Content-Type': 'application/json'}
+
     })
     .then(res => {
-        // const {userId} = task
-        // dispatch(addToDo(task));
-        // dispatch(fetchToDo(userId, false));
+        const {userId} = task
+        dispatch(addToDo(task));
+        dispatch(fetchToDo(userId, false));
         console.log(res);
     })
     .catch(error => console.log(error.message));

@@ -113,35 +113,39 @@ const Regiter = () => {
             setErrMsg('Invalid Entries');
             return;
         }
-        const response  = await axios.get(`/users?username=${username}&email=${email}`)
-        console.log(response);
-        if(response.data.length > 0){
-            setErrMsg('The Username or Email are already in use')
-        }
-        else {
-            axios.post(`/users`,{
-                id: userId(),
+        // const response  = await axios.get(`/user?username=${username}&email=${email}`)
+        // console.log(response);
+        // if(Object.keys(response?.data?.data.row).length > 0){
+        //     setErrMsg('The Username or Email are already in use')
+        // }
+        // else {
+            axios.post(`/user`,JSON.stringify({
+                userId: userId(),
                 username: username,
                 email: email,
                 fullName: fullName,
                 password: pwd,
 
-            },
+            }),
             {
                 headers: {'Content-type': 'Application/json'},
-                withCredentials: true
+                // withCredentials: true
             })
             .then(res => {
-                if(res.status == 201){
+                console.log(res)
+                if(res.status === 200){
                     setSuccess(true);
+                }
+                else if(res?.status === 209){
+                    setErrMsg('The Username or Email are already in use');
                 }
             })
             .catch(error => {
-                console.log(error.response)
+                console.log(error)
             })
             
             
-        }
+        // }
         
         
     }

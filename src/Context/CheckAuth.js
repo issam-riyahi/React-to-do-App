@@ -3,49 +3,62 @@ import { Navigate } from "react-router-dom";
 import useAuth  from "../Hooks/useAuth";
 import { useLocation } from "react-router-dom";
 import axios from "../api/axios";
-import Laoding from "../components/Loading";
 import LoadingPage from "../components/LoadingPage";
-
+import usePrivateAxios from "../Hooks/usePrivateAxios";
 
 const CheckAuth = ({ children }) => {
-    const { signIn } = useAuth();
+    const { user, signIn } = useAuth();
     const [requiestFaild, setRequiestFaild] = useState(false);
     const [requiestSuccess, setRequiestSuccess] = useState(false);
     const location = useLocation();
+    const axiosPrivate = usePrivateAxios();
+
+
 
     useEffect(() => {
-        let userStorage = JSON.parse(localStorage.getItem('user'));
-        
-        if(userStorage){    
-            console.log(userStorage)
-        try{
-            axios.get(`/users?id=${userStorage.userId}`,{
-                headers:{'Content-Type': 'Application/json'},
-                withCredentials: true,
-            })
-            .then(response => {
-                console.log(response)
-                if(response?.data.length > 0 ){
-                    
-                    console.log(response?.data[0])
-                    const { email, username, fullName, id} = response?.data[0];
-                    signIn({email, username, fullName, id});
-                    setRequiestSuccess(true)
-                }
-                else {
-                    setRequiestFaild(true);
-                }
-                
-            })
+        let accessToken = localStorage.getItem('accessToken');
+        const userId = JSON.parse(localStorage.getItem('user')) ;
+        if(accessToken && Object.keys(user).length == 0){    
+            try{ 
             
-
-
-        }catch(err){
+                    axios.post(`/validateToken.php`,"",{
+                        headers:{'Authorization': 'Bearer' + ' ' + accessToken }
+                        
+                    })
+                    .then(response => {
+                        if(response?.status === 200){
+                            axiosPrivate.get(`/user/${userId.userId}`,{
+                                headers : {'Authorization' : `Bearer ${accessToken}`}
+                            })
+                            .then(response => {
+                                if(response?.status === 200){
+                                    signIn({...response?.data?.user , accessToken : accessToken});
+                                    setRequiestSuccess(true)
+                                }
+                                else{
+                                    setRequiestFaild(true);
+                                }
+                            })
+                        }
+                        
+                        else if(response?.status === 203) {
+                            setRequiestFaild(true);
+                        }    
+                    
+                    })
+            
+        }
+        catch(err){
             if(!err?.response){
+                console.log(err)
                 setRequiestFaild(true);
             }
         }
-        }else{
+        }   
+        else if(accessToken && Object.keys(user).length > 0){
+            setRequiestSuccess(true);
+        }
+        else{
             setRequiestFaild(true);
         }
     },[])
@@ -62,3 +75,4 @@ const CheckAuth = ({ children }) => {
 }
  
 export default CheckAuth;
+

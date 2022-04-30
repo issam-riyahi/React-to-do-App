@@ -21,9 +21,9 @@ button {
   padding: .2rem 0;
   cursor: pointer;
 }
-a {
-  /* text-decoration: none; */
-}
+/* a {
+  text-decoration: none; 
+} */
 /* Header  */
 .header .container {
   width: 100%;
@@ -417,6 +417,16 @@ tr:nth-child(even) {
 .tasks-table {
   margin: 16px;
   width: 100%;
+}
+.deleted-btn {
+  margin: 1rem 0 .2rem 0;
+}
+.deleted-btn .delete{
+  background-color: #d80000;
+  color: white;
+  padding: .3rem 1rem ;
+  border-radius: 5px;
+  font-weight: 500;
 }
 
 

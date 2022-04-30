@@ -4,15 +4,23 @@ import Trash from "../icons/Trash";
 import { deleteSection, getSection } from "../redux/section/sectionAction";
 import { useEffect } from "react";
 import Loading from "./Loading";
+import usePrivateAxios from "../Hooks/usePrivateAxios";
 const SectionNav = (props) => {
 
     const sections = useSelector(state => state.section.data);
     const pending = useSelector(state => state.section.loading)
     const param = useParams();
     const dispatch = useDispatch();
+    const axiosPrivate = usePrivateAxios();
     
-    function handleDelete(section){
-        dispatch(deleteSection(section))
+    function handleDelete(e,section){
+        e.stopPropagation();
+        let confirm = window.confirm('All the tasks related to this section will be delete')
+        if(confirm){
+
+            props.handleSection("", "");
+            dispatch(deleteSection(section, axiosPrivate));
+        }
     }
     let sectionElements = sections.allId.map(item => {
         let style = {
@@ -21,9 +29,9 @@ const SectionNav = (props) => {
         return (
             <li 
                 className="section__list__item"
-                key={sections.byId[item].id} 
+                key={sections.byId[item].section_id} 
                 
-                onClick = {()=>props.handleSection(sections.byId[item].id, sections.byId[item].name)}
+                onClick = {()=>props.handleSection(sections.byId[item].section_id, sections.byId[item].name)}
             >
             
             <a href="#" 
@@ -34,7 +42,7 @@ const SectionNav = (props) => {
             </a> 
                 <button 
                     className="delete-section"
-                    onClick={()=> handleDelete(sections.byId[item])}
+                    onClick={(e)=> handleDelete(e, sections.byId[item])}
                 >
                     <Trash />
                 </button>
