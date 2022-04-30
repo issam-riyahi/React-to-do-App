@@ -31,7 +31,7 @@ const TableTasks = (props) => {
                     if(row.title.toLowerCase().indexOf(search) > -1){
                         
                         return <TableRow 
-                            {...{...row,selected: allChecked, selectedIds}} 
+                            {...{...row,selected: allChecked, selectedIds, tasksLength: allTasks.length}} 
                             key={row.task_id} 
                             setIds={handleSetIds} 
                             handleAllCheckd={handleAllCheckd}
@@ -40,7 +40,7 @@ const TableTasks = (props) => {
                 }
                 else {
                     return <TableRow 
-                        {...{...row,selected: allChecked, selectedIds}} 
+                        {...{...row,selected: allChecked, selectedIds, tasksLength: allTasks.length}} 
                         key={row.task_id}  
                         setIds={handleSetIds}
                         handleAllCheckd={handleAllCheckd}
@@ -55,7 +55,7 @@ const TableTasks = (props) => {
                 if(row.title.toLowerCase().indexOf(search) > -1){
                     
                     return <TableRow 
-                        {...{...row,selected: allChecked, selectedIds}} 
+                        {...{...row,selected: allChecked, selectedIds, tasksLength: allTasks.length}} 
                         key={row.task_id}   
                         setIds={handleSetIds}
                         handleAllCheckd={handleAllCheckd}
@@ -64,7 +64,7 @@ const TableTasks = (props) => {
             }
             else {
                 return <TableRow 
-                        {...{...row,selected: allChecked, selectedIds}}
+                        {...{...row,selected: allChecked, selectedIds, tasksLength: allTasks.length}}
                         key={row.task_id}  
                         setIds={handleSetIds}
                         handleAllCheckd={handleAllCheckd} 

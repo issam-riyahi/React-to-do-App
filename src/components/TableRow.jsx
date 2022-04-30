@@ -14,7 +14,7 @@ const TableRow = (props) => {
     }
     useEffect(()=>{
 
-        if(props.selectedIds.length == 2  ){
+        if(props.selectedIds.length == props.tasksLength  ){
             setIsChecked(true);
             
         }
